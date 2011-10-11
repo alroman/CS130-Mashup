@@ -1,4 +1,24 @@
 CS 130 Project
 IBM: Entertainment+ Mashup
 
+Project info:
 
+README: Relevant project info
+
+CodeIgniter Framwork
+  * Application
+  * Core
+  * user_guide
+
+  Useful links to get started:
+    > http://codeigniter.com/user_guide/
+    > http://net.tutsplus.com/sessions/codeigniter-from-scratch/
+
+When setting up your local server, ideally, you want to have something like: http://localhost/web/
+
+Apis
+  * (fill in)
+
+
+Extra:
+  Put in any relevant supporting files for the project in the base directory (with README).
