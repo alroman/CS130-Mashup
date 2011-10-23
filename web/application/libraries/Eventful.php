@@ -7,7 +7,7 @@
 *
 * categories of eventful: http://api.evdb.com/rest/categories/list?app_key=xzbXfQPZsjPVL2qw
  **/
-class Eventful_deprecated extends CI_Controller {
+class Eventful extends CI_Controller {
 
    var $eventful_key;
    var $search_prefix = "http://api.eventful.com/rest/events/search";
@@ -26,10 +26,10 @@ class Eventful_deprecated extends CI_Controller {
    var $event_ids = array();
    
    public function __construct($key="xzbXfQPZsjPVL2qw") {
-      parent::__construct();
+      $CI =& get_instance();
       $this->eventful_key = $key;
-      $this->load->library('curl');
-      $this->load->library('xml');
+      $CI->load->library('curl');
+      $CI->load->library('xml');
    }
 
    public function getEvents($filter=array('location', 'date', 'categories')) {
