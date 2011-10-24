@@ -76,7 +76,7 @@ class Eventful extends CI_Controller {
       foreach ($events as $k => $e) {
          for ($i = 0; $i < $count; $i++) {
             $this->events[$this->event_ids[$this->counter]][$this->fields[$i]] = 
-               $e[$this->eventful_fields[$i]];
+               array_pop($e[$this->eventful_fields[$i]]);
          }
          $this->counter += 1;
       }
