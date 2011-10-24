@@ -1,7 +1,7 @@
 <?php
 include('ip2locationlite.class.php');
  
-class location extends CI_Controller {
+class location {
     private $ipLite;
 	public $location;
 	/**
@@ -24,8 +24,8 @@ class location extends CI_Controller {
 	$this->ipLite = new ip2location_lite;
 	$this->ipLite->setKey('b6b7ab93cf2a63d309cace52a6a3d8bc9be76f333c531f044bd378c44ea8afa5');
 	//use the following to get remote user ip address.
-    // $this->location = $this->ipLite->getCity($_SERVER['REMOTE_ADDR']);  
-    $this->location = $this->ipLite->getCity('24.24.202.57');  
+    $this->location = $this->ipLite->getCity($_SERVER['REMOTE_ADDR']);  
+    // $this->location = $this->ipLite->getCity('24.24.202.57');  
    }	
 	public function getCity() {
 	if (!empty($this->location) && is_array($this->location)
