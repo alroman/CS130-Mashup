@@ -1,4 +1,5 @@
 CS 130 Project
 IBM: Entertainment+ Mashup
-
+accuracy is within 18 miles
+when you try to use this class, change line 27 to $this->location = $this->ipLite->getCity($_SERVER['REMOTE_ADDR']);
 
