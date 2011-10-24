@@ -56,7 +56,8 @@
     </style>
 
 	<meta charset="utf-8">
-	<title>Events from LA presentation</title>
+        <?php $display_city = isset($city) ? $city : "Los Angeles"?>
+	<title>Events from <?php echo $display_city ?> presentation</title>
 
 </head>
 <body>
@@ -71,8 +72,9 @@
             <li><a href="#about">Unit Test</a></li>
             <li><a href="#contact">??</a></li>
           </ul>
-        <form class="pull-right" action="">
-            <input placeholder="Search" type="text">
+          <form class="pull-right" action="http://localhost/CS130-Mashup/web/index.php/events_la/search" method="post">
+            <input name="city" placeholder="Search" type="text">
+            <?php echo form_submit('','Submit'); ?>
           </form>
         </div>
       </div>
@@ -82,11 +84,46 @@
 
       <div class="content">
         <div class="page-header">
-          <h1>E+ <small>What's happening in Los Angeles</small></h1>
+          <h1>E+ <small>Here is what's happening in <?php echo $display_city ?></small></h1>
         </div>
         <div class="row">
           <div class="span10">
             <h2>Events:</h2>
+                    
+            <?php
+                
+                foreach($la_events as $e) {
+                    $event = (object)$e;
+                    $title = array_shift($event->title);
+                    echo "<table><thead><tr><th>Title</th><th>$title</th></tr></thead><tbody>";
+
+                    // start time
+                    echo "<tr><th>Starts</th><th>";
+                    $start = array_shift($event->start_time);
+                    echo date("F j, Y, g:i a", strtotime($start));
+                    echo "</th></tr>";
+
+                    // end time
+                    echo "<tr><th>Ends</th><th>";
+                    $stop = array_shift($event->stop_time);
+                    echo date("F j, Y, g:i a", strtotime($stop));
+                    echo "</th></tr>";
+                    
+                    // venue
+                    echo "<tr><th>Venue</th><th>";
+                    $venue = array_shift($event->venue);
+                    echo $venue;
+                    echo "</th></tr>";
+                    
+                    // Description
+                    echo "<tr><th>Description</th><th>";
+                    $desc = array_shift($event->description);
+                    echo nl2br($desc);
+                    echo "</th></tr>";
+                    echo "</tbody></table>";
+                }
+            
+            ?>
 
           </div>
           <div class="span4">
