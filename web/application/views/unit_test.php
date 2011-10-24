@@ -18,7 +18,17 @@
             </thead>
             <tbody>
                 <tr>
-                    <th>1</th><th><?php echo $data['test1'] ?></th>
+                    <th>1</th><th><?php echo $test1 ?></th>
+                </tr>
+                <tr>
+                    <th>2</th>
+                    <th>
+                        <?php 
+                        echo "<pre>";
+                        var_dump($test2);
+                        echo"</pre>";
+                        ?>
+                    </th>
                 </tr>
             </tbody>
         </table>

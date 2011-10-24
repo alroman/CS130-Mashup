@@ -37,6 +37,8 @@ class Eventful extends CI_Controller {
       $date = !(empty($filter['date'])) ? $filter['date'] : 'This Week';
       $categories = !(empty($filter['categories'])) ? $filter['categories'] : array('music', 'movies_film');
 
+      $CI =& get_instance();
+      
       foreach ($categories as $category) {
          $query = array(
             "location" => $location,
@@ -45,11 +47,11 @@ class Eventful extends CI_Controller {
             "app_key" => $this->eventful_key
          );
 
-         $data = $this->curl->simple_get($this->search_prefix, $query);
+         $data = $CI->curl->simple_get($this->search_prefix, $query);
 
-         $this->xml->load($data);
+         $CI->xml->load($data);
          
-         $parsed_obj = $this->xml->parse();
+         $parsed_obj = $CI->xml->parse();
          $tmp_events = array();
 
          foreach ($parsed_obj['search'][0]['events'] as $key => $value) {

@@ -12,15 +12,20 @@ class Unit_test extends CI_Controller{
 
    public function index() {
        $test1 = $this->test_getEvents();
-       $data = array("test1" => $test1);
-       
+       $test2 = $this->test_getDefaultEvents();
+       $data = array("test1" => $test1, 'test2' => $test2); 
        $this->load->view('unit_test', $data);
    }   
 
    public function test_getEvents() {
-      $this->unit->run($eventful, 'is_object');
+      $this->unit->run($this->eventful, 'is_object', 'Object Test');
       $default_events = $this->eventful->getEvents();
-      $this->unit->run($default_events, 'is_array');
+      $this->unit->run($default_events, 'is_array', 'Array Test');
       return $this->unit->report();
+   }
+   
+   public function test_getDefaultEvents() {
+       $default_events = $this->eventful->getEvents();
+       return $default_events;
    }
 }
