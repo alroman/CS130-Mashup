@@ -19,14 +19,18 @@ class location {
 	 * map to /index.php/welcome/<method_name>
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
-   function __construct() {
+   function __construct($ip = '') {
 	//Load the class
 	$this->ipLite = new ip2location_lite;
 	$this->ipLite->setKey('b6b7ab93cf2a63d309cace52a6a3d8bc9be76f333c531f044bd378c44ea8afa5');
 	//use the following to get remote user ip address.
-    $this->location = $this->ipLite->getCity($_SERVER['REMOTE_ADDR']);  
+	if (empty($ip))
+     $this->location = $this->ipLite->getCity($_SERVER['REMOTE_ADDR']);  
+	else 
+	  $this->location = $this->ipLite->getCity($ip);  
     // $this->location = $this->ipLite->getCity('24.24.202.57');  
-   }	
+   }
+ 
 	public function getCity() {
 	if (!empty($this->location) && is_array($this->location)
 		&& isset($this->location['cityName'])) {
@@ -77,7 +81,11 @@ class location {
 			return $geo;
 		} else
 		  return null;	
-	}	
+	}
+
+	public function getLocation() {
+		return $this->location;
+	}
 
 }
  
