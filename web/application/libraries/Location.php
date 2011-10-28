@@ -1,7 +1,7 @@
 <?php
 include('ip2locationlite.class.php');
  
-class location {
+class Location {
     private $ipLite;
 	public $location;
 	/**

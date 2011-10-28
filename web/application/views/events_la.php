@@ -72,7 +72,7 @@
             <li><a href="#about">Unit Test</a></li>
             <li><a href="#contact">??</a></li>
           </ul>
-          <form class="pull-right" action="http://localhost/CS130-Mashup/web/index.php/events_la/search" method="post">
+          <form class="pull-right" action="http://www.studiolino.com/ibm/index.php/events_la/search" method="post">
             <input name="city" placeholder="Search" type="text">
             <?php echo form_submit('','Submit'); ?>
           </form>
@@ -84,14 +84,21 @@
 
       <div class="content">
         <div class="page-header">
+            <?php
+            if(!empty($msg) && $msg != 'search') {
+                echo "<div class='alert-message info'>I was able to detect your city: $msg</div>";
+            } else if($msg != 'search') {
+                echo "<div class='alert-message error'>Doh! I couldn't get your city.  I think you'll like LA, or you can try searching</div>";
+            }
+            ?>
           <h1>E+ <small>Here is what's happening in <?php echo $display_city ?></small></h1>
         </div>
         <div class="row">
           <div class="span10">
             <h2>Events:</h2>
-                    
+            
             <?php
-                
+
                 foreach($la_events as $e) {
                     $event = (object)$e;
                     $title = array_shift($event->title);
