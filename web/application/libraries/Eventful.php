@@ -11,11 +11,6 @@ class Eventful extends CI_Controller {
 
    var $eventful_key;
    var $search_prefix = "http://api.eventful.com/rest/events/search";
-   var $fields = array('title', 'description', 'start_time', 
-      'stop_time', 'venue', 'venue_url', 
-      'venue_address', 'city', 'region',
-      'region_abbr', 'country', 'country_abbr',
-      'latitude', 'longitude', 'modified', 'image');
    var $eventful_fields = array('title', 'description', 'start_time', 
       'stop_time', 'venue_name', 'venue_url', 
       'venue_address', 'city_name', 'region_name',
@@ -31,7 +26,7 @@ class Eventful extends CI_Controller {
       $CI->load->library('curl');
       $CI->load->library('xml');
    }
-
+    
    public function getEvents($filter=array('location', 'date', 'categories')) {
       $location = !(empty($filter['location'])) ? $filter['location'] : 'Los Angeles';
       $date = !(empty($filter['date'])) ? $filter['date'] : 'This Week';
@@ -63,20 +58,19 @@ class Eventful extends CI_Controller {
                }
             }
          }
-         $this->filter($tmp_events);
+
+         $this->filter($tmp_events, $this->eventful_fields);
       }
 
       return $this->events;
-      // print "<pre>".print_r($this->events, true)."</pre>";
-      // echo count($this->events);
    }
    
-   public function filter($events) {
-      $count = count($this->fields);
+   public function filter($events, $fields) {
+      $count = count($fields);
       foreach ($events as $k => $e) {
          for ($i = 0; $i < $count; $i++) {
-            $this->events[$this->event_ids[$this->counter]][$this->fields[$i]] = 
-               $e[$this->eventful_fields[$i]];
+            $this->events[$this->counter][$fields[$i]] = 
+               array_pop($e[$fields[$i]]);
          }
          $this->counter += 1;
       }
