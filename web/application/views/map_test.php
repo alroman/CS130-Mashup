@@ -22,87 +22,98 @@
       var map = new google.maps.Map($("#map_canvas")[0], mapOptions);
       
       var marker = new google.maps.Marker({  
-          position: new google.maps.LatLng(-37.818078, 144.966811),  
+          position: new google.maps.LatLng(34.07196, -118.254261),  
           map:      map,  
-          title:    'Flinders St Station'  
+          title:    'Some random place',
+          icon:     'http://google-maps-icons.googlecode.com/files/train.png'  
+        });
+        
+        // We'll need to create markers for each event.. 
+        marker.setAnimation(google.maps.Animation.DROP); // Also try DROP  
+        
+        var places = [
+          {
+            "title": "Some random place",  
+            "description": "This is a pretty major train station.",  
+            "position": [ 34.07196, -118.254261 ]
+          },
+          {
+            "title": "Another random place.. ",
+            "description": "this should be dodger stadium",  
+            "position": [ 34.075799, -118.23864 ]
+          }
+        ]
+        
+        var icons = {
+          'train':          'http://google-maps-icons.googlecode.com/files/train.png',  
+          'train-selected': 'http://blogs.sitepoint.com/wp-content/uploads/2011/04/train-selected.png'  
+        }
+
+        var currentPlace = null;
+        var info = $('#placeDetails');
+        
+        // This iterates through each element in the 'places' array
+        $(places).each(function() {
+          // This returns a reference to elements in array
+          var place = this;
+          // Set the marker to the lon lat of a place location
+          var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(place.position[0], place.position[1]),
+            map:      map,
+            title:    place.title,
+            icon:     'http://google-maps-icons.googlecode.com/files/train.png'
+          });
+          // Do the drop animation for each element
+          marker.setAnimation(google.maps.Animation.DROP);
+          
+            // For each element, we add the event listener...
+            google.maps.event.addListener(marker, 'click', function() {
+              var hidingMarker = currentPlace;
+              var slideIn = function(marker) {  
+                $('h1', info).text(place.title);
+                $('p',  info).text(place.description);  
+                info.animate({right: '0'});  
+              }
+              
+              marker.setIcon(icons['train-selected']);  
+              if (currentPlace) {  
+                currentPlace.setIcon(icons['train']);  
+                info.animate(  
+                  { right: '-320px' },  
+                  { complete: function() {  
+                    if (hidingMarker != marker) {  
+                      slideIn(marker);  
+                    } else {  
+                      currentPlace = null;  
+                    }  
+                  }}  
+                );  
+              } else {  
+                slideIn(marker);  
+              }  
+              currentPlace = marker;  
+//            // Insert the title ino the <h1> tag
+//            $('h1', info).text(place.title);
+//            // Insert the info into the subtag of info
+//            $('p',  info).text(place.description);
+//            
+//            // Condition animation of marker
+//            if (currentPlace == marker) {
+//              info.animate({right: '-320px'});  
+//              currentPlace = null;  
+//            } else {  
+//              info.animate({right: '0'});  
+//              currentPlace = marker;  
+//            }
+          });  
         });  
 
-//      var places =
-//        [
-//          {
-//            "title": "Flinders St Station",
-//            "description": "This is a pretty major train station.",
-//            "position": [
-//              -37.818078,
-//              144.966811
-//            ]
-//          },
-//          {
-//            "title": "Southern Cross Station",
-//            "description": "Did you know it used to be called Spencer St Station?",
-//            "position": [
-//              -37.818358,
-//              144.952417
-//            ]
-//          }
-//        ]
-
-//      var currentPlace = null;
-//      var info = $('#placeDetails');
-//      var icons = {
-//        'train':          'http://blogs.sitepoint.com/wp-content/uploads/2011/04/train.png',
-//        'train-selected': 'http://blogs.sitepoint.com/wp-content/uploads/2011/04/train-selected.png'
-//      }
-
-
-//      $.getJSON('places.json', function(places) {
-//        $(places).each(function() {
-//          var place = this;
-//          var marker = new google.maps.Marker({
-//            position: new google.maps.LatLng(place.position[0], place.position[1]),
-//            map:      map,
-//            title:    place.title,
-//            icon:     icons['train']
-//          });
-//
-//          google.maps.event.addListener(marker, 'click', function() {
-//            var hidingMarker = currentPlace;
-//            var slideIn = function(marker) {
-//              $('h1', info).text(place.title);
-//              $('p',  info).text(place.description);
-//
-//              info.animate({right: '0'});
-//            }
-//
-//            marker.setIcon(icons['train-selected']);
-//
-//            if (currentPlace) {
-//              currentPlace.setIcon(icons['train']);
-//
-//              info.animate(
-//                { right: '-320px' },
-//                { complete: function() {
-//                  if (hidingMarker != marker) {
-//                    slideIn(marker);
-//                  } else {
-//                    currentPlace = null;
-//                  }
-//                }}
-//              );
-//            } else {
-//              slideIn(marker);
-//            }
-//            currentPlace = marker;
-//          });
-//        });
-//      });
     });
     </script>  
     
     <style type="text/css" >
     .map { 
-      width: 100%;
-      height: 100%;
+      width: 700px;
 
       /* The following are required to allow absolute positioning of the
        * info window at the bottom right of the map, and for it to be hidden
@@ -228,10 +239,10 @@
             <h2>Events:</h2>
               
             <div class='map'>
-                <div id='map_canvas' style='height:500px; width: 700px'></div>
+                <div id='map_canvas' style='height: 700px; width: 700px;'></div>
                 <div id='placeDetails'>
-                  <h1></h1>
-                  <p></p>
+                    <h1></h1>  
+                    <p></p>  
                 </div>
             </div>
 
