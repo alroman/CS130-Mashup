@@ -79,7 +79,7 @@
             google.maps.event.addListener(marker, 'click', function() {
               var hidingMarker = currentPlace;
               var slideIn = function(marker) {  
-                $('h1', info).text(place.title);
+                $('h3', info).text(place.title);
                 $('p',  info).text(place.description);  
                 info.animate({right: '0'});  
               }
@@ -238,7 +238,7 @@
     <div class="map">
         <div id="map_canvas" style="width: 100%; height: 100%"></div>
         <div id='placeDetails'>
-            <h1></h1>  
+            <h3></h3>  
             <p></p>  
         </div>
     </div>
