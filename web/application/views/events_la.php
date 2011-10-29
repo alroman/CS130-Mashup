@@ -101,30 +101,30 @@
 
                 foreach($la_events as $e) {
                     $event = (object)$e;
-                    $title = array_shift($event->title);
+                    $title = $event->title;
                     echo "<table><thead><tr><th>Title</th><th>$title</th></tr></thead><tbody>";
 
                     // start time
                     echo "<tr><th>Starts</th><th>";
-                    $start = array_shift($event->start_time);
+                    $start = $event->start_time;
                     echo date("F j, Y, g:i a", strtotime($start));
                     echo "</th></tr>";
 
                     // end time
                     echo "<tr><th>Ends</th><th>";
-                    $stop = array_shift($event->stop_time);
+                    $stop = $event->stop_time;
                     echo date("F j, Y, g:i a", strtotime($stop));
                     echo "</th></tr>";
                     
                     // venue
                     echo "<tr><th>Venue</th><th>";
-                    $venue = array_shift($event->venue);
+                    $venue = $event->venue;
                     echo $venue;
                     echo "</th></tr>";
                     
                     // Description
                     echo "<tr><th>Description</th><th>";
-                    $desc = array_shift($event->description);
+                    $desc = $event->description;
                     echo nl2br($desc);
                     echo "</th></tr>";
                     echo "</tbody></table>";
