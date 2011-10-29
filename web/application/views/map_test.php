@@ -1,20 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css"></link>
-    <script  
-    src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js">  
-    </script>  
-    <script  
-    type="text/javascript"  
-    src="http://maps.google.com/maps/api/js?sensor=false">  
-    </script>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>  
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>  
     <script>  
     
     $(function() { // onload handler
       var losAngeles = new google.maps.LatLng(34.052234, -118.243685);
       var mapOptions = {
-        zoom:      10,
+        zoom:      11,
         center:    losAngeles,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       }
@@ -55,18 +52,6 @@
         echo "]" . $nl;
         
         ?>
-//        var places = [
-//          {
-//            "title": "Some random place",  
-//            "description": "This is a pretty major train station.",  
-//            "position": [ 34.07196, -118.254261 ]
-//          },
-//          {
-//            "title": "Another random place.. ",
-//            "description": "this should be dodger stadium",  
-//            "position": [ 34.075799, -118.23864 ]
-//          }
-//        ]
         
         var icons = {
           'train':          'http://google-maps-icons.googlecode.com/files/train.png',  
@@ -116,19 +101,7 @@
                 slideIn(marker);  
               }  
               currentPlace = marker;  
-//            // Insert the title ino the <h1> tag
-//            $('h1', info).text(place.title);
-//            // Insert the info into the subtag of info
-//            $('p',  info).text(place.description);
-//            
-//            // Condition animation of marker
-//            if (currentPlace == marker) {
-//              info.animate({right: '-320px'});  
-//              currentPlace = null;  
-//            } else {  
-//              info.animate({right: '0'});  
-//              currentPlace = marker;  
-//            }
+
           });  
         });  
 
@@ -137,7 +110,8 @@
     
     <style type="text/css" >
     .map { 
-      width: 700px;
+      width: 100%;
+      height:  100%;
 
       /* The following are required to allow absolute positioning of the
        * info window at the bottom right of the map, and for it to be hidden
@@ -179,8 +153,12 @@
       html, body {
         background-color: #eee;
       }
+      html { height: 100% }
+      body { height: 100%; margin: 0; padding: 0 }
+      #map_canvas { height: 100% }
+      
       body {
-        padding-top: 40px; /* 40px to make the container go all the way to the bottom of the topbar */
+/*        padding-top: 40px;  40px to make the container go all the way to the bottom of the topbar */
       }
       .container > footer p {
         text-align: center; /* center align it with the container */
@@ -224,6 +202,11 @@
       .topbar .btn {
         border: 0;
       }
+      
+      .fill {
+          opacity: 0.85;
+          box-shadow:0 15px 10px rgba(0, 0, 0, 0.7);
+      }
 
     </style>
 
@@ -252,39 +235,13 @@
       </div>
     </div>
 
-    <div class="container">
-
-      <div class="content">
-        <div class="page-header">
-          <h1>E+ <small>Here is what's happening in <?php echo $display_city ?></small></h1>
+    <div class="map">
+        <div id="map_canvas" style="width: 100%; height: 100%"></div>
+        <div id='placeDetails'>
+            <h1></h1>  
+            <p></p>  
         </div>
-        <div class="row">
-          <div class="span10">
-            <h2>Events:</h2>
-              
-            <div class='map'>
-                <div id='map_canvas' style='height: 700px; width: 700px;'></div>
-                <div id='placeDetails'>
-                    <h1></h1>  
-                    <p></p>  
-                </div>
-            </div>
-
-            
-          </div>
-<!--          <div class="span4">
-            <h3>Secondary content</h3>
-            nothing here yet...
-          </div>-->
-        </div>
-      </div>
-
-      <footer>
-        <p>&copy; E+ 2011</p>
-
-      </footer>
-
-    </div> <!-- /container -->
+    </div>
     
 </body>
 </html>
