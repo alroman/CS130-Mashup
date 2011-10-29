@@ -10,39 +10,63 @@
     src="http://maps.google.com/maps/api/js?sensor=false">  
     </script>  
     <script>  
-    // New code goes here  
+    
     $(function() { // onload handler
       var losAngeles = new google.maps.LatLng(34.052234, -118.243685);
       var mapOptions = {
-        zoom:      12,
+        zoom:      10,
         center:    losAngeles,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       }
 
       var map = new google.maps.Map($("#map_canvas")[0], mapOptions);
       
-      var marker = new google.maps.Marker({  
-          position: new google.maps.LatLng(34.07196, -118.254261),  
-          map:      map,  
-          title:    'Some random place',
-          icon:     'http://google-maps-icons.googlecode.com/files/train.png'  
-        });
+//      var marker = new google.maps.Marker({  
+//          position: new google.maps.LatLng(34.07196, -118.254261),  
+//          map:      map,  
+//          title:    'Some random place',
+//          icon:     'http://google-maps-icons.googlecode.com/files/train.png'  
+//        });
+//        
+//        // We'll need to create markers for each event.. 
+//        marker.setAnimation(google.maps.Animation.DROP); // Also try DROP  
         
-        // We'll need to create markers for each event.. 
-        marker.setAnimation(google.maps.Animation.DROP); // Also try DROP  
+        <?php 
+        // We're going to create the places array here
+        echo "var places = [";
+        $last = (object)array_pop($la_events);
         
-        var places = [
-          {
-            "title": "Some random place",  
-            "description": "This is a pretty major train station.",  
-            "position": [ 34.07196, -118.254261 ]
-          },
-          {
-            "title": "Another random place.. ",
-            "description": "this should be dodger stadium",  
-            "position": [ 34.075799, -118.23864 ]
-          }
-        ]
+        $nl = "\n";
+        
+        foreach($la_events as $e) {
+            $event = (object)$e;
+            
+            echo '{' . $nl;
+            echo '"title": "' . $event->title. '",' . $nl;
+            echo '"description": "' . $event->venue . '",' . $nl;
+            echo '"position": [' . $event->latitude .','. $event->longitude . ']' . $nl;
+            echo '},' . $nl;
+        }
+        echo '{' . $nl;
+        echo '"title": "' . $last->title. '",' . $nl;
+        echo '"description": "' . $last->venue . '",' . $nl;
+        echo '"position": [' . $last->latitude .','. $last->longitude . ']' . $nl;
+        echo '}' .$nl ;
+        echo "]" . $nl;
+        
+        ?>
+//        var places = [
+//          {
+//            "title": "Some random place",  
+//            "description": "This is a pretty major train station.",  
+//            "position": [ 34.07196, -118.254261 ]
+//          },
+//          {
+//            "title": "Another random place.. ",
+//            "description": "this should be dodger stadium",  
+//            "position": [ 34.075799, -118.23864 ]
+//          }
+//        ]
         
         var icons = {
           'train':          'http://google-maps-icons.googlecode.com/files/train.png',  
