@@ -167,9 +167,7 @@ jQuery.fn.calendarPicker = function(options) {
     // Add event indicator
     // if there is an event, adding a small red triangle at the bottom of the day
     var addEventIndicator = function(date, obj) {
-      // console.log(date.toDateString());
-      // console.log(options.eventDates);
-      if (!obj.hasClass('hasEvent') && $.inArray(date.toDateString(), options.eventDates) != -1) {
+      if (!obj.hasClass('hasEvent') && ($.inArray(date.toDateString(), options.eventDates) != -1)) {
         obj.addClass("hasEvent");
       };
     }
