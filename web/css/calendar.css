@@ -1,5 +1,4 @@
-
-
+/* Sky blue color theme */
 .fc-content {
 	padding-left: 2px;
 }
@@ -49,6 +48,61 @@ span.disabled, span.disabled:hover {
 	color: #DDD;
 	background: #2B82A3;
 	border: 1px solid #999;
+}
+
+span.calElement.next, 
+span.calElement.prev,
+span.calElement.next:hover,
+span.calElement.prev:hover {
+	border: none;
+}
+
+
+/************** Grey Color Theme ***************/
+div.calBox {
+	/* main docs page */
+  background-color: #d9d9d9;
+  background-repeat: no-repeat;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#6262626), to(#d9d9d9));
+  background-image: -webkit-linear-gradient(#6262626, #d9d9d9);
+  background-image: -moz-linear-gradient(#6262626, #d9d9d9);
+  background-image: -o-linear-gradient(top, #6262626, #d9d9d9);
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#6262626), to(#d9d9d9));
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6262626', endColorstr='#d9d9d9', GradientType=0); /* IE8 and down */
+}
+
+* Adding a small red triangle to the date if there is event on that date*/
+span.hasEvent {
+	background: url('../img/red-tri.png') no-repeat bottom right;
+}
+
+span.calElement.selected {
+	background: #6262626;
+	border: 1px solid #f5f5f5;
+}
+span.calElement.selected.hasEvent {
+	background: #6262626 url('../img/red-tri.png') no-repeat bottom right;
+	border: 1px solid #f5f5f5;
+}
+
+span.calElement:hover {
+	background: #6262626;
+	border: 1px solid #fff;
+}
+span.calElement.hasEvent:hover {
+	background: #6262626 url('../img/red-tri.png') no-repeat bottom right;
+	border: 1px solid #fff;
+}
+
+div.calMonth {
+	border-bottom: 1px dashed #f5f5f5;
+}
+
+span.disabled, span.disabled:hover {
+	cursor: not-allowed;
+	color: #DDD;
+	background: #999;
+	border: 1px solid #747474;
 }
 
 span.calElement.next, 

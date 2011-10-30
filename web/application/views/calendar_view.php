@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<div class="span6" id="eventCalendar" style="margin-top: 50px;">
+<div class="span6" id="eventCalendar">
 	<div id="dest" style="width:340px"></div>
 	<div id="calendar">
 </div>
@@ -38,17 +38,19 @@ $(document).ready(function() {
     // Initialize the event objects the  event_cal object, which is used lateron
    	event_cal.initEvents = function(e) {
     	// event_cal.events = eval('(' + e + ')');//not using it because of security issue, see http://www.json.org/js.html
-    	event_cal.events = JSON.parse(e, function (key, value) {
-		    var type;
-		    if (value && typeof value === 'object') {
-		        type = value.type;
-		        if (typeof type === 'string' && typeof window[type] === 'function') {
-		            return new (window[type])(value);
-		        }
-		    }
-		    return value;
-		});
+    	event_cal.events = JSON.parse(e, event_cal.reviver);
     }
+
+    event_cal.reviver = function (key, value) {
+	    var type;
+	    if (value && typeof value === 'object') {
+	        type = value.type;
+	        if (typeof type === 'string' && typeof window[type] === 'function') {
+	            return new (window[type])(value);
+	        }
+	    }
+	    return value;
+	}
 
     event_cal.parse_date = function(string) {
     	var date = new Date();
