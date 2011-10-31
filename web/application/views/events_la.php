@@ -67,8 +67,11 @@
 	<script>
 	$(function() {
 		$( "#accordion" ).accordion({
-			event: "click",
 			fillSpace: true,
+                        autoHeight: false,
+			navigation: true,
+                        collapsible: true
+
 		});
 	});
 
@@ -150,7 +153,7 @@
             
             ?>
 
-			</div>
+            </div>
           </div>
           <div class="span4">
             <h3>Secondary content</h3>
