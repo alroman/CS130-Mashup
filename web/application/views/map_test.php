@@ -9,11 +9,12 @@
     <script>  
     
     $(function() { // onload handler
-      var losAngeles = new google.maps.LatLng(34.052234, -118.243685);
+      var mapDefaultLocation = new google.maps.LatLng(34.052234, -118.243685);
       var mapOptions = {
         zoom:      11,
-        center:    losAngeles,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        center:    mapDefaultLocation,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        panControl: false
       }
 
       var map = new google.maps.Map($("#map_canvas")[0], mapOptions);
