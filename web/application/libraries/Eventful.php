@@ -7,7 +7,7 @@
 *
 * categories of eventful: http://api.evdb.com/rest/categories/list?app_key=xzbXfQPZsjPVL2qw
  **/
-class Eventful extends CI_Controller {
+class Eventful {
 
    var $eventful_key;
    var $search_prefix = "http://api.eventful.com/rest/events/search";

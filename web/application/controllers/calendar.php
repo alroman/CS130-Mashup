@@ -45,7 +45,7 @@ class Calendar extends CI_Controller {
       foreach ($events as $key => $value) {
          $tmp = array();
          foreach ($this->event_calendar_fields as $v) {
-            $tmp[$v] = $value[$v];
+            $tmp[$v] = utf8_encode(preg_replace('/[^\w\d_ -:]/', '', $value[$v]));
          }
          $this->filtered_events []= $tmp;
       }
