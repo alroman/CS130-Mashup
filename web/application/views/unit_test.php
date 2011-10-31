@@ -30,6 +30,16 @@
                         ?>
                     </th>
                 </tr>
+				<tr>
+                    <th>3</th>
+                    <th>
+                        <?php 
+                        echo "<pre>";
+                        var_dump($test3);
+                        echo"</pre>";
+                        ?>
+                    </th>
+                </tr>
             </tbody>
         </table>
     </div>
