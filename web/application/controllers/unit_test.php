@@ -35,6 +35,7 @@ class Unit_test extends CI_Controller{
       $json = json_encode($default_events);
       $v1 = $this->unit->run(json_decode($json), 'is_array', 'Json validation test');
       echo $this->unit->report();
+      echo $json;
    }
 
 }
