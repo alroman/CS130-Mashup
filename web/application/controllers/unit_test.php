@@ -32,9 +32,18 @@ class Unit_test extends CI_Controller{
        $default_events = $this->eventful->getEvents();
        return $default_events;
    }
+
+   public function test_event_json() {
+      $options = array('type' => 'calendar');
+      $default_events = $this->eventful->getEvents($options);
+      $json = json_encode($default_events);
+      $v1 = $this->unit->run(json_decode($json), 'is_array', 'Json validation test');
+      echo $this->unit->report();
+      echo $json;
+   }
    
    public function test_getLocation() {
        $loc = $this->location->getLocation();
        return $loc;
-   }   
+   }
 }

@@ -11,6 +11,7 @@ class Events_la extends CI_Controller {
         $this->load->helper('form');
         $this->load->library('eventful');
         $this->load->library('location');
+        $this->load->helper('url');
         $this->eventful = new Eventful();
         $this->location = new Location();
     }
@@ -21,7 +22,8 @@ class Events_la extends CI_Controller {
         if($city == '-')
             $city = "";
         $la_events = $this->eventful->getEvents(array('location' => $city));
-        $data = array('la_events' => $la_events, 'msg' => $city);
+        $la_events_cal = $this->event_cal_filter($la_events);
+        $data = array('la_events' => $la_events, 'msg' => $city, 'events_cal' => $la_events_cal);
         $this->load->view('events_la', $data);
     }
     
@@ -34,4 +36,21 @@ class Events_la extends CI_Controller {
         $this->load->view('events_la', $data);
 
     }
+
+   /* Filter our the unnecessay data from the whole event object for the
+      calendar based on event_calendar_fields array
+      @return json object of filted events
+   */
+    public function event_cal_filter($events) {
+        $event_calendar_fields = array('title', 'start_time', 'stop_time');
+        $filtered_events = array();
+        foreach ($events as $key => $value) {
+            $tmp = array();
+            foreach ($event_calendar_fields as $v) {
+                $tmp[$v] = utf8_encode(preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-:]/s', '', $value[$v]));
+            }
+            $filtered_events []= $tmp;
+        }
+        return json_encode($filtered_events);
+   }
 }
