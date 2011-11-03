@@ -7,7 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>  
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>  
     <script>  
-    
+	
     $(function() { // onload handler
       var mapDefaultLocation = new google.maps.LatLng(34.052234, -118.243685);
       var mapOptions = {
@@ -18,6 +18,8 @@
       }
 
       var map = new google.maps.Map($("#map_canvas")[0], mapOptions);
+	  
+	  
       
 //      var marker = new google.maps.Marker({  
 //          position: new google.maps.LatLng(34.07196, -118.254261),  
@@ -53,10 +55,12 @@
         echo "]" . $nl;
         
         ?>
-        
+      
         var icons = {
-          'train':          'http://google-maps-icons.googlecode.com/files/train.png',  
-          'train-selected': 'http://blogs.sitepoint.com/wp-content/uploads/2011/04/train-selected.png'  
+          'theatre':    '<?php echo base_url();?>images/theatre.png',  
+          'concerts': 	'<?php echo base_url();?>images/concerts.png',
+		  'movies':		'<?php echo base_url();?>images/movies.png',
+		  'generic':	'<?php echo base_url();?>images/generic.png'
         }
 
         var currentPlace = null;
@@ -71,7 +75,7 @@
             position: new google.maps.LatLng(place.position[0], place.position[1]),
             map:      map,
             title:    place.title,
-            icon:     'http://google-maps-icons.googlecode.com/files/train.png'
+            icon:     '<?php echo base_url();?>images/generic.png'
           });
           // Do the drop animation for each element
           marker.setAnimation(google.maps.Animation.DROP);
@@ -85,9 +89,9 @@
                 info.animate({right: '0'});  
               }
               
-              marker.setIcon(icons['train-selected']);  
+              marker.setIcon(icons['generic']);  
               if (currentPlace) {  
-                currentPlace.setIcon(icons['train']);  
+                currentPlace.setIcon(icons['generic']);  
                 info.animate(  
                   { right: '-320px' },  
                   { complete: function() {  
@@ -243,6 +247,5 @@
             <p></p>  
         </div>
     </div>
-    
 </body>
 </html>
