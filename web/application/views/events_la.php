@@ -64,6 +64,7 @@
 	<script  type="text/javascript" src="../development-bundle/ui/jquery.ui.widget.js"></script>
 	<script  type="text/javascript" src="../development-bundle/ui/jquery.ui.accordion.js"></script>
 	<link rel="stylesheet" href="../development-bundle/demos.css">
+    <link rel="stylesheet" href="<?php echo base_url();?>css/eplus.css">
 	<script>
 	$(function() {
 		$( "#accordion" ).accordion({
@@ -117,7 +118,8 @@
             <?php
                 foreach($la_events as $e) {
                     $event = (object)$e;
-                    $title = array_shift($event->title);
+                    //$title = array_shift($event->title);
+					$title = $event->title;
 					echo "<h3><a href='#'>";
 					echo $title;
 					echo "</a></h3>";
@@ -144,7 +146,8 @@
                     
                     // Description
 					echo "<tr><th>Description</th><th>";
-                    $desc = array_shift($event->description);
+                    //$desc = array_shift($event->description);
+					$desc = $event->description;
 					echo nl2br($desc);
                     echo "</th></tr>";
                     echo "</tbody></table>";
