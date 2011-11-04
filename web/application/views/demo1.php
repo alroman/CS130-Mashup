@@ -4,14 +4,17 @@
     
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css"></link>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>  
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
     <script>  
     
     $(function() { // onload handler
-        
+
       // Set the default location
-      var mapDefaultLocation = new google.maps.LatLng(34.052234, -118.243685);
+      var lon = <?php echo $geoloc['longitude']; ?>;
+      var lat = <?php echo $geoloc['latitude']; ?>;
+      var mapDefaultLocation = new google.maps.LatLng(lat, lon);
       var mapOptions = {
         zoom:      11,
         center:    mapDefaultLocation,
@@ -34,11 +37,11 @@
         <?php 
         // We're going to create the places array here
         echo "var places = [";
-        $last = (object)array_pop($la_events);
+        $last = (object)array_pop($all_events);
         
         $nl = "\n";
         
-        foreach($la_events as $e) {
+        foreach($all_events as $e) {
             $event = (object)$e;
             
             echo '{' . $nl;
@@ -49,7 +52,7 @@
         }
         echo '{' . $nl;
         echo '"title": "' . $last->title. '",' . $nl;
-        echo '"description": "' . $last->venue . '",' . $nl;
+        echo '"description": "' . $last->venue. '",' . $nl;
         echo '"position": [' . $last->latitude .','. $last->longitude . ']' . $nl;
         echo '}' .$nl ;
         echo "]" . $nl;
@@ -57,8 +60,8 @@
         ?>
         
         var icons = {
-          'train':          'http://google-maps-icons.googlecode.com/files/train.png',  
-          'train-selected': 'http://blogs.sitepoint.com/wp-content/uploads/2011/04/train-selected.png'  
+          'train':          'http://localhost/CS130-Mashup/web/images/pin.png',  
+          'train-selected': 'http://localhost/CS130-Mashup/web/images/pin.png'  
         }
 
         var currentPlace = null;
@@ -73,7 +76,7 @@
             position: new google.maps.LatLng(place.position[0], place.position[1]),
             map:      map,
             title:    place.title,
-            icon:     'http://google-maps-icons.googlecode.com/files/train.png'
+            icon:     'http://localhost/CS130-Mashup/web/images/pin.png'
           });
           // Do the drop animation for each element
           marker.setAnimation(google.maps.Animation.DROP);
@@ -82,8 +85,8 @@
             google.maps.event.addListener(marker, 'click', function() {
               var hidingMarker = currentPlace;
               var slideIn = function(marker) {  
-                $('h3', info).text(place.title);
-                $('p',  info).text(place.description);  
+                $('#event_title', info).text(place.title);
+                $('#event_desc',  info).text(place.description);  
                 info.animate({right: '0'});  
               }
               
@@ -106,11 +109,21 @@
               currentPlace = marker;  
 
           });  
-        });  
+        });
 
     });
     </script>  
-    
+    <script>
+    $(function() {
+        $( "#accordion" ).accordion({
+            fillSpace: true,
+            autoHeight: false,
+            navigation: true,
+            collapsible: true
+        });
+    });
+
+    </script>
     <style type="text/css" >
     .map { 
       width: 100%;
@@ -132,23 +145,36 @@
       padding-right: 10px;
 
       /* Semi-transparent background */
-      background-color: rgba(0,0,0,0.8);
-      color: white;
+    background-color: rgba(0,0,0,0.8);
+    color:white;
+    
+ /*      color: white;
       font-size: 80%;
 
-      /* Rounded top left corner */
+       Rounded top left corner 
       border-top-left-radius: 15px;
       -moz-border-radius-topleft: 15px;
-      -webkit-border-top-left-radius: 15px;
+      -webkit-border-top-left-radius: 15px;*/
     }
 
     /* Fit the text nicely inside the box */
-    h1 {
+    #event_title {
       font-family: sans-serif;
+      color:white;
       margin-bottom: 0;
+      font-weight: bold;
+      font-size:1.5 em;
+      padding: 5px;
+    }
+    #event_desc {
+        padding:5px;
+        font-size:1.1 em;
     }
     #placeDetails p {
       margin-top: 0;
+    }
+    .popover {
+        display: block;
     }
     </style>
     <style type="text/css">
@@ -223,15 +249,14 @@
     <div class="topbar">
       <div class="fill">
         <div class="container">
-          <a class="brand" href="#">Entertainment+</a>
+          <a class="brand" href="http://localhost/CS130-Mashup/web/index.php/demo1">Entertainment+</a>
 
           <ul class="nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">Unit Test</a></li>
-            <li><a href="#contact">??</a></li>
+            <li class="active"><a href="http://localhost/CS130-Mashup/web/index.php/demo1">Home</a></li>
+            <li><a href="http://localhost/CS130-Mashup/web/index.php/unit_test">Unit Test</a></li>
           </ul>
-          <form class="pull-right" action="http://www.studiolino.com/ibm/index.php/events_la/search" method="post">
-            <input name="city" placeholder="Search" type="text">
+          <form class="pull-right" action="http://localhost/CS130-Mashup/web/index.php/demo1/" method="post">
+            <input name="city_search" placeholder="Search" type="text">
             <?php echo form_submit('','Submit'); ?>
           </form>
         </div>
@@ -241,8 +266,8 @@
     <div class="map">
         <div id="map_canvas" style="width: 100%; height: 100%"></div>
         <div id='placeDetails'>
-            <h3></h3>  
-            <p></p>  
+            <div id="event_title"></div>
+            <div id="event_desc"></div>  
         </div>
     </div>
     
