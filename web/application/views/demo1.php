@@ -5,7 +5,6 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css"></link>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-    
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
     <script>  
     
@@ -33,31 +32,8 @@
 //        
 //        // We'll need to create markers for each event.. 
 //        marker.setAnimation(google.maps.Animation.DROP); // Also try DROP  
-        
-        <?php 
-        // We're going to create the places array here
-        echo "var places = [";
-        $last = (object)array_pop($all_events);
-        
-        $nl = "\n";
-        
-        foreach($all_events as $e) {
-            $event = (object)$e;
-            
-            echo '{' . $nl;
-            echo '"title": "' . $event->title. '",' . $nl;
-            echo '"description": "' . $event->venue . '",' . $nl;
-            echo '"position": [' . $event->latitude .','. $event->longitude . ']' . $nl;
-            echo '},' . $nl;
-        }
-        echo '{' . $nl;
-        echo '"title": "' . $last->title. '",' . $nl;
-        echo '"description": "' . $last->venue. '",' . $nl;
-        echo '"position": [' . $last->latitude .','. $last->longitude . ']' . $nl;
-        echo '}' .$nl ;
-        echo "]" . $nl;
-        
-        ?>
+                
+        var places = <?php echo $all_events; ?>;
         
         var icons = {
           'train':          'http://localhost/CS130-Mashup/web/images/pin.png',  
@@ -73,7 +49,7 @@
           var place = this;
           // Set the marker to the lon lat of a place location
           var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(place.position[0], place.position[1]),
+            position: new google.maps.LatLng(place.latitude, place.longitude),
             map:      map,
             title:    place.title,
             icon:     'http://localhost/CS130-Mashup/web/images/pin.png'
@@ -113,19 +89,9 @@
 
     });
     </script>  
-    <script>
-    $(function() {
-        $( "#accordion" ).accordion({
-            fillSpace: true,
-            autoHeight: false,
-            navigation: true,
-            collapsible: true
-        });
-    });
-
-    </script>
+    
     <style type="text/css" >
-    .map { 
+    .map {
       width: 100%;
       height:  100%;
 
@@ -136,7 +102,7 @@
       position: relative; 
       overflow: hidden;
     }
-    #placeDetails { 
+    #placeDetails {
       position: absolute;
       width: 300px;
       bottom: 0;
@@ -163,12 +129,12 @@
       color:white;
       margin-bottom: 0;
       font-weight: bold;
-      font-size:1.5 em;
+      font-size:16px;
       padding: 5px;
     }
     #event_desc {
         padding:5px;
-        font-size:1.1 em;
+        font-size: 14px;
     }
     #placeDetails p {
       margin-top: 0;

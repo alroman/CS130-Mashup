@@ -29,6 +29,7 @@ class Demo1 extends CI_Controller {
         
         // Check if we have search input
         $input_city = $this->input->post('city_search');
+        
         if(empty($input_city)) {
             $city = $this->location->getCity();
             $geoloc = $this->location->getGeo();
@@ -48,7 +49,12 @@ class Demo1 extends CI_Controller {
         }
 
         // Get events and save the data
-        $all_events = $this->eventful->getEvents(array('location' => $city));
+        $all_events_x = $this->eventful->getEvents(array('location' => $city));
+        
+        $all_events = $this->event_cal_filter($all_events_x);
+        // encode
+        
+        
         $data = array('all_events' => $all_events, 'geoloc' => $geoloc);
 
         //var_dump($all_events);
@@ -80,4 +86,18 @@ class Demo1 extends CI_Controller {
             return array('lon' => $loc->lng, 'lat' => $loc->lat);
         }
     }
+    
+    public function event_cal_filter($events) {
+        $event_calendar_fields = array('title', 'description', 'longitude', 'latitude','venue_name');
+        $filtered_events = array();
+        foreach ($events as $key => $value) {
+            $tmp = array();
+            foreach ($event_calendar_fields as $v) {
+                $tmp[$v] = utf8_encode(preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-:]/s', '', $value[$v]));
+            }
+            $filtered_events []= $tmp;
+        }
+        return json_encode($filtered_events);
+   }
+   
 }

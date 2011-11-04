@@ -56,10 +56,10 @@
     </style>
 
     <!--CSS For Event Calendar-->
-   <link rel="stylesheet" href="<?php echo base_url(); ?>css/jquery.calendarPicker.css" />
-   <link rel="stylesheet" href="<?php echo base_url(); ?>css/calendar.css" />
-   <link rel="stylesheet" href="<?php echo base_url(); ?>css/fullcalendar.css" />
-   <link rel="stylesheet" href="<?php echo base_url(); ?>css/fullcalendar.print.css" media="print"/>
+   <link rel="stylesheet" href="http://localhost/CS130-Mashup/web/css/jquery.calendarPicker.css" />
+   <link rel="stylesheet" href="http://localhost/CS130-Mashup/web/css/calendar.css" />
+   <link rel="stylesheet" href="http://localhost/CS130-Mashup/web/css/fullcalendar.css" />
+   <link rel="stylesheet" href="http://localhost/CS130-Mashup/web/css/fullcalendar.print.css" media="print"/>
    <!-- End -->
 
 	<meta charset="utf-8">
@@ -71,10 +71,10 @@
 	<script  type="text/javascript" src="../development-bundle/ui/jquery.ui.widget.js"></script>
 	<script  type="text/javascript" src="../development-bundle/ui/jquery.ui.accordion.js"></script>
 
-  <script  type="text/javascript" src="<?php echo base_url(); ?>js/jquery-1.6.2.min.js"></script>
-  <script  type="text/javascript" src="<?php echo base_url(); ?>development-bundle/ui/jquery.ui.core.js"></script>
-  <script  type="text/javascript" src="<?php echo base_url(); ?>development-bundle/ui/jquery.ui.widget.js"></script>
-  <script  type="text/javascript" src="<?php echo base_url(); ?>development-bundle/ui/jquery.ui.accordion.js"></script>
+  <script  type="text/javascript" src="http://localhost/CS130-Mashup/web/js/jquery-1.6.2.min.js"></script>
+  <script  type="text/javascript" src="http://localhost/CS130-Mashup/web/development-bundle/ui/jquery.ui.core.js"></script>
+  <script  type="text/javascript" src="http://localhost/CS130-Mashup/web/development-bundle/ui/jquery.ui.widget.js"></script>
+  <script  type="text/javascript" src="http://localhost/CS130-Mashup/web/development-bundle/ui/jquery.ui.accordion.js"></script>
   <script>
 	$(function() {
 		$( "#accordion" ).accordion({
@@ -187,9 +187,9 @@
     </div> <!-- /container -->
 
 <!-- Javascript for event calendar -->
-<script type="text/javascript" src="<?php echo base_url(); ?>js/fullcalendar.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>js/jquery.calendarPicker.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>js/calendar.js"></script>
+<script type="text/javascript" src="http://localhost/CS130-Mashup/web/js/fullcalendar.min.js"></script>
+<script type="text/javascript" src="http://localhost/CS130-Mashup/web/js/jquery.calendarPicker.js"></script>
+<script type="text/javascript" src="http://localhost/CS130-Mashup/web/js/calendar.js"></script>
 
 <script>
 $(document).ready(function() {
