@@ -15,6 +15,8 @@ class Unit_test extends CI_Controller{
        
        $tests = array();
        $tests[] = $test_suite->test_getEvents();
+       $tests[] = $test_suite->test_helper_titlelizer();
+       $tests[] = $test_suite->test_helper_geolocate();
        
        $data = array('units' => $tests);
        

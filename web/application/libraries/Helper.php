@@ -40,7 +40,7 @@ class Helper {
         }
         
         // Return string glued back together
-        return implode(" ", $tokens);
+        return implode(" ", $words);
     }
     
     /**
@@ -76,6 +76,19 @@ class Helper {
         }
         
         return null;
+    }
+    
+    
+    static public function citylocate($long, $lat) {
+        $CI =& get_instance();
+        
+        $url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$long&sensor=false";
+        $data = $CI->curl->simple_get("http://maps.googleapis.com/maps/api/geocode/json?address=$city_url&sensor=false");
+        $json_results = json_decode($data);
+        
+        var_dump($json_results);
+        // TODO: complete the return of this function
+
     }
     
     // Original PHP code by Chirp Internet: www.chirp.com.au 
