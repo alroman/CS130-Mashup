@@ -10,11 +10,14 @@ class Helper {
         
         foreach ($events as $key => $value) {
             $tmp = array();
+            
             foreach ($event_calendar_fields as $v) {
                 $tmp[$v] = utf8_encode(preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-:]/s', '', $value[$v]));
             }
+            
             $filtered_events []= $tmp;
         }
+        
         return json_encode($filtered_events); 
     }
 
@@ -61,8 +64,10 @@ class Helper {
      * @return type associative array containing geolocation 'lat', 'lon' or null
      */
     static public function geolocate($city) {
+        $CI =& get_instance();
+        
         $city_url = urlencode($city);
-        $data = $this->curl->simple_get("http://maps.googleapis.com/maps/api/geocode/json?address=$city_url&sensor=false");
+        $data = $CI->curl->simple_get("http://maps.googleapis.com/maps/api/geocode/json?address=$city_url&sensor=false");
         $json_results = json_decode($data);
         
         if(isset($json_results->results[0]->geometry->location)) {

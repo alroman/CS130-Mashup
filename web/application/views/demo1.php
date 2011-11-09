@@ -3,8 +3,9 @@
 <head>
     
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css"></link>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="<?php echo base_url() ?>bootstrap.min.css"></link>
+    <script src="<?php echo base_url() ?>js/jquery-1.6.2.min.js" ></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
     <script>  
     
@@ -36,8 +37,8 @@
         var places = <?php echo $all_events; ?>;
         
         var icons = {
-          'train':          'http://localhost/CS130-Mashup/web/images/pin.png',  
-          'train-selected': 'http://localhost/CS130-Mashup/web/images/pin.png'  
+          'train':          '<?php echo base_url() ?>img/pin.png',  
+          'train-selected': '<?php echo base_url() ?>img/pin.png'  
         }
 
         var currentPlace = null;
@@ -52,7 +53,8 @@
             position: new google.maps.LatLng(place.latitude, place.longitude),
             map:      map,
             title:    place.title,
-            icon:     'http://localhost/CS130-Mashup/web/images/pin.png'
+            //icon:     'http://localhost/CS130-Mashup/web/img/pin.png'
+            icon:     '<?php echo base_url() ?>img/pin.png'
           });
           // Do the drop animation for each element
           marker.setAnimation(google.maps.Animation.DROP);
@@ -215,13 +217,13 @@
     <div class="topbar">
       <div class="fill">
         <div class="container">
-          <a class="brand" href="http://localhost/CS130-Mashup/web/index.php/demo1">Entertainment+</a>
+          <a class="brand" href="<?php echo base_url() ?>index.php/demo1">Entertainment+</a>
 
           <ul class="nav">
-            <li class="active"><a href="http://localhost/CS130-Mashup/web/index.php/demo1">Home</a></li>
-            <li><a href="http://localhost/CS130-Mashup/web/index.php/unit_test">Unit Test</a></li>
+            <li class="active"><a href="<?php echo base_url() ?>index.php/demo1">Home</a></li>
+            <li><a href="<?php echo base_url() ?>index.php/unit_test">Unit Test</a></li>
           </ul>
-          <form class="pull-right" action="http://localhost/CS130-Mashup/web/index.php/demo1/" method="post">
+          <form class="pull-right" action="<?php echo base_url() ?>index.php/demo1/" method="post">
             <input name="city_search" placeholder="Search" type="text">
             <?php echo form_submit('','Submit'); ?>
           </form>

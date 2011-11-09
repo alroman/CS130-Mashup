@@ -11,6 +11,7 @@ class Demo1 extends CI_Controller {
         parent::__construct();
         // We need to do some light form processing
         $this->load->helper('form');
+        $this->load->helper('url');
         $this->load->library('curl');
         
         // Load our internal libraries
