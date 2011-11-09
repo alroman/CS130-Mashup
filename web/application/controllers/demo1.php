@@ -16,7 +16,7 @@ class Demo1 extends CI_Controller {
         // Load our internal libraries
         $this->load->library('eventful');
         $this->load->library('location');
-        
+        $this->load->library('helper');
         // Load the internal classes
         // key: 7XNLVVN3XTGFQtGL
         $this->eventful = new Eventful();
@@ -36,7 +36,9 @@ class Demo1 extends CI_Controller {
         } else {
             //var_dump($input_city);
             $city = $input_city;
-            $lonlat = $this->__getCityGeo($input_city);
+            //$lonlat = $this->__getCityGeo($input_city);
+            $lonlat = Helper.geolocate($input_city);
+            
             $geoloc['longitude'] = $lonlat['lon'];
             $geoloc['latitude'] = $lonlat['lat'];
         }
