@@ -37,7 +37,7 @@ class Demo1 extends CI_Controller {
             //var_dump($input_city);
             $city = $input_city;
             //$lonlat = $this->__getCityGeo($input_city);
-            $lonlat = Helper.geolocate($input_city);
+            $lonlat = Helper::geolocate($input_city);
             
             $geoloc['longitude'] = $lonlat['lon'];
             $geoloc['latitude'] = $lonlat['lat'];
@@ -53,7 +53,8 @@ class Demo1 extends CI_Controller {
         // Get events and save the data
         $all_events_x = $this->eventful->getEvents(array('location' => $city));
         
-        $all_events = $this->event_cal_filter($all_events_x);
+        //$all_events = $this->event_cal_filter($all_events_x);
+        $all_events = Helper::JSONize($all_events_x);
         // encode
         
         
@@ -65,41 +66,5 @@ class Demo1 extends CI_Controller {
         $this->load->view('demo1', $data);
     }
     
-    private function __getCityGeo($city) {
-        
-        //http://maps.googleapis.com/maps/api/geocode/json?address=Los+Angeles&sensor=false
-//        $ch = curl_init();
-//        curl_setopt($ch, CURLOPT_URL, 'http://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($city) . '&sensor=false');
-//        curl_setopt($ch, CURLOPT_HEADER, 0);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-//        $data = curl_exec($ch);
-//        curl_close($ch); 
-
-        $city_url = urlencode($city);
-        $data = $this->curl->simple_get("http://maps.googleapis.com/maps/api/geocode/json?address=$city_url&sensor=false");
-        //var_dump($data);
-        $json_results = json_decode($data);
-//        echo "<pre>";
-//        var_dump($json_results->results[0]);
-//        echo "</pre>";
-        
-        if(isset($json_results->results[0]->geometry->location)) {
-            $loc = $json_results->results[0]->geometry->location;
-            return array('lon' => $loc->lng, 'lat' => $loc->lat);
-        }
-    }
-    
-    public function event_cal_filter($events) {
-        $event_calendar_fields = array('title', 'description', 'longitude', 'latitude','venue_name');
-        $filtered_events = array();
-        foreach ($events as $key => $value) {
-            $tmp = array();
-            foreach ($event_calendar_fields as $v) {
-                $tmp[$v] = utf8_encode(preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-:]/s', '', $value[$v]));
-            }
-            $filtered_events []= $tmp;
-        }
-        return json_encode($filtered_events);
-   }
    
 }
