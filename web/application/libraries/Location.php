@@ -31,7 +31,7 @@ class Location {
     // $this->location = $this->ipLite->getCity('24.24.202.57');  
    }
  
-	public function getCity() {
+   public function getCity() {
 	if (!empty($this->location) && is_array($this->location)
 		&& isset($this->location['cityName'])) {
 		return $this->location['cityName'];

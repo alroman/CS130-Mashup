@@ -26,43 +26,82 @@ class Eventful {
       $CI->load->library('curl');
       $CI->load->library('xml');
    }
-    
-   public function getEvents($filter=array('location', 'date', 'categories')) {
-      $location = !(empty($filter['location'])) ? $filter['location'] : 'Los Angeles';
-      $date = !(empty($filter['date'])) ? $filter['date'] : 'This Week';
-      $categories = !(empty($filter['categories'])) ? $filter['categories'] : array('music', 'movies_film');
 
-      $CI =& get_instance();
-      
-      foreach ($categories as $category) {
-         $query = array(
-            "location" => $location,
-            "date" => $date,
-            "category" => $category,
-            "app_key" => $this->eventful_key
-         );
-
-         $data = $CI->curl->simple_get($this->search_prefix, $query);
-
-         $CI->xml->load($data);
-         
-         $parsed_obj = $CI->xml->parse();
-         $tmp_events = array();
-
-         foreach ($parsed_obj['search'][0]['events'] as $key => $value) {
-            foreach ($value['event'] as $k => $event) {
-               $e_id = $event['__attrs']['id'];
-               if (!in_array($e_id, $this->event_ids)) {
-                  $tmp_events []= $event['__value'];
-                  $this->event_ids []= $e_id;
+   public function _validation($filter) {
+      $msg = array();
+      foreach ($filter as $key => $value) {
+         if ($key == 'location' && !empty($value)) {
+            //special string
+            $special_string = '/(\=|\+|\-|\(|\))/';
+            if (preg_match($special_string, $value)) {
+               $msg []= "Location Name is invalid";
+            }
+         } else if ($key == 'date' && !empty($value)) {
+            //format: any words, or [0-9]{10}-[0-9]{10}
+            $correct_format = '/(This Weekend|Future|Next month|Next 30 days|[0-9]{10}\-[0-9]{10})/';
+            if (!preg_match($correct_format, $value)) {
+               $msg []= "Incorrect Date format";
+            }
+         } else if ($key === 'categories' && !empty($value)) {
+            //only allow entertainment categories
+            $allowed_categories = array('music', 'movies_film');
+            if (is_array($value)) {
+               foreach ($value as $v) {
+                  if (!in_array($v, $allowed_categories)) {
+                     $msg []= "Invalid Categories";
+                  }
                }
+            } else {
+               $msg []= "Categories are not an array";
             }
          }
-
-         $this->filter($tmp_events, $this->eventful_fields);
       }
+      return $msg;
+   }
+    
+   public function getEvents($filter=array('location', 'date', 'categories')) {
+      $msg = $this->_validation($filter);
+      if (sizeof($msg) == 0) {
+         $location = !(empty($filter['location'])) ? $filter['location'] : 'Los Angeles';
+         $date = !(empty($filter['date'])) ? $filter['date'] : 'This Week';
+         $categories = !(empty($filter['categories'])) ? $filter['categories'] : array('music', 'movies_film');
 
-      return $this->events;
+         $CI =& get_instance();
+         foreach ($categories as $category) {
+            $query = array(
+               "l" => $location,
+               "date" => $date,
+               "category" => $category,
+               "app_key" => $this->eventful_key
+            );
+
+            $data = $CI->curl->simple_get($this->search_prefix, $query);
+
+            $CI->xml->load($data);
+            
+            $parsed_obj = $CI->xml->parse();
+            $tmp_events = array();
+            
+            if (!empty($parsed_obj['search'][0]['events'][0])) {
+               foreach ($parsed_obj['search'][0]['events'] as $key => $value) {
+                  foreach ($value['event'] as $k => $event) {
+                     $e_id = $event['__attrs']['id'];
+                     if (!in_array($e_id, $this->event_ids)) {
+                        $tmp_events []= $event['__value'];
+                        $this->event_ids []= $e_id;
+                     }
+                  }
+               }
+            
+            }
+
+            $this->filter($tmp_events, $this->eventful_fields);
+         }
+
+         return $this->events;
+      } else {
+         return $msg;
+      }
    }
    
    public function filter($events, $fields) {
