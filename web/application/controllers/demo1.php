@@ -18,6 +18,7 @@ class Demo1 extends CI_Controller {
         $this->load->library('eventful');
         $this->load->library('location');
         $this->load->library('helper');
+        
         // Load the internal classes
         // key: 7XNLVVN3XTGFQtGL
         $this->eventful = new Eventful();
@@ -54,16 +55,12 @@ class Demo1 extends CI_Controller {
         // Get events and save the data
         $all_events_x = $this->eventful->getEvents(array('location' => $city));
         
-        //$all_events = $this->event_cal_filter($all_events_x);
         $all_events = Helper::JSONize($all_events_x);
         // encode
         
         
         $data = array('all_events' => $all_events, 'geoloc' => $geoloc);
 
-        //var_dump($all_events);
-        //$this->__getCityGeo("Los Angeles");
-        // Load the view with data
         $this->load->view('demo1', $data);
     }
     

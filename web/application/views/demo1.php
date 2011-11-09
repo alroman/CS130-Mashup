@@ -5,6 +5,7 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 
     <link rel="stylesheet" href="<?php echo base_url() ?>bootstrap.min.css"></link>
+    <link rel="stylesheet" href="<?php echo base_url() ?>css/styles.css"></link>
     <script src="<?php echo base_url() ?>js/jquery-1.6.2.min.js" ></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
     <script>  
@@ -91,125 +92,10 @@
 
     });
     </script>  
-    
-    <style type="text/css" >
-    .map {
-      width: 100%;
-      height:  100%;
 
-      /* The following are required to allow absolute positioning of the
-       * info window at the bottom right of the map, and for it to be hidden
-       * when it is "off map" 
-       */
-      position: relative; 
-      overflow: hidden;
-    }
-    #placeDetails {
-      position: absolute;
-      width: 300px;
-      bottom: 0;
-      right: -320px;
-      padding-left: 10px;
-      padding-right: 10px;
-
-      /* Semi-transparent background */
-    background-color: rgba(0,0,0,0.8);
-    color:white;
-    
- /*      color: white;
-      font-size: 80%;
-
-       Rounded top left corner 
-      border-top-left-radius: 15px;
-      -moz-border-radius-topleft: 15px;
-      -webkit-border-top-left-radius: 15px;*/
-    }
-
-    /* Fit the text nicely inside the box */
-    #event_title {
-      font-family: sans-serif;
-      color:white;
-      margin-bottom: 0;
-      font-weight: bold;
-      font-size:16px;
-      padding: 5px;
-    }
-    #event_desc {
-        padding:5px;
-        font-size: 14px;
-    }
-    #placeDetails p {
-      margin-top: 0;
-    }
-    .popover {
-        display: block;
-    }
-    </style>
-    <style type="text/css">
-      /* Override some defaults */
-      html, body {
-        background-color: #eee;
-      }
-      html { height: 100% }
-      body { height: 100%; margin: 0; padding: 0 }
-      #map_canvas { height: 100% }
-      
-      body {
-/*        padding-top: 40px;  40px to make the container go all the way to the bottom of the topbar */
-      }
-      .container > footer p {
-        text-align: center; /* center align it with the container */
-      }
-      .container {
-        width: 820px; /* downsize our container to make the content feel a bit tighter and more cohesive. NOTE: this removes two full columns from the grid, meaning you only go to 14 columns and not 16. */
-      }
-
-      /* The white background content wrapper */
-      .content {
-        background-color: #fff;
-        padding: 20px;
-        margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
-        -webkit-border-radius: 0 0 6px 6px;
-           -moz-border-radius: 0 0 6px 6px;
-                border-radius: 0 0 6px 6px;
-        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-                box-shadow: 0 1px 2px rgba(0,0,0,.15);
-      }
-
-      /* Page header tweaks */
-      .page-header {
-        background-color: #f5f5f5;
-        padding: 20px 20px 10px;
-        margin: -20px -20px 20px;
-      }
-
-      /* Styles you shouldn't keep as they are for displaying this base example only */
-      .content .span10,
-      .content .span4 {
-        min-height: 500px;
-      }
-      /* Give a quick and non-cross-browser friendly divider */
-      .content .span4 {
-        margin-left: 0;
-        padding-left: 19px;
-        border-left: 1px solid #eee;
-      }
-
-      .topbar .btn {
-        border: 0;
-      }
-      
-      .fill {
-          opacity: 0.85;
-          box-shadow:0 15px 10px rgba(0, 0, 0, 0.7);
-      }
-
-    </style>
-
-	<meta charset="utf-8">
-        <?php $display_city = isset($city) ? $city : "Los Angeles"?>
-	<title>Events from <?php echo $display_city ?> presentation</title>
+    <meta charset="utf-8">
+    <?php $display_city = isset($city) ? $city : "Los Angeles"?>
+    <title>Events from <?php echo $display_city ?> presentation</title>
 
 </head>
 <body>
