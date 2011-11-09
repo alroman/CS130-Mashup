@@ -59,9 +59,12 @@ class Demo1 extends CI_Controller {
         // encode
         
         
-        $data = array('all_events' => $all_events, 'geoloc' => $geoloc);
+        $data = array('all_events' => $all_events, 'geoloc' => $geoloc, 'page_title' => 'temp title');
 
-        $this->load->view('demo1', $data);
+        //$this->load->view('demo1', $data);
+        $this->load->view('header', $data);
+        $this->load->view('demo1a');
+        $this->load->view('footer');
     }
     
    
