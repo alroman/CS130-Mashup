@@ -71,7 +71,7 @@ class Tweets extends CI_Controller {
             $tweets = $search_res->children();
             $tweets_count = count($tweets);
            
-            echo "<p>Event: " .$title. " playing at " .$venue. " has <b>" .$tweets_count. "</b>.</p>";
+            echo "<p>Event: " .$title. " playing @" .$venue. " has <b>" .$tweets_count. "</b>.</p>";
             curl_close($tw);
 
         }
