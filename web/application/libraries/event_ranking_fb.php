@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Event_ranking_fb extends CI_Controller {
+class Event_ranking_fb {
     
     public $eventful;
     // var $search_prefix = "http://graph.facebook.com/search?q=";
@@ -8,14 +8,13 @@ class Event_ranking_fb extends CI_Controller {
 	public $CI;
 	      
     public function __construct() {
-        parent::__construct();
 		$this->CI =& get_instance();
 		$this->CI->load->library('curl');
 		$this->CI->load->library('xml');		
-        $this->load->helper('form');
-        $this->load->library('eventful');
+        $this->CI->load->helper('form');
+        $this->CI->load->library('eventful');
         // $this->load->library('facebook');
-        $this->load->helper('url');
+        $this->CI->load->helper('url');
         $this->eventful = new Eventful();
 		$this->get_event_fb_id();
 		// $facebook = new Facebook(array(
