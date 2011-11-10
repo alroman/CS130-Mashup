@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="<?php echo base_url() ?>css/bootstrap.min.css"></link>
     <link rel="stylesheet" href="<?php echo base_url() ?>css/styles.css"></link>
     <script src="<?php echo base_url() ?>js/jquery-1.6.2.min.js" ></script>
+    <script src="<?php echo base_url() ?>js/bootstrap-twipsy.js"></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
     <meta charset="utf-8">
     <script>
@@ -55,12 +56,15 @@
                 position: new google.maps.LatLng(place.latitude, place.longitude),
                 map:      map,
                 title:    place.title,
-                //icon:     'http://localhost/CS130-Mashup/web/img/pin.png'
                 icon:     '<?php echo base_url() ?>img/pin.png'
             });
             // Do the drop animation for each element
             marker.setAnimation(google.maps.Animation.DROP);
 
+            google.maps.event.addListener(marker, 'mouseover', function() {
+                
+            });
+            
             // For each element, we add the event listener...
             google.maps.event.addListener(marker, 'click', function() {
                 var hidingMarker = currentPlace;
