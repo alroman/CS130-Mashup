@@ -1,25 +1,48 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-
-class Events_raking extends CI_Controller {
+class Event_ranking_fb extends CI_Controller {
     
     public $eventful;
-    
+    // var $search_prefix = "http://graph.facebook.com/search?q=";
+    var $search_prefix = "http://graph.facebook.com/search";
+	public $CI;
+	      
     public function __construct() {
         parent::__construct();
+		$this->CI =& get_instance();
+		$this->CI->load->library('curl');
+		$this->CI->load->library('xml');		
         $this->load->helper('form');
         $this->load->library('eventful');
-        $this->load->library('facebook');
+        // $this->load->library('facebook');
         $this->load->helper('url');
         $this->eventful = new Eventful();
+		$this->get_event_fb_id();
+		// $facebook = new Facebook(array(
+		  // 'appId'  => '133716586710979',
+		  // 'secret' => '9df76ec2cd10f1eca00ba9eb98996985',
+		// ));
+		//printf("hello");
     }
+	
+	public function get_event_fb_id() {
+	
+	    // $query = "lady&type=event";
+         $query = array(
+            "q" => "lady",
+            "type" => "event",
+         );		
+		//$data = file_get_contents ($this->search_prefix.$query);
+	    $data = $this->CI->curl->simple_get($this->search_prefix, $query);
+		var_dump($data);
+	
+	
+	}
     
     public function index() {
-        $city = $this->location->getCity();
-        //$zip = $this->location->getZipCode();
-        if($city == '-')
-            $city = "";
+		$city = "";
         $la_events = $this->eventful->getEvents(array('location' => $city));
+		var_dump($la_events); 
         $la_events_cal = $this->event_cal_filter($la_events);
         $data = array('la_events' => $la_events, 'msg' => $city, 'events_cal' => $la_events_cal);
         $this->load->view('events_la', $data);

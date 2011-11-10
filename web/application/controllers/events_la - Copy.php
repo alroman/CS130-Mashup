@@ -5,7 +5,6 @@ class Events_la extends CI_Controller {
     
     public $eventful;
     public $location;
-	public $ranking;
     
     public function __construct() {
         parent::__construct();
@@ -13,9 +12,7 @@ class Events_la extends CI_Controller {
         $this->load->library('eventful');
         $this->load->library('location');
         $this->load->helper('url');
-		$this->load->library('event_ranking_fb');
         $this->eventful = new Eventful();
-        $this->ranking = new Event_ranking_fb();
         $this->location = new Location();
     }
     
