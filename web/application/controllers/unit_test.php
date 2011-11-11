@@ -1,6 +1,6 @@
 <?php
 class Unit_test extends CI_Controller{
-   
+  
    public $eventful;
    public $location;
    public $util;
@@ -140,9 +140,9 @@ class Unit_test extends CI_Controller{
       $this->load->library('util');
       $location = $this->util->getLocation();
       $special_string = '/(\=|\+|\-|\(|\))/';
-      
-      $this->unit->run((sizeof($location) == 3), 'is_true', 'Test the object of location, there should have 3 children');
-      $this->unit->run((preg_match($special_string, $location['zipcode']) == 0), 'is_true', 'Test ZipCode Special String');
+
+      $this->unit->run((!empty($location['zipCode']) && !empty($location['longitude']) && !empty($location['latitude'])), 'is_true', 'Test the object of location, there should have 3 children');
+      $this->unit->run((preg_match($special_string, $location['zipCode']) == 0), 'is_true', 'Test ZipCode Special String');
       echo $this->unit->report();
    }
 

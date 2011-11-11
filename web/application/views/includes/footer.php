@@ -4,14 +4,15 @@ $(document).ready(function(){
       // Set the default location
       var lon = <?php echo $geoloc['longitude']; ?>;
       var lat = <?php echo $geoloc['latitude']; ?>;
+      lat -= 0.02; //Re-center the city
       var mapDefaultLocation = new google.maps.LatLng(lat, lon);
       var mapOptions = {
-         zoom:      11,
-            center:    mapDefaultLocation,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            panControl: false
+         zoom:      12,
+         center:    mapDefaultLocation,
+         mapTypeId: google.maps.MapTypeId.ROADMAP,
+         panControl: false
       }
-      var places = <?php echo $all_events; ?>;
+      var places = <?php echo $json_events; ?>;
 
       var map = new google.maps.Map($("#map_canvas")[0], mapOptions);
 
@@ -68,5 +69,6 @@ $(document).ready(function(){
       });
 });
 </script>  
+   <script type="text/javascript" src="<?php echo $public_url; ?>js/app.js"></script>
 </body>
 </html>

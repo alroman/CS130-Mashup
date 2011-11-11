@@ -14,28 +14,65 @@ class Home extends CI_Controller
       //Get uitl library and it takes care of everything
       $this->load->Library('util');
 
+      //Get helper
       $this->load->helper('form');
    }
 
-   public function index()
-   {
-      //Decide which view i want to use
-      $data['main_content'] = 'home';
-
+   public function __index($location) {
       //Show the home page
-      $location = $this->util->getLocation();
-      $events = $this->util->getEvents(array('location' => $location['zipcode']));
-      // echo $location['zipcode'];
+      $events = $this->util->getEvents(array('location' => $location['zipCode']));
       //Event Fields Needed
       $fields = array('title', 'description', 'longitude', 'latitude','venue_name');
       $json_events = $this->util->event_filter($events, $fields);
 
-      $data['all_events'] = $json_events;
-      $data['geoloc'] = $location;
-      $data['title'] = 'Entertainment+';
-      $data['public_url'] = $this->util->getPublicUrl();
+      //Decide which view i want to use
+      $data['main_content'] = 'home';
+      $data['json_events']  = $json_events;
+      $data['geoloc']       = $location;
+      $data['title']        = 'Entertainment+';
+      $data['events']       = $events;
+      $data['public_url']   = $this->util->getPublicUrl();
 
       $this->load->view('includes/template', $data);
+   }
+
+   public function index()
+   {
+      //Show the home page
+      $location = $this->util->getLocation();
+
+      $this->__index($location);
+   }
+
+   public function search()
+   {
+      // Check if we have search input
+      $input = $this->input->post('city_search');
+
+      //validate input
+      $special_string = '/(\=|\+|\-|\(|\))/';
+      if (preg_match($special_string, $input)) {
+         return "Error: Input invalid string";
+      }
+      
+      $location = $this->__getCityGeo($input);
+      $location['zipCode'] = $input;
+      
+      //Call __index
+      $this->__index($location);
+   }
+
+
+   private function __getCityGeo($addr) 
+   {
+      $city_url = urlencode($addr);
+      $data = $this->curl->simple_get("http://maps.googleapis.com/maps/api/geocode/json?address=$city_url&sensor=false");
+      $json_results = json_decode($data);
+
+      if(isset($json_results->results[0]->geometry->location)) {
+         $loc = $json_results->results[0]->geometry->location;
+         return array('longitude' => $loc->lng, 'latitude' => $loc->lat);
+      }
    }
 
 }

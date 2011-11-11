@@ -2,7 +2,7 @@
 include('ip2locationlite.class.php');
  
 class Location {
-    private $ipLite;
+   private $ipLite;
 	public $location;
 	/**
 	 * Index Page for this controller.
@@ -28,7 +28,7 @@ class Location {
      $this->location = $this->ipLite->getCity($_SERVER['REMOTE_ADDR']);  
 	else 
 	  $this->location = $this->ipLite->getCity($ip);  
-    // $this->location = $this->ipLite->getCity('24.24.202.57');  
+      // $this->location = $this->ipLite->getCity('24.24.202.57');  
    }
  
    public function getCity() {
@@ -36,7 +36,7 @@ class Location {
 		&& isset($this->location['cityName'])) {
 		return $this->location['cityName'];
 	} else
-      return null;	
+      return null;
 	}
 	
 	public function getCountry() {
@@ -63,7 +63,7 @@ class Location {
 		  return null;	
 	}	
 	
-	public function getZipCode() {
+   public function getZipCode() {
 		if (!empty($this->location) && is_array($this->location)
 			&& isset($this->location['zipCode'])) {
 			return $this->location['zipCode'];
@@ -83,7 +83,7 @@ class Location {
 		  return null;	
 	}
 
-	public function getLocation() {
+   public function getLocation() {
 		return $this->location;
 	}
 

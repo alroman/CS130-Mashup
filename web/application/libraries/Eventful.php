@@ -10,14 +10,15 @@
 class Eventful {
 
    var $eventful_key;
-   var $search_prefix = "http://api.eventful.com/rest/events/search";
-   var $eventful_fields = array('title', 'description', 'start_time', 
-      'stop_time', 'venue_name', 'venue_url', 
-      'venue_address', 'city_name', 'region_name',
-      'region_abbr', 'country_name', 'country_abbr',
-      'latitude', 'longitude', 'modified', 'image');
-   var $events = array();
-   var $counter = 0;
+   var $search_prefix   = "http://api.eventful.com/rest/events/search";
+   var $eventful_fields = array('title' , 'description'  , 'start_time'   ,
+                        'stop_time'     , 'venue_name'   , 'venue_url'    ,
+                        'venue_address' , 'city_name'    , 'region_name'  ,
+                        'region_abbr'   , 'country_name' , 'country_abbr' ,
+                        'latitude'      , 'longitude'    , 'modified'     ,
+                        'image'         , 'category');
+   var $events    = array();
+   var $counter   = 0;
    var $event_ids = array();
    
    public function __construct($key="xzbXfQPZsjPVL2qw") {
@@ -74,6 +75,9 @@ class Eventful {
                "category" => $category,
                "app_key" => $this->eventful_key
             );
+            
+            //Beautify the category name
+            $cat = ($category == 'movies_film')? 'movies': $category;
 
             $data = $CI->curl->simple_get($this->search_prefix, $query);
 
@@ -87,12 +91,12 @@ class Eventful {
                   foreach ($value['event'] as $k => $event) {
                      $e_id = $event['__attrs']['id'];
                      if (!in_array($e_id, $this->event_ids)) {
+                        $event['__value']['category'] = array($cat);
                         $tmp_events []= $event['__value'];
                         $this->event_ids []= $e_id;
                      }
                   }
                }
-            
             }
 
             $this->filter($tmp_events, $this->eventful_fields);

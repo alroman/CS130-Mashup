@@ -58,8 +58,8 @@ html { height: 100% }
 body { height: 100%; margin: 0; padding: 0 }
 #map_canvas { height: 100% }
 
-   body {
-/*        padding-top: 40px;  40px to make the container go all the way to the bottom of the topbar */
+body {
+       padding-top: 63px;  /* 40px to make the container go all the way to the bottom of the topba */
    }
    .container > footer p {
      text-align: center; /* center align it with the container */
@@ -108,3 +108,47 @@ body { height: 100%; margin: 0; padding: 0 }
     opacity: 0.85;
     box-shadow:0 15px 10px rgba(0, 0, 0, 0.7);
 }
+
+/* Style the sublist */
+.sublist {
+   height: 23px;
+}
+.sublist .nav a {
+   padding: 1.5px 11px;
+}
+.sublist .nav{
+   float: right;
+}
+
+.tags div.input-prepend .add-on{
+   padding: 2px;
+}
+.tags div.input-prepend {
+   background: #808080;
+}
+.tags li {
+   line-height: 23px;
+   color: #808080;
+}
+.tags .tags_text {
+   padding-right: 5px;
+   color: #333;
+}
+.tags .input-prepend .add-on {
+   border-radius: 0px;
+   cursor: pointer;
+}
+input[disabled].tag_checkbox:hover {
+   cursor: pointer !important;
+}
+::-moz-selection {
+    background-color: transparent;
+    color: #000;
+ }
+ ::selection {
+    background-color:Transparent;
+    color:#000;
+ }
+.tags_text::-moz-selection,
+.tags_text::selection { ... }
+

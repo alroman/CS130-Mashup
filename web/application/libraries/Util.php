@@ -18,21 +18,18 @@ class Util
    //For location api
    public function getLocation()
    {
-      $geoloc = $this->CI->location->getGeo();
+      $geoloc = $this->CI->location->getLocation();
 
-      //Assign to object
-      $geoloc['zipcode'] = $this->CI->location->getZipCode();
-      
       //validate city name
       $special_string = '/(\=|\+|\-|\(|\))/';
 
       // If city could not be guessed, then we default into Los Angeles
       if(empty($geoloc['longitude']) 
          || empty($geoloc['latitude'])
-         || (preg_match($special_string, $geoloc['zipcode']) != 0)) {
-         $geoloc['zipcode'] = '90024';
-         $geoloc['latitude'] = "34.0522342";
-         $geoloc['longitude'] = "-118.2436849";
+         || (preg_match($special_string, $geoloc['zipCode']) != 0)) {
+         $geoloc['zipCode'] = '90024';
+         $geoloc['latitude'] = "34.0827490";
+         $geoloc['longitude'] = "-118.4140820";
       }
       return $geoloc;
    }
