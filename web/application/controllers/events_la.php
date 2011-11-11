@@ -25,6 +25,7 @@ class Events_la extends CI_Controller {
         if($city == '-')
             $city = "";
         $la_events = $this->eventful->getEvents(array('location' => $city));
+		$la_events = $this->ranking->fb_event_ranking($la_events);
         $la_events_cal = $this->event_cal_filter($la_events);
         $data = array('la_events' => $la_events, 'msg' => $city, 'events_cal' => $la_events_cal);
         $this->load->view('events_la', $data);
