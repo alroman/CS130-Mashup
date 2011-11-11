@@ -56,8 +56,7 @@ class Event_ranking_fb
         if (isset($json_a->likes))
         {
           $event_rank[$title] = $json_a->likes;
-          print_r($json_a->likes);
-          print "        ";
+          // print_r($json_a->likes);
         }
       }
     }
