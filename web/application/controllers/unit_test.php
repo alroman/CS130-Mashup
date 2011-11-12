@@ -1,9 +1,6 @@
 <?php
 class Unit_test extends CI_Controller{
    
-   public $eventful;
-   public $location;
-
    public function __construct() {
       parent::__construct();
       $this->load->helper('url');
@@ -11,12 +8,13 @@ class Unit_test extends CI_Controller{
    }
 
    public function index() {
-       $test_suite = new UnitTestWrapper();
+       //$test_suite = new UnitTestWrapper();
        
        $tests = array();
-       $tests[] = $test_suite->test_getEvents();
-       $tests[] = $test_suite->test_helper_titlelizer();
-       $tests[] = $test_suite->test_helper_geolocate();
+       $this->unittestwrapper->test_getEvents();
+       $this->unittestwrapper->test_helper_titlelizer();
+       
+       $tests[] = $this->unittestwrapper->test_helper_geolocate();
        
        $data = array('units' => $tests);
        

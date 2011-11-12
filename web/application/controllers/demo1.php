@@ -2,11 +2,7 @@
 
 
 class Demo1 extends CI_Controller {
-    
-    // These members will be used to store the library instances
-    public $eventful;
-    public $location;
-    
+        
     public function __construct() {
         parent::__construct();
         // We need to do some light form processing
@@ -21,8 +17,6 @@ class Demo1 extends CI_Controller {
         
         // Load the internal classes
         // key: 7XNLVVN3XTGFQtGL
-        $this->eventful = new Eventful();
-        $this->location = new Location();
     }
     
     public function index() {

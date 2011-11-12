@@ -34,6 +34,11 @@
             'train':          '<?php echo base_url() ?>img/pin.png',  
             'train-selected': '<?php echo base_url() ?>img/pin.png'  
         }
+        
+        // overlay
+        var overlay = new google.maps.OverlayView();
+        overlay.draw = function() {};
+        overlay.setMap(map);
 
         var currentPlace = null;
         var info = $('#placeDetails');
@@ -53,36 +58,53 @@
             // Do the drop animation for each element
             marker.setAnimation(google.maps.Animation.DROP);
 
+            google.maps.event.addListener(marker, 'mouseover', function() {
+                var projection = overlay.getProjection(); 
+                var pixel = projection.fromLatLngToContainerPixel(marker.getPosition());
+
+                $('#event_title', info).text(place.title);
+                $('#event_desc',  info).text(place.description);
+                $('#event_venue',  info).text(place.venue_name);
+                
+                // Offset so that we can display the arrow right below the marker
+                info.animate({left: parseInt(pixel.x - 146) + "px", top: parseInt(pixel.y) + "px", visibility: "visible"}, 200);
+                info.fadeIn(50);
+            });
+            
+            google.maps.event.addListener(marker, 'mouseout', function() {
+                info.fadeOut(50);
+            });
+
             //google.maps.event.addListener(marker,'hover', popover({title: place.title, cotntent: place.description}))
             // For each element, we add the event listener...
-            google.maps.event.addListener(marker, 'click', function() {
-                var hidingMarker = currentPlace;
-                var slideIn = function(marker) {  
-                    $('#event_title', info).text(place.title);
-                    $('#event_desc',  info).text(place.description);  
-                    info.animate({right: '0'});  
-                }
-
-                marker.setIcon(icons['train-selected']);  
-                
-                if (currentPlace) {  
-                    currentPlace.setIcon(icons['train']);  
-                    info.animate(  
-                    { right: '-320px' },  
-                    { complete: function() {  
-                            if (hidingMarker != marker) {  
-                                slideIn(marker);  
-                            } else {  
-                                currentPlace = null;  
-                            }  
-                        }}  
-                    );  
-                } else {  
-                    slideIn(marker);  
-                }  
-                currentPlace = marker;  
-
-            });  
+//            google.maps.event.addListener(marker, 'click', function() {
+//                var hidingMarker = currentPlace;
+//                var slideIn = function(marker) {  
+//                    $('#event_title', info).text(place.title);
+//                    $('#event_desc',  info).text(place.description);  
+//                    info.animate({right: '0'});  
+//                }
+//
+//                marker.setIcon(icons['train-selected']);  
+//                
+//                if (currentPlace) {  
+//                    currentPlace.setIcon(icons['train']);  
+//                    info.animate(  
+//                    { right: '-320px' },  
+//                    { complete: function() {  
+//                            if (hidingMarker != marker) {  
+//                                slideIn(marker);  
+//                            } else {  
+//                                currentPlace = null;  
+//                            }  
+//                        }}  
+//                    );  
+//                } else {  
+//                    slideIn(marker);  
+//                }  
+//                currentPlace = marker;  
+//
+//            });  
         });
 
     });

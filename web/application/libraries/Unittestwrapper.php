@@ -17,30 +17,24 @@ class UnitTestWrapper {
         $this->CI->load->library('location');
         // Load Helper library
         $this->CI->load->library('helper');
-        
-        // These libraries need to be intialized.  Helper library 
-        // should contain only static methods.
-        $this->eventful = new Eventful();
-        $this->location = new location("55.97.245.81");
-        
     }
 
     public function test_getEvents() {
-        $this->CI->unit->run($this->eventful, 'is_object', 'Object Test');
-        $default_events = $this->eventful->getEvents();
+        $this->CI->unit->run($this->CI->eventful, 'is_object', 'Object Test');
+        $default_events = $this->CI->eventful->getEvents();
         $this->CI->unit->run($default_events, 'is_array', 'Array Test');
         
         return $this->CI->unit->report();
     }
 
     public function test_getDefaultEvents() {
-        $default_events = $this->eventful->getEvents();
+        $default_events = $this->CI->eventful->getEvents();
         return $default_events;
     }
 
     public function test_event_json() {
         $options = array('type' => 'calendar');
-        $default_events = $this->eventful->getEvents($options);
+        $default_events = $this->CI->eventful->getEvents($options);
         $json = json_encode($default_events);
         $v1 = $this->unit->run(json_decode($json), 'is_array', 'Json validation test');
         echo $this->unit->report();
@@ -48,7 +42,7 @@ class UnitTestWrapper {
     }
 
     public function test_getLocation() {
-        $loc = $this->location->getLocation();
+        $loc = $this->CI->location->getLocation();
         return $loc;
     }
     

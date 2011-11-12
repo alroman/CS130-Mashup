@@ -12,7 +12,12 @@ class Helper {
             $tmp = array();
             
             foreach ($event_calendar_fields as $v) {
-                $tmp[$v] = utf8_encode(preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-:]/s', '', $value[$v]));
+                if($v == "title" || $v == "venue_name")
+                    $tmp[$v] = Helper::titleize(utf8_encode(preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-:]/s', '', $value[$v])));
+                else if($v == "description")
+                    $tmp[$v] = Helper::summarize(utf8_encode(preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-:]/s', '', $value[$v])));
+                else 
+                    $tmp[$v] = utf8_encode(preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-:]/s', '', $value[$v]));
             }
             
             $filtered_events []= $tmp;
@@ -51,8 +56,8 @@ class Helper {
      * @param type $limit truncation size
      * @return type string of truncated description
      */
-    static public function summarize($desc, $limit) {
-        return $this->myTruncate($desc, $limit);
+    static public function summarize($desc, $limit = 150) {
+        return Helper::myTruncate($desc, $limit);
     }
     
     
@@ -94,7 +99,7 @@ class Helper {
     // Original PHP code by Chirp Internet: www.chirp.com.au 
     // Please acknowledge use of this code by including this header. 
     
-    private function myTruncate($string, $limit, $break=".", $pad="...") { 
+    private static function myTruncate($string, $limit, $break=".", $pad="...") { 
         // return with no change if string is shorter than $limit 
         if(strlen($string) <= $limit) return $string; 
         
