@@ -159,4 +159,17 @@ class Unit_test extends CI_Controller{
       echo $this->unit->report();
    }
 
+   public function test_getCategories()
+   {
+      $fail1 = $this->eventful->getCategories();
+      $this->unit->run($fail1, 'is_string', 'Get Categories Fail Test');
+      $this->unit->run(($fail1 == "Error: you have to call getEvents first."), 'is_true', 'Error Message Test For getCategories');
+   
+      $succ1 = $this->eventful->getEvents();
+      $succ1 = $this->eventful->getCategories();
+      $this->unit->run($succ1, 'is_array', 'Get Categories Successful Test');
+
+      echo $this->unit->report();
+   }
+
 }

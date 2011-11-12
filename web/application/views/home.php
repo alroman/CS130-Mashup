@@ -15,19 +15,21 @@
    </div>
    <div class='fill sublist'>
       <div class='container'>
+       <form action='<?php echo base_url('home/filter');?>' id='tag_form'>
        <ul class="tags">
-       <?php $categories = array('Free', 'Food', 'Music', 'Concert');?>
        <?php foreach($categories as $cat):?>
        <li>
             <div class="input-prepend">
-               <label class="add-on tag">
-                  <input type="checkbox" name="" id="" value="" disabled='true', class='tag_checkbox'>
+               <label class="add-on tag active">
+                  <input type="checkbox" name="cat[]" id='<?php echo $cat;?>' value="<?php echo $cat;?>" disabled='true', class='tag_checkbox' checked='true'>
                   <span class='tags_text'><?php echo $cat;?></span>
                </label>
             </div>
        </li>
        <?php endforeach; ?>
        </ul>
+       <input type='hidden' name='location' value='<?php echo $location; ?>' id='location'>
+       </form>
        <ul class="nav">
          <li class="active"><a href="<?php echo base_url('/home') ;?>">Map View</a></li>
          <li><a href="<?php echo base_url('listview') ;?>">List View</a></li>

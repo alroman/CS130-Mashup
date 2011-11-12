@@ -17,9 +17,11 @@ class Eventful {
                         'region_abbr'   , 'country_name' , 'country_abbr' ,
                         'latitude'      , 'longitude'    , 'modified'     ,
                         'image'         , 'category');
-   var $events    = array();
-   var $counter   = 0;
-   var $event_ids = array();
+   var $events     = array();
+   var $counter    = 0;
+   var $event_ids  = array();
+   var $categories = array();
+   var $is_init    = false;
    
    public function __construct($key="xzbXfQPZsjPVL2qw") {
       $CI =& get_instance();
@@ -45,7 +47,7 @@ class Eventful {
             }
          } else if ($key === 'categories' && !empty($value)) {
             //only allow entertainment categories
-            $allowed_categories = array('music', 'movies_film');
+            $allowed_categories = array('music', 'movies_film', 'movies');
             if (is_array($value)) {
                foreach ($value as $v) {
                   if (!in_array($v, $allowed_categories)) {
@@ -61,6 +63,7 @@ class Eventful {
    }
     
    public function getEvents($filter=array('location', 'date', 'categories')) {
+      $this->is_init = true;
       $msg = $this->_validation($filter);
       if (sizeof($msg) == 0) {
          $location = !(empty($filter['location'])) ? $filter['location'] : 'Los Angeles';
@@ -92,6 +95,9 @@ class Eventful {
                      $e_id = $event['__attrs']['id'];
                      if (!in_array($e_id, $this->event_ids)) {
                         $event['__value']['category'] = array($cat);
+                        if (!in_array($cat, $this->categories)) {
+                           $this->categories []= $cat;
+                        }
                         $tmp_events []= $event['__value'];
                         $this->event_ids []= $e_id;
                      }
@@ -106,6 +112,14 @@ class Eventful {
       } else {
          return $msg;
       }
+   }
+
+   public function getCategories()
+   {
+      if (!$this->is_init) {
+         return "Error: you have to call getEvents first.";
+      }
+      return $this->categories;
    }
    
    public function filter($events, $fields) {

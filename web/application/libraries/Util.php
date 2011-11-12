@@ -4,7 +4,8 @@
  **/
 class Util 
 {
-   public $CI;
+   var $CI;
+
    function __construct()
    {
       $this->CI =& get_instance();
@@ -37,6 +38,11 @@ class Util
    public function getEvents($filter)
    {
       return $this->CI->eventful->getEvents($filter);
+   }
+
+   public function getCategories()
+   {
+      return $this->CI->eventful->getCategories();
    }
 
    public function event_filter($events, $fields) 

@@ -18,9 +18,11 @@ class Home extends CI_Controller
       $this->load->helper('form');
    }
 
-   public function __index($location) {
+   public function __index($location, $filter=array()) {
       //Show the home page
       $events = $this->util->getEvents(array('location' => $location['zipCode']));
+      $categories = $this->util->getCategories();
+      
       //Event Fields Needed
       $fields = array('title', 'description', 'longitude', 'latitude','venue_name');
       $json_events = $this->util->event_filter($events, $fields);
@@ -32,6 +34,8 @@ class Home extends CI_Controller
       $data['title']        = 'Entertainment+';
       $data['events']       = $events;
       $data['public_url']   = $this->util->getPublicUrl();
+      $data['categories']   = $categories;
+      $data['location']     = $location['zipCode'];
 
       $this->load->view('includes/template', $data);
    }
@@ -60,6 +64,24 @@ class Home extends CI_Controller
       
       //Call __index
       $this->__index($location);
+   }
+
+   public function filter() {
+      $opts = $this->input->post();
+      if (isset($opts['category'])) {
+         $events = $this->util->getEvents(array('location' => $opts['location'],
+                                                'categories' => $opts['category']));
+         $categories = $this->util->getCategories();
+         
+         //Event Fields Needed
+         $fields = array('title', 'description', 'longitude', 'latitude','venue_name');
+         $json_events = $this->util->event_filter($events, $fields);
+
+         echo $json_events;
+      } else {
+         $msg = array('error' => 'no events');
+         echo json_encode($msg);
+      }
    }
 
 
