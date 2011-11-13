@@ -79,7 +79,6 @@ text-align: center; /* center align it with the container */
 .container {
 width: 820px; /* downsize our container to make the content feel a bit tighter and more cohesive. NOTE: this removes two full columns from the grid, meaning you only go to 14 columns and not 16. */
 }
-.event_list { margin-top: 100px; }
 
 /* The white background content wrapper */
 .content {
@@ -121,3 +120,12 @@ margin: 0 -20px; /* negative indent the amount of the padding to maintain the gr
   opacity: 0.85;
   box-shadow:0 15px 10px rgba(0, 0, 0, 0.7);
 }
+
+/* Event list styles */
+.event_list { margin-top: 100px; }
+.blue { color: #0067CE;}
+.bold { font-weight: bold; }
+.condenseLine { margin-bottom: 4px; }
+.floatRight { float: right; }
+.heightWithImage { min-height: 160px; }
+.media-grid { margin-left: 0px; } /* override the negative margin on the media grid */

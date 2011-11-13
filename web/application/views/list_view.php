@@ -121,18 +121,32 @@
         <?php
              foreach($events as $e) {           
                 $event = (object)$e;
+                $image = $event->image;
                 $title = $event->title;
                 $date = $event->start_time;
                 $start = $event->start_time;
                 $stop = $event->stop_time;
                 $venue = $event->venue_name;
                 $desc = $event->description;
-                echo 
-                    "<div class='well'>
-                        <h4>$title</h4>";
+               
+                if ($image) {               
+                    echo "<div class='well heightWithImage'>";
+                    echo  "<ul class='media-grid floatRight'>
+                                <li>
+                                    <a href='#'>
+                                        <img class='thumbnail' src='http://placehold.it/210x150' alt=''>
+                                    </a>
+                                </li>
+                            </ul>";
+                }
+                else {
+                    echo "<div class='well'>";
+                }
                 
-                echo "<p>";                  
-                echo date("M j", strtotime($date));  
+                echo "<h4 class='blue'>$title</h4>";
+                
+                echo "<p class='condenseLine bold'>";                  
+                echo date("l, M j", strtotime($date));  
                 echo "</p>";
                 
                 echo "<p>";
@@ -140,9 +154,10 @@
                 echo "</p>";
                 
                 echo
-                    "<p>$venue</p>
+                    "<p><b>Venue: </b>$venue</p>
                      <p>$desc</p>
-                    </div>";              
+                     <button class='btn primary'>Map it!</button>
+                </div>";              
              }
         ?>                  
     </div>
