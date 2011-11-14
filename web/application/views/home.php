@@ -46,6 +46,14 @@
    </div>
 </div>
 
+
+<div class="row">
+    <div class="span4 event_cal" id="eventCalendar" style="margin-top: 10px;">
+      <div id="dest" style="width:220px"></div>
+      <div id="calendar"></div>
+    </div>
+</div>
+
 <div class="map">
   <div id="map_canvas" style="width: 100%; height: 100%"></div>
   <div id='placeDetails'>

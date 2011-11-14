@@ -13,5 +13,7 @@
    <link rel="stylesheet" href="<?php echo $public_url; ?>css/style.css" />
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+   <script type="text/javascript" src="<?php echo $public_url; ?>js/fullcalendar.min.js"></script>
+   <script type="text/javascript" src="<?php echo $public_url; ?>js/jquery.calendarPicker.js"></script>
 </head>
 <body>

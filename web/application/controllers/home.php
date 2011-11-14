@@ -24,7 +24,7 @@ class Home extends CI_Controller
       $categories = $this->util->getCategories();
       
       //Event Fields Needed
-      $fields = array('title', 'description', 'longitude', 'latitude','venue_name');
+      $fields = array('title', 'description', 'longitude', 'latitude','venue_name', 'start_time', 'stop_time');
       $json_events = $this->util->event_filter($events, $fields);
 
       //Decide which view i want to use
@@ -74,7 +74,7 @@ class Home extends CI_Controller
          $categories = $this->util->getCategories();
          
          //Event Fields Needed
-         $fields = array('title', 'description', 'longitude', 'latitude','venue_name');
+         $fields = array('title', 'description', 'longitude', 'latitude','venue_name','start_time', 'stop_time');
          $json_events = $this->util->event_filter($events, $fields);
 
          echo $json_events;
