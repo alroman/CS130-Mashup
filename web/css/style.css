@@ -151,3 +151,25 @@ input[disabled].tag_checkbox:hover {
 #tag_form {
    margin: 0;
 }
+
+div.event_list {
+   position: absolute; 
+   top: 80px; 
+   left: 20px; 
+   z-index: 99; 
+   opacity: 0.8;
+   color: #eee;
+   padding: 5px;
+   background-color: #222222;
+   background-image: -moz-linear-gradient(center top , #333333, #222222);
+   background-repeat: repeat-x;
+   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), 0 -1px 0 rgba(0, 0, 0, 0.1) inset;
+}
+
+div.event_title {
+   border-bottom: 1px dotted #eee;
+   padding: 5px 0;
+}
+div.event_title:last-child {
+   border-bottom: none;
+}

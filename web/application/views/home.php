@@ -38,6 +38,14 @@
    </div>
 </div>
 
+<div class="row">
+   <div class="span4 event_list fill">
+      <?php foreach ($events as $event) { ?>
+      <div class='event_title'><?php echo $event['title']; ?></div>
+      <?php } ?>
+   </div>
+</div>
+
 <div class="map">
   <div id="map_canvas" style="width: 100%; height: 100%"></div>
   <div id='placeDetails'>

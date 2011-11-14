@@ -1,3 +1,4 @@
+<script type="text/javascript" src="<?php echo $public_url; ?>js/oms.min.js"></script>
 <script>  
 $(document).ready(function(){
 
@@ -14,7 +15,14 @@ $(document).ready(function(){
       }
       var places = <?php echo $json_events; ?>;
 
+      window.gm = google.maps;
       window.map = new google.maps.Map($("#map_canvas")[0], mapOptions);
+      var spideroptions = {
+         markerWontMove: true,
+         markerWontHide: true,
+         keepSpiderfied: true
+      };
+      window.oms = new OverlappingMarkerSpiderfier(map, spideroptions);
       window.public_url = '<?php echo $public_url;?>';
 
       window.icons = {
@@ -25,16 +33,15 @@ $(document).ready(function(){
       window.currentPlace = null;
       window.info = $('#placeDetails');
       window.markerArray = [];
+      window.app = {};
 
-      // This iterates through each element in the 'places' array
-      $(places).each(updateMap);
-
-      function updateMap() {
+      app.updateMap = function() {
          // This returns a reference to elements in array
          var place = this;
          // Set the marker to the lon lat of a place location
-         var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(place.latitude, place.longitude),
+         var loc = new gm.LatLng(place.latitude, place.longitude);
+         var marker = new gm.Marker({
+            position : loc,
                map   : map,
                title : place.title,
                icon  : public_url+'images/pin.png'
@@ -42,10 +49,9 @@ $(document).ready(function(){
 
          markerArray.push(marker);
          // Do the drop animation for each element
-         marker.setAnimation(google.maps.Animation.DROP);
-
+         marker.setAnimation(gm.Animation.DROP);
          // For each element, we add the event listener...
-         google.maps.event.addListener(marker, 'click', function() {
+         gm.event.addListener(marker, 'click', function() {
             var hidingMarker = currentPlace;
             var slideIn = function(marker) {  
                $('#event_title', info).text(place.title);
@@ -71,9 +77,15 @@ $(document).ready(function(){
             }  
             currentPlace = marker;  
 
-         });  
-         
+         }); 
+         oms.addMarker(marker);
       }
+
+
+
+      // This iterates through each element in the 'places' array
+      $(places).each(app.updateMap);
+
 });
 </script>  
    <script type="text/javascript" src="<?php echo $public_url; ?>js/app.js"></script>
