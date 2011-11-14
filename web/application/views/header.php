@@ -42,6 +42,7 @@
 
         var currentPlace = null;
         var info = $('#placeDetails');
+        var details = $('#fullDetails');
 
         // This iterates through each element in the 'places' array
         $(places).each(function() {
@@ -51,7 +52,7 @@
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(place.latitude, place.longitude),
                 map:      map,
-                title:    place.title,
+                //title:    place.title,
                 icon:     '<?php echo base_url() ?>img/pin.png'
             });
             
@@ -64,7 +65,7 @@
 
                 $('#event_title', info).text(place.title);
                 $('#event_desc',  info).text(place.description);
-                $('#event_venue',  info).text(place.venue_name);
+                $('#event_venue',  info).text("@"+place.venue_name);
                 
                 // Offset so that we can display the arrow right below the marker
                 info.animate({left: parseInt(pixel.x - 146) + "px", top: parseInt(pixel.y) + "px", visibility: "visible"}, 200);
@@ -74,37 +75,13 @@
             google.maps.event.addListener(marker, 'mouseout', function() {
                 info.fadeOut(50);
             });
+            
+            google.maps.event.addListener(marker, 'click', function() {
+                $('#desc_title', details).text(place.title);
+                $('#desc_venue', details).text(place.venue_name);
+                $('#desc_desc', details).html(place.description_long);
+            });
 
-            //google.maps.event.addListener(marker,'hover', popover({title: place.title, cotntent: place.description}))
-            // For each element, we add the event listener...
-//            google.maps.event.addListener(marker, 'click', function() {
-//                var hidingMarker = currentPlace;
-//                var slideIn = function(marker) {  
-//                    $('#event_title', info).text(place.title);
-//                    $('#event_desc',  info).text(place.description);  
-//                    info.animate({right: '0'});  
-//                }
-//
-//                marker.setIcon(icons['train-selected']);  
-//                
-//                if (currentPlace) {  
-//                    currentPlace.setIcon(icons['train']);  
-//                    info.animate(  
-//                    { right: '-320px' },  
-//                    { complete: function() {  
-//                            if (hidingMarker != marker) {  
-//                                slideIn(marker);  
-//                            } else {  
-//                                currentPlace = null;  
-//                            }  
-//                        }}  
-//                    );  
-//                } else {  
-//                    slideIn(marker);  
-//                }  
-//                currentPlace = marker;  
-//
-//            });  
         });
 
     });

@@ -14,8 +14,15 @@ class Helper {
             foreach ($event_calendar_fields as $v) {
                 if($v == "title" || $v == "venue_name")
                     $tmp[$v] = Helper::titleize(utf8_encode(preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-:]/s', '', $value[$v])));
-                else if($v == "description")
-                    $tmp[$v] = Helper::summarize(utf8_encode(preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-:]/s', '', $value[$v])));
+                else if($v == "description") {
+                    $tmp_val = nl2br($value[$v]);
+                    
+                    if(empty($tmp_val))
+                        $tmp_val = "No description available";
+                    
+                    $tmp[$v] = Helper::summarize(utf8_encode(preg_replace('/[^a-zA-Z0-9_\<\> %\[\]\.\(\)%&-:]/s', '', $tmp_val)));
+                    $tmp[$v."_long"] = Helper::summarize(utf8_encode(preg_replace('/[^a-zA-Z0-9_\<\> %\[\]\.\(\)%&-:]/s', '', $tmp_val)), 1000);
+                }
                 else 
                     $tmp[$v] = utf8_encode(preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-:]/s', '', $value[$v]));
             }
