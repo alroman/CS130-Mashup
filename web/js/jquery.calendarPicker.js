@@ -120,14 +120,17 @@ jQuery.fn.calendarPicker = function(options) {
       var t = new Date();
       divDays.empty();
       var nc = options.days*2+1;
+      var stop = options.days*2 - 1;//Stop the loop to show the days
       var w = parseInt((theDiv.width()-4-(options.showDayArrows?12:0)-(nc)*4)/(nc-(options.showDayArrows?2:0)))+"px";
-      for (var i = -options.days; i <= options.days; i++) {
+      // for (var i = -options.days; i <= options.days; i++) {
+      console.log(date);
+      for (var i = -1; i <= stop; i++) {
         var d = new Date(date);
         d.setDate(day + i);
         var span = $("<span>").addClass("calElement").attr("millis", d.getTime())
-        if (i == -options.days && options.showDayArrows) {
+        if (i == -1 && options.showDayArrows) {
           span.addClass("prev");
-        } else if (i == options.days && options.showDayArrows) {
+        } else if (i == stop && options.showDayArrows) {
           span.addClass("next");
         } else {
           span.html("<span class=dayNumber>" + d.getDate() + "</span><br>" + options.dayNames[d.getDay()]).css("width",w);
@@ -188,30 +191,6 @@ jQuery.fn.calendarPicker = function(options) {
       calendar.changeDate(new Date(parseInt(el.attr("millis"))));
     }
   });
-
-
-  //if mousewheel
-  if ($.event.special.mousewheel && options.useWheel) {
-    divYears.mousewheel(function(event, delta) {
-      var d = new Date(calendar.currentDate.getTime());
-      d.setFullYear(d.getFullYear() + delta);
-      calendar.changeDate(d);
-      return false;
-    });
-    divMonths.mousewheel(function(event, delta) {
-      var d = new Date(calendar.currentDate.getTime());
-      d.setMonth(d.getMonth() + delta);
-      calendar.changeDate(d);
-      return false;
-    });
-    divDays.mousewheel(function(event, delta) {
-      var d = new Date(calendar.currentDate.getTime());
-      d.setDate(d.getDate() + delta);
-      calendar.changeDate(d);
-      return false;
-    });
-  }
-
 
   calendar.changeDate(options.date);
 
