@@ -6,6 +6,7 @@
  **/
 class Home extends CI_Controller
 {
+   var $fields = array('title', 'description', 'longitude', 'latitude','venue_name', 'start_time', 'stop_time', 'category');
    function __construct()
    {
       //Call the parent construct
@@ -24,7 +25,7 @@ class Home extends CI_Controller
       $categories = $this->util->getCategories();
       
       //Event Fields Needed
-      $fields = array('title', 'description', 'longitude', 'latitude','venue_name', 'start_time', 'stop_time');
+      $fields = $this->fields;
       $json_events = $this->util->event_filter($events, $fields);
 
       //Decide which view i want to use
@@ -74,7 +75,7 @@ class Home extends CI_Controller
          $categories = $this->util->getCategories();
          
          //Event Fields Needed
-         $fields = array('title', 'description', 'longitude', 'latitude','venue_name','start_time', 'stop_time');
+         $fields = $this->fields;
          $json_events = $this->util->event_filter($events, $fields);
 
          echo $json_events;

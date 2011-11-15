@@ -8,11 +8,13 @@ $(document).ready(function(){
 
    var mapDefaultLocation = new google.maps.LatLng(lat, lon);
    var mapOptions = {
-      zoom:      12,
-         center:    mapDefaultLocation,
-         mapTypeId: google.maps.MapTypeId.ROADMAP,
-         panControl: false
+          zoom      : 12,
+         center     : mapDefaultLocation,
+         mapTypeId  : google.maps.MapTypeId.ROADMAP,
+         panControl : false
    }
+
+   //Create an global object that it can be used in app.js
    window.places = <?php echo $json_events; ?>;
 
    window.gm = google.maps;
@@ -26,8 +28,8 @@ $(document).ready(function(){
    window.public_url = '<?php echo $public_url;?>';
 
    window.icons = {
-      'train':          public_url+'images/pin.png',  
-      'train-selected': public_url+'images/pin.png'  
+      'music':  public_url+'img/music.png',  
+      'movies': public_url+'img/movies.png'  
    }
 
    window.currentPlace = null;
@@ -44,7 +46,7 @@ $(document).ready(function(){
          position : loc,
             map   : map,
             title : place.title,
-            icon  : public_url+'images/pin.png'
+            icon  : icons[place.category]
       });
 
       markerArray.push(marker);
@@ -59,12 +61,11 @@ $(document).ready(function(){
             info.animate({right: '0'});  
          }
 
-         marker.setIcon(icons['train-selected']);  
-         if (currentPlace) {  
-            currentPlace.setIcon(icons['train']);  
+         //place.category match the icons name
+         if (currentPlace) {
             info.animate(  
-         { right: '-320px' },  
-         { complete: function() {  
+            { right: '-320px' },  
+            { complete: function() {  
             if (hidingMarker != marker) {  
                slideIn(marker);  
             } else {  
