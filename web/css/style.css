@@ -154,13 +154,13 @@ input[disabled].tag_checkbox:hover {
 
 div.event_list {
    position: absolute; 
-   top: 80px; 
+   top: 370px; 
    left: 20px; 
    z-index: 99; 
    opacity: 0.8;
    color: #eee;
    padding: 5px;
-   height: 380px;
+   height: 340px;
    overflow-x: hidden;
    overflow-y: auto;
    background-color: #222222;
@@ -168,9 +168,18 @@ div.event_list {
    background-repeat: repeat-x;
    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), 0 -1px 0 rgba(0, 0, 0, 0.1) inset;
 }
+div#calendar {
+   width: 230px;
+}
+div#eventCalendar {
+   width: 230px;
+}
+div#dest {
+   width: 230px;
+}
 div.event_cal {
    position: absolute; 
-   top: 480px; 
+   top: 60px; 
    left: 20px; 
    z-index: 99; 
    opacity: 1;

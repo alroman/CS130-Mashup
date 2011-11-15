@@ -87,7 +87,6 @@ $(document).ready(function(){
    
 });
 </script>  
-<script type="text/javascript" src="<?php echo $public_url; ?>js/jquery.paginate.js"></script>
 <script type="text/javascript" src="<?php echo $public_url; ?>js/app.js"></script>
 </body>
 </html>
