@@ -1,0 +1,196 @@
+.map {
+   width: 100%;
+   height:  100%;
+
+   /* The following are required to allow absolute positioning of the
+    * info window at the bottom right of the map, and for it to be hidden
+    * when it is "off map" 
+    */
+   position: relative; 
+   overflow: hidden;
+}
+
+#placeDetails {
+   position: absolute;
+   width: 300px;
+   bottom: 0;
+   right: -320px;
+   padding-left: 10px;
+   padding-right: 10px;
+
+   /* Semi-transparent background */
+   background-color: rgba(0,0,0,0.8);
+   color:white;
+} 
+
+/* Fit the text nicely inside the box */
+#event_title {
+   font-family: sans-serif;
+   color:white;
+   margin-bottom: 0;
+   font-weight: bold;
+   font-size:16px;
+   padding: 5px;
+}
+#event_desc {
+   padding:5px;
+   font-size: 14px;
+}
+#placeDetails p {
+   margin-top: 0;
+}
+.popover {
+   display: block;
+}
+
+/* Override some defaults */
+html, body {
+   background-color: #eee;
+}
+html { height: 100% }
+body { height: 100%; margin: 0; padding: 0 }
+#map_canvas { height: 100% }
+
+.container > footer p {
+  text-align: center; /* center align it with the container */
+}
+.container {
+     width: 820px; /* downsize our container to make the content feel a bit tighter and more cohesive. NOTE: this removes two full columns from the grid, meaning you only go to 14 columns and not 16. */
+ }
+
+   /* The white background content wrapper */
+.content {
+  background-color: #fff;
+  padding: 20px;
+  margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
+  -webkit-border-radius: 0 0 6px 6px;
+     -moz-border-radius: 0 0 6px 6px;
+          border-radius: 0 0 6px 6px;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+          box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
+
+/* Page header tweaks */
+.page-header {
+  background-color: #f5f5f5;
+  padding: 20px 20px 10px;
+  margin: -20px -20px 20px;
+}
+
+/* Styles you shouldn't keep as they are for displaying this base example only */
+.content .span10,
+.content .span4 {
+  min-height: 500px;
+}
+
+/* Give a quick and non-cross-browser friendly divider */
+.content .span4 {
+  margin-left: 0;
+  padding-left: 19px;
+  border-left: 1px solid #eee;
+}
+
+.topbar .btn {
+  border: 0;
+}
+
+.fill {
+    opacity: 0.85;
+    box-shadow:0 15px 10px rgba(0, 0, 0, 0.7);
+}
+
+/* Style the sublist */
+.sublist {
+   height: 23px;
+}
+.sublist .nav a {
+   padding: 1.5px 11px;
+}
+.sublist .nav{
+   float: right;
+}
+
+.tags div.input-prepend .add-on{
+   padding: 2px;
+}
+.tags div.input-prepend {
+   background: #808080;
+}
+.tags {
+   margin: 0;
+   list-style: none outside none;
+}
+.tags li {
+   line-height: 23px;
+   color: #808080;
+   float: left;
+}
+.tags .tags_text {
+   padding-right: 5px;
+   color: #333;
+}
+.tags .input-prepend .add-on {
+   border-radius: 0px;
+   cursor: pointer;
+}
+input[disabled].tag_checkbox:hover {
+   cursor: pointer !important;
+}
+::-moz-selection {
+   background-color: transparent;
+   color: #000;
+}
+::selection {
+   background-color:Transparent;
+   color:#000;
+}
+.tags_text::-moz-selection,
+.tags_text::selection { ... }
+
+#tag_form {
+   margin: 0;
+}
+
+div.event_list {
+   position: absolute; 
+   top: 370px; 
+   left: 20px; 
+   z-index: 99; 
+   opacity: 0.8;
+   color: #eee;
+   padding: 5px;
+   height: 340px;
+   overflow-x: hidden;
+   overflow-y: auto;
+   background-color: #222222;
+   background-image: -moz-linear-gradient(center top , #333333, #222222);
+   background-repeat: repeat-x;
+   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), 0 -1px 0 rgba(0, 0, 0, 0.1) inset;
+}
+div#calendar {
+   width: 230px;
+}
+div#eventCalendar {
+   width: 230px;
+}
+div#dest {
+   width: 230px;
+}
+div.event_cal {
+   position: absolute; 
+   top: 60px; 
+   left: 20px; 
+   z-index: 99; 
+   opacity: 1;
+   height: 290px;
+   background-color: #fff;
+}
+
+div.event_title {
+   border-bottom: 1px dotted #eee;
+   padding: 5px 0;
+}
+div.event_title:last-child {
+   border-bottom: none;
+}

@@ -21,29 +21,33 @@ root {
   position: relative; 
   overflow: hidden;
 }
-#placeDetails {
+
+/*#placeDetails {
   position: absolute;
   width: 300px;
+  left:0px;
+  top: 0px;
   bottom: 0;
   right: -320px;
   padding-left: 10px;
   padding-right: 10px;
+  visibility: hidden;
 
-  /* Semi-transparent background */
+   Semi-transparent background 
 background-color: rgba(0,0,0,0.8);
 color:white;
 
-/*      color: white;
+      color: white;
   font-size: 80%;
 
    Rounded top left corner 
   border-top-left-radius: 15px;
   -moz-border-radius-topleft: 15px;
-  -webkit-border-top-left-radius: 15px;*/
+  -webkit-border-top-left-radius: 15px;
 }
-
+*/
 /* Fit the text nicely inside the box */
-#event_title {
+/*#event_title {
   font-family: sans-serif;
   color:white;
   margin-bottom: 0;
@@ -57,10 +61,7 @@ color:white;
 }
 #placeDetails p {
   margin-top: 0;
-}
-.popover {
-    display: block;
-}
+}*/
 
 /* Override some defaults */
 html, body {
@@ -120,3 +121,186 @@ margin: 0 -20px; /* negative indent the amount of the padding to maintain the gr
   opacity: 0.85;
   box-shadow:0 15px 10px rgba(0, 0, 0, 0.7);
 }
+
+.eplustooltip {
+  position: absolute;
+  top: -100;
+  left: 0;
+  z-index: 1000;
+  padding: 5px;
+  display: block;
+}
+.eplustooltip.above .arrow {
+  bottom: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #000000;
+}
+.eplustooltip.right .arrow {
+  top: 50%;
+  left: 0;
+  margin-top: -5px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-right: 5px solid #000000;
+}
+.eplustooltip.below .arrow {
+  top: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #000000;
+}
+.eplustooltip.left .arrow {
+  top: 50%;
+  right: 0;
+  margin-top: -5px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid #000000;
+}
+.eplustooltip .arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+.eplustooltip .inner {
+  background: #000000;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 3px;
+  overflow: hidden;
+  width: 280px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+}
+.eplustooltip .title {
+  background-color: #f5f5f5;
+  padding: 9px 15px;
+  line-height: 1;
+  -webkit-border-radius: 3px 3px 0 0;
+  -moz-border-radius: 3px 3px 0 0;
+  border-radius: 3px 3px 0 0;
+  border-bottom: 1px solid #eee;
+}
+.eplustooltip .content {
+  background-color: #ffffff;
+  padding: 14px;
+  -webkit-border-radius: 0 0 3px 3px;
+  -moz-border-radius: 0 0 3px 3px;
+  border-radius: 0 0 3px 3px;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.eplustooltip .content p, .popover .content ul, .popover .content ol {
+  margin-bottom: 0;
+}
+
+.eplustooltip .content {
+margin: 0;
+}
+
+#event_venue {
+    padding-top: 0px;
+    margin-top: -11px;
+}
+
+
+.eplusdesc {
+  position: absolute;
+  top: 40px;
+  right: 20px;
+  z-index: 1000;
+  padding: 5px;
+  display: block;
+}
+.eplusdesc.above .arrow {
+  bottom: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #000000;
+}
+.eplusdesc.right .arrow {
+  top: 50%;
+  left: 0;
+  margin-top: -5px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-right: 5px solid #000000;
+}
+.eplusdesc.below .arrow {
+  top: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #000000;
+}
+.eplusdesc.left .arrow {
+  top: 50%;
+  right: 0;
+  margin-top: -5px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid #000000;
+}
+.eplusdesc .inner {
+  background: #000000;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 3px;
+  overflow: hidden;
+  width: 400px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+}
+.eplusdesc .title {
+  background-color: #f5f5f5;
+  padding: 9px 15px;
+  line-height: 1;
+  -webkit-border-radius: 3px 3px 0 0;
+  -moz-border-radius: 3px 3px 0 0;
+  border-radius: 3px 3px 0 0;
+  border-bottom: 1px solid #eee;
+}
+.eplusdesc .content {
+  background-color: #ffffff;
+  padding: 14px;
+  -webkit-border-radius: 0 0 3px 3px;
+  -moz-border-radius: 0 0 3px 3px;
+  border-radius: 0 0 3px 3px;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.eplusdesc .content p, .popover .content ul, .popover .content ol {
+  margin-bottom: 0;
+}
+
+.eplusdesc .content {
+margin: 0;
+}
+
+
+/* Event list styles */
+.event_list { margin-top: 100px; }
+.blue { color: #0067CE;}
+.bold { font-weight: bold; }
+.condenseLine { margin-bottom: 4px; }
+.floatRight { float: right; }
+.heightWithImage { min-height: 160px; }
+.media-grid { margin-left: 0px; } /* override the negative margin on the media grid */
+
+
