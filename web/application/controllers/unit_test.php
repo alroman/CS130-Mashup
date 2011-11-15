@@ -7,18 +7,21 @@ class Unit_test extends CI_Controller{
 
    public function __construct($key="xzbXfQPZsjPVL2qw") {
       parent::__construct();
-      $this->load->library('unit_test');
-      $this->load->library('eventful');
-      $this->load->library('location');
-      $this->eventful = new Eventful();
-      $this->location = new location("55.97.245.81");
+      $this->load->helper('url');
+      $this->load->library('unittestwrapper');
    }
 
    public function index() {
-       $test1 = $this->test_getEvents();
-       $test2 = $this->test_getDefaultEvents();
-       $test3 = $this->test_getLocation();
-       $data = array("test1" => $test1, 'test2' => $test2, 'test3' => $test3); 
+       //$test_suite = new UnitTestWrapper();
+       
+       $tests = array();
+       $this->unittestwrapper->test_getEvents();
+       $this->unittestwrapper->test_helper_titlelizer();
+       
+       $tests[] = $this->unittestwrapper->test_helper_geolocate();
+       
+       $data = array('units' => $tests);
+       
        $this->load->view('unit_test', $data);
    }   
 

@@ -1,8 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Demo1 extends CI_Controller {
-        
+class Event_list extends CI_Controller {
+    
+    // These members will be used to store the library instances
+    public $eventful;
+    public $location;
+    
     public function __construct() {
         parent::__construct();
         // We need to do some light form processing
@@ -17,6 +21,8 @@ class Demo1 extends CI_Controller {
         
         // Load the internal classes
         // key: 7XNLVVN3XTGFQtGL
+        $this->eventful = new Eventful();
+        $this->location = new Location();
     }
     
     public function index() {
@@ -54,12 +60,13 @@ class Demo1 extends CI_Controller {
         
         
         $data = array('all_events' => $all_events, 'geoloc' => $geoloc, 'page_title' => 'temp title');
-
+        $view_data = array("events" => $all_events_x);
         //$this->load->view('demo1', $data);
         $this->load->view('header', $data);
-        $this->load->view('demo1a');
+        $this->load->view('list_view', $view_data);
         $this->load->view('footer');
     }
     
    
 }
+

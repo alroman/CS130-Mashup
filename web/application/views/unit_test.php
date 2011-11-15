@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css"></link>
+    <link rel="stylesheet" href="<?php echo base_url() ?>css/bootstrap.min.css"></link>
 	<meta charset="utf-8">
 	<title>Unit Test</title>
 
@@ -17,29 +17,11 @@
                 </tr>
             </thead>
             <tbody>
+                <?php foreach($units as $key => $value): ?>
                 <tr>
-                    <th>1</th><th><?php echo $test1 ?></th>
+                    <th><?php echo $key ?></th><th><?php echo $value ?></th>
                 </tr>
-                <tr>
-                    <th>2</th>
-                    <th>
-                        <?php 
-                        echo "<pre>";
-                        var_dump($test2);
-                        echo"</pre>";
-                        ?>
-                    </th>
-                </tr>
-				<tr>
-                    <th>3</th>
-                    <th>
-                        <?php 
-                        echo "<pre>";
-                        var_dump($test3);
-                        echo"</pre>";
-                        ?>
-                    </th>
-                </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>
