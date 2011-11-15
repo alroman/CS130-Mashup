@@ -5,7 +5,7 @@ class Unit_test extends CI_Controller{
    public $location;
    public $util;
 
-   public function __construct($key="xzbXfQPZsjPVL2qw") {
+   public function __construct() {
       parent::__construct();
       $this->load->helper('url');
       $this->load->library('unittestwrapper');
