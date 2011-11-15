@@ -25,7 +25,7 @@ class Event_ranking_fb
 
   // input the event array, the function will return an event array sorted by 
   // facebook fan page like counts
-  function fb_event_ranking($data)
+  function fb_event_ranking($data, &$venue_to_like_counts)
   {
 
     $page_like_search = "http://graph.facebook.com/";
@@ -62,6 +62,7 @@ class Event_ranking_fb
     }
 	// sort the event based on like count
     arsort($event_rank);
+	$venue_to_like_counts = $event_rank;
     // print_r($event_rank);
     foreach($event_rank as $title => $_)
     {
