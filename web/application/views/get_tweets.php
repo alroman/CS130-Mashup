@@ -105,7 +105,6 @@ background-color:#CCFFFF;
         </div>
         <div class="row">
           <div class="span10">
-            <h2>Tweets:</h2>
 <?php
 if (strlen($string) == 0)
     echo 'apologies, no tweets to return.';

@@ -18,7 +18,15 @@ class Tweets extends CI_Controller {
         $this->twitter = new Twitter();
     }
     
-    
+    /* Basically, retrieve events tweets, rank it by tweets count, and load it onto view
+     * 
+     * Steps:
+     * 1. Get Events from Eventful Library 
+     * 2. Get # of tweets per event
+     * 3. Save event objects onto new object "events" additional fields, tweets_count and tweets_link
+     * 4. Sort the new events object
+     * 5. Load to tweets view
+     */
     public function index() {
         
         $city = $this->location->getCity();
@@ -44,9 +52,7 @@ class Tweets extends CI_Controller {
             $hyperlink = 'tweets/get_tweets/'. urlencode($event->title).'/'.urlencode($event->venue_name);
             $hyperlink = str_replace("+", "%25",$hyperlink);
             $event->tweets_link = $hyperlink;
-        //    echo '<p>Event: <a href='.$hyperlink.'>' .$event->title. '</a> playing @' .$event->venue_name. ' has <b> ' .$event->tweets_count. '</b>.</p>';
-
-            // push the event with tweets_count onto the array stack
+            // push the this event object with tweets_count onto the array stack
             array_push($events,$event);
         }
         
@@ -60,26 +66,21 @@ class Tweets extends CI_Controller {
             }
             return ($oa->tweets_count > $ob->tweets_count) ? -1 : 1;
         }
-        usort($events,'cmp');
-        /*
-        echo '<p>Ranked Events: </p>';
-        
-         * foreach ($events as $e) {
-            $event = (object)$e;
-            $hyperlink = 'tweets/get_tweets/'. urlencode($event->title).'/'.urlencode($event->venue_name);            
-            $hyperlink = str_replace("+", "%25",$hyperlink);            
-            echo '<p>Event: <a href='.$hyperlink.'>' .$event->title. '</a> playing @' .$event->venue_name. ' has <b> ' .$event->tweets_count. '</b>.</p>';
-        }
-         */
-        
+        usort($events,'cmp');        
         $data = array('events' => $events);
         $this->load->view('tweets', $data);
     }
    
+    /*
+     * Return list of tweets (as formatted string) for an event   
+     * and load it to /get_tweets
+     */
     public function get_tweets($title, $venue) {
 
         $search_res = $this->twitter->getTweetsByEventTitleAndVenue($title, $venue);
-        $string = '';
+        $title = str_replace('%25', ' ', $title);
+        $venue = str_replace('%25', ' ', $venue);
+        $string = '<h2>' .$title. '</b> at <b>' .$venue.'</b></h2> tweets:<br/><b><br/>';
         foreach ($search_res->entry as $twit1) {
 
             // Work out the Date plus 8 hours
@@ -115,17 +116,12 @@ class Tweets extends CI_Controller {
             $year = date('y', $date);
             $message = $twit1['content'];
             $datediff = $this->twitter->date_diff($theDate, $date);
-/*
-            echo "<div class='user'><a href=\"",$twit1->author->uri,"\" target=\"_blank\"><img border=\"0\" width=\"48\" class=\"twitter_thumb\" src=\"",$twit1->link[1]->attributes()->href,"\" title=\"", $twit1->author->name, "\" /></a>\n";
-            echo "<div class='text'>".$description."<div class='description'>From: ", $twit1->author->name," <a href='http://twitter.com/home?status=RT: ".$retweet."' target='_blank'>Retweet!</a></div><strong>".$datediff."</strong></div><div class='clear'></div></div>";
-*/
             $string .= "<div class='user'><a href=\"".$twit1->author->uri."\" target=\"_blank\"><img border=\"0\" width=\"48\" class=\"twitter_thumb\" src=\"".$twit1->link[1]->attributes()->href."\" title=\"". $twit1->author->name. "\" /></a>\n";
             $string .= "<div class='text'>".$description."<div class='description'>From: ". $twit1->author->name." <a href='http://twitter.com/home?status=RT: ".$retweet."' target='_blank'>Retweet!</a></div><strong>".$datediff."</strong></div><div class='clear'></div></div>";
 
         }
         $data = array('string' => $string);
         $this->load->view('get_tweets', $data);
-        // return $string;
       }
 }
 

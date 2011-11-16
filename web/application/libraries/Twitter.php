@@ -13,7 +13,6 @@ Class Twitter {
 //        $q = $venue . ' "' .$title. '" /OR "' .$title. ' :) "';
         $q = $venue . ' "' .$title. '"';
         $url = "http://search.twitter.com/search.atom?q=" .  urlencode($q) . "&lang=en&rpp=100";
- //       echo "Search Query: ".$url;
         $curl = curl_init();
         curl_setopt( $curl, CURLOPT_URL, $url );
         curl_setopt( $curl, CURLOPT_RETURNTRANSFER, 1 );
@@ -27,7 +26,6 @@ Class Twitter {
         
         $q = $venue . '%22' .$title. '%22';
         $url = "http://search.twitter.com/search.atom?q=". $q. "&lang=en&rpp=100";
-//        echo "URL: ". $url;
         $curl = curl_init();
         curl_setopt( $curl, CURLOPT_URL, $url );
         curl_setopt( $curl, CURLOPT_RETURNTRANSFER, true );
@@ -40,7 +38,7 @@ Class Twitter {
     
 
         
- // Date function (this could be included in a seperate script to keep it clean)
+ // Calculate how long ago a tweet was posted
     function date_diff($d1, $d2){
 	$d1 = (is_string($d1) ? strtotime($d1) : $d1);
 	$d2 = (is_string($d2) ? strtotime($d2) : $d2);
