@@ -5,7 +5,7 @@ class Tweets extends CI_Controller {
     public $eventful;
     public $location;
     public $Twitter;
-    
+
     public function __construct() {
         parent::__construct();
         $this->load->helper('form');
@@ -18,6 +18,7 @@ class Tweets extends CI_Controller {
         $this->twitter = new Twitter();
     }
     
+    
     public function index() {
         
         $city = $this->location->getCity();
@@ -26,18 +27,105 @@ class Tweets extends CI_Controller {
             $city = "";
         
         $la_events = $this->eventful->getEvents(array('location'=>$city));
-        
+
+        // use to store la_events with tweets_count
+        // this array will be stored and returned
+        $events = array();        
         foreach ($la_events as $e) {         
 
             $event = (object)$e;
-            $search_res = $this->twitter->searchResults($event);
-                   
+            $search_res = $this->twitter->getTweetsByEventObject($event);
+            
             // Get tweets count
             $tweets = $search_res->children();
-            $tweets_count = count($tweets) - 7;
-            echo "<p>Event: " .$event->title. " playing @" .$event->venue_name. " has <b>" .$tweets_count. "</b>.</p>";
+            // get rid of non-tweets nodes
+            $event->tweets_count = count($tweets) - 7;
+            // build hyperlink to retrieve an event's tweets
+            $hyperlink = 'tweets/get_tweets/'. urlencode($event->title).'/'.urlencode($event->venue_name);
+            $hyperlink = str_replace("+", "%25",$hyperlink);
+            $event->tweets_link = $hyperlink;
+        //    echo '<p>Event: <a href='.$hyperlink.'>' .$event->title. '</a> playing @' .$event->venue_name. ' has <b> ' .$event->tweets_count. '</b>.</p>';
 
-        } 
+            // push the event with tweets_count onto the array stack
+            array_push($events,$event);
+        }
+        
+        // Rank the events
+        function cmp($a, $b)
+        {
+            $oa = (object)$a;
+            $ob = (object)$b;
+            if ($oa->tweets_count == $ob->tweets_count) {
+                return 0;
+            }
+            return ($oa->tweets_count > $ob->tweets_count) ? -1 : 1;
+        }
+        usort($events,'cmp');
+        /*
+        echo '<p>Ranked Events: </p>';
+        
+         * foreach ($events as $e) {
+            $event = (object)$e;
+            $hyperlink = 'tweets/get_tweets/'. urlencode($event->title).'/'.urlencode($event->venue_name);            
+            $hyperlink = str_replace("+", "%25",$hyperlink);            
+            echo '<p>Event: <a href='.$hyperlink.'>' .$event->title. '</a> playing @' .$event->venue_name. ' has <b> ' .$event->tweets_count. '</b>.</p>';
+        }
+         */
+        
+        $data = array('events' => $events);
+        $this->load->view('tweets', $data);
     }
+   
+    public function get_tweets($title, $venue) {
+
+        $search_res = $this->twitter->getTweetsByEventTitleAndVenue($title, $venue);
+        $string = '';
+        foreach ($search_res->entry as $twit1) {
+
+            // Work out the Date plus 8 hours
+            // get the current timestamp into an array
+  
+            $timestamp = time();
+            $date_time_array = getdate($timestamp);
+
+            $hours = $date_time_array['hours'];
+            $minutes = $date_time_array['minutes'];
+            $seconds = $date_time_array['seconds'];
+            $month = $date_time_array['mon'];
+            $day = $date_time_array['mday'];
+            $year = $date_time_array['year'];
+
+            // use mktime to recreate the unix timestamp
+            // adding 19 hours to $hours
+            $timestamp = mktime($hours + 0,$minutes,$seconds,$month,$day,$year);
+            $theDate = strftime('%Y-%m-%d %H:%M:%S',$timestamp);	
+
+            // END DATE FUNCTION
+
+            $description = $twit1->content;
+
+            $description = preg_replace("#(^|[\n ])@([^ \"\t\n\r<]*)#ise", "'\\1<a href=\"http://www.twitter.com/\\2\" >@\\2</a>'", $description);  
+            $description = preg_replace("#(^|[\n ])([\w]+?://[\w]+[^ \"\n\r\t<]*)#ise", "'\\1<a href=\"\\2\" >\\2</a>'", $description);
+            $description = preg_replace("#(^|[\n ])((www|ftp)\.[^ \"\t\n\r<]*)#ise", "'\\1<a href=\"http://\\2\" >\\2</a>'", $description);
+
+            $retweet = strip_tags($description);
+
+            $date =  strtotime($twit1->updated);
+            $dayMonth = date('d M', $date);
+            $year = date('y', $date);
+            $message = $twit1['content'];
+            $datediff = $this->twitter->date_diff($theDate, $date);
+/*
+            echo "<div class='user'><a href=\"",$twit1->author->uri,"\" target=\"_blank\"><img border=\"0\" width=\"48\" class=\"twitter_thumb\" src=\"",$twit1->link[1]->attributes()->href,"\" title=\"", $twit1->author->name, "\" /></a>\n";
+            echo "<div class='text'>".$description."<div class='description'>From: ", $twit1->author->name," <a href='http://twitter.com/home?status=RT: ".$retweet."' target='_blank'>Retweet!</a></div><strong>".$datediff."</strong></div><div class='clear'></div></div>";
+*/
+            $string .= "<div class='user'><a href=\"".$twit1->author->uri."\" target=\"_blank\"><img border=\"0\" width=\"48\" class=\"twitter_thumb\" src=\"".$twit1->link[1]->attributes()->href."\" title=\"". $twit1->author->name. "\" /></a>\n";
+            $string .= "<div class='text'>".$description."<div class='description'>From: ". $twit1->author->name." <a href='http://twitter.com/home?status=RT: ".$retweet."' target='_blank'>Retweet!</a></div><strong>".$datediff."</strong></div><div class='clear'></div></div>";
+
+        }
+        $data = array('string' => $string);
+        $this->load->view('get_tweets', $data);
+        // return $string;
+      }
 }
 
