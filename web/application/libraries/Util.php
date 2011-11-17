@@ -28,9 +28,9 @@ class Util
       if(empty($geoloc['longitude']) 
          || empty($geoloc['latitude'])
          || (preg_match($special_string, $geoloc['zipCode']) != 0)) {
-         $geoloc['zipCode'] = '90024';
-         $geoloc['latitude'] = "34.0827490";
-         $geoloc['longitude'] = "-118.4140820";
+         $geoloc['zipCode'] = 'Los Angeles';
+         $geoloc['latitude'] = "34.05223420";
+         $geoloc['longitude'] = "-118.24368490";
       }
       return $geoloc;
    }
@@ -68,5 +68,32 @@ class Util
       $this->CI->load->helper('url');
       $splitary = preg_split('/web/i', base_url());
       return $splitary[0] . 'web/';
+   }
+
+   public function assignKeyWordsToEvents($events) {
+      $keywords = array();
+      $assigned_events = array();
+      $special_char_pat = '/-/';
+
+      foreach ($events as $k => $e) {
+         $assigned_events []= $e;
+         $tmp_ary = array();
+         
+         //Remove all the special characters
+         $desc = strip_tags(preg_replace($special_char_pat, '', $e['description']));
+
+         //1 - returns an array containing all the words found inside the string
+         $tmp_ary = str_word_count($desc, 1);
+         $keywords_ary = array_count_values($tmp_ary);
+         arsort($keywords_ary);
+         print_r($keywords_ary);
+         $tmp_counts_keywords = array_keys($keywords_ary);
+         if (sizeof($tmp_counts_keywords) > 0) {
+            $assigned_events[$k]['keyword'] = array_pop($tmp_counts_keywords);
+            $keywords []= $assigned_events[$k]['keyword'];
+         }
+      }
+
+      return $assigned_events;
    }
 }

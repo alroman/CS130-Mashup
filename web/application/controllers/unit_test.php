@@ -174,5 +174,14 @@ class Unit_test extends CI_Controller{
 
       echo $this->unit->report();
    }
+   
+   //Test Util assignKeyWordsToEvents
+   public function test_assignKeyWordsToEvents() {
+      $this->load->library('util');
+      //Get the events
+      $events = $this->eventful->getEvents();
+      $assigned_events = $this->util->assignKeyWordsToEvents($events);
 
+      print_r($assigned_events);
+   }
 }
