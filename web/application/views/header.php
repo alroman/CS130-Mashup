@@ -52,7 +52,7 @@
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(place.latitude, place.longitude),
                 map:      map,
-                //title:    place.title,
+                title:    place.title,
                 icon:     '<?php echo base_url() ?>img/pin.png'
             });
             
@@ -62,6 +62,16 @@
             google.maps.event.addListener(marker, 'mouseover', function() {
                 var projection = overlay.getProjection(); 
                 var pixel = projection.fromLatLngToContainerPixel(marker.getPosition());
+            });
+            
+            // For each element, we add the event listener...
+            google.maps.event.addListener(marker, 'click', function() {
+                var hidingMarker = currentPlace;
+                var slideIn = function(marker) {  
+                    $('#event_title', info).text(place.title);
+                    $('#event_desc',  info).text(place.description);  
+                    info.animate({right: '0'});  
+                }
 
                 $('#event_title', info).text(place.title);
                 $('#event_desc',  info).text(place.description);
