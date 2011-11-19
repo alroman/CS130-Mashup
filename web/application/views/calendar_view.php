@@ -12,11 +12,7 @@
 </head>
 <body>
 
-<<<<<<< HEAD
 <div class="span6" id="eventCalendar">
-=======
-<div class="span6" id="eventCalendar" style="margin-top: 50px;">
->>>>>>> cafc6e1231739576d9495b30df66afac44dd73a9
 	<div id="dest" style="width:340px"></div>
 	<div id="calendar">
 </div>
@@ -29,17 +25,9 @@
 
 <script>
 $(document).ready(function() {
-<<<<<<< HEAD
 	;var e = '<?php echo $events; ?>';
 
   	var event_cal = {'events':null, 'eventList':new Array(), 'eventDateList':new Array()};
-=======
-	// var e = '<?php echo $events; ?>';
-	// If the e is buggy, try the complete string instead of the object
-	var e = '[{"title":"Rickie Byars Beckwith","start_time":"2011-10-30 08:00:00","stop_time":"2011-10-30 14:00:00"},{"title":"Forbidden City NightClub","start_time":"2011-10-30 18:30:00","stop_time":""},{"title":"Jeremiah Roiko Band","start_time":"2011-11-04 20:00:00","stop_time":""},{"title":"RELATIONS - All Things House","start_time":"2011-11-03 00:00:00","stop_time":""},{"title":"CLUB GABAH","start_time":"2011-10-29 22:30:00","stop_time":"2011-10-30 02:00:00"},{"title":"Indigo Lounge","start_time":"2011-10-31 20:00:00","stop_time":"2011-11-01 00:00:00"},{"title":"ROCKTANE","start_time":"2011-10-29 22:00:00","stop_time":""},{"title":"GUNPOWDER SECRETS","start_time":"2011-10-30 00:00:00","stop_time":""},{"title":"One Voice\/Voices from the Middle East Pt. 2 - Skype and Discuss","start_time":"2011-11-01 18:30:00","stop_time":""},{"title":"Alesana with Sleeping with Sirens","start_time":"2011-11-03 17:30:00","stop_time":""},{"title":"LA Sucks","start_time":"2011-10-29 00:00:00","stop_time":""},{"title":"Calling for all Creative Talents","start_time":"2011-06-09 00:00:00","stop_time":"2011-10-31 00:00:00"},{"title":"Calling for Creative Talents","start_time":"2011-05-10 00:00:00","stop_time":"2011-10-31 00:00:00"},{"title":"Calling for Creative Talents","start_time":"2011-05-24 00:00:00","stop_time":"2011-10-31 00:00:00"},{"title":"ACTING CLASSES from a star of the film \u00e2\u0080\u009cALIVE\u00e2\u0080\u009d - Los Angeles, CA","start_time":"2011-10-29 00:00:00","stop_time":""},{"title":"ACTING STUDIO: Acting Classes \u00e2\u0080\u0093 from a star of the film \u00e2\u0080\u009cAlive\u00e2\u0080\u009d - Los Angeles, CA","start_time":"2011-10-29 00:00:00","stop_time":""},{"title":"A MONTH OF FREE ACTING CLASSES \u00e2\u0080\u0093 A star of the film \u00e2\u0080\u009cALIVE\u00e2\u0080\u009d - Los Angeles, CA","start_time":"2011-10-29 00:00:00","stop_time":""},{"title":"LEARN TO WORK IN FILM AND TELEVISION AS A PROFESSIONAL ACTOR Los Angeles, CA","start_time":"2011-10-29 00:00:00","stop_time":""},{"title":"Movie Magic Budgeting & Scheduling Seminar with Otter Huntley","start_time":"2011-11-02 10:00:00","stop_time":"2011-11-02 12:00:00"},{"title":"CEC Free Movies: Friends With Benefits","start_time":"2011-11-04 19:00:00","stop_time":"2011-11-04 23:59:00"}]';
-
-	var event_cal = {'events':null, 'eventList':new Array(), 'eventDateList':new Array()};
->>>>>>> cafc6e1231739576d9495b30df66afac44dd73a9
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
@@ -48,7 +36,6 @@ $(document).ready(function() {
     // Initialize the event objects the  event_cal object, which is used lateron
    	event_cal.initEvents = function(e) {
     	// event_cal.events = eval('(' + e + ')');//not using it because of security issue, see http://www.json.org/js.html
-<<<<<<< HEAD
     	event_cal.events = JSON.parse(e, event_cal.reviver);
     }
 
@@ -66,31 +53,6 @@ $(document).ready(function() {
     event_cal.parse_date = function(string) {
 	    var parts = String(string).split(/[- :]/);
       var date = new Date(parts[0], (parts[1] - 1), parts[2], parts[3], parts[4], parts[5]);
-=======
-    	event_cal.events = JSON.parse(e, function (key, value) {
-		    var type;
-		    if (value && typeof value === 'object') {
-		        type = value.type;
-		        if (typeof type === 'string' && typeof window[type] === 'function') {
-		            return new (window[type])(value);
-		        }
-		    }
-		    return value;
-		});
-    }
-
-    event_cal.parse_date = function(string) {
-    	var date = new Date();
-	    var parts = String(string).split(/[- :]/);
-
-	    date.setFullYear(parts[0]);
-	    date.setMonth(parts[1] - 1);
-	    date.setDate(parts[2]);
-	    date.setHours(parts[3]);
-	    date.setMinutes(parts[4]);
-	    date.setSeconds(parts[5]);
-	    date.setMilliseconds(0);
->>>>>>> cafc6e1231739576d9495b30df66afac44dd73a9
 
 	    return date;
     }
@@ -103,24 +65,16 @@ $(document).ready(function() {
     					end: v.stop_time,
     					allDay: false};
     		event_cal.eventList.push(tmp);
-<<<<<<< HEAD
         // console.log(v.start_time);
     		var date = event_cal.parse_date(v.start_time);
         // console.log(date.getMonth());
-=======
-    		var date_str = event_cal.parse_date(v.start_time);
-    		var date = new Date(date_str);
->>>>>>> cafc6e1231739576d9495b30df66afac44dd73a9
     		event_cal.eventDateList.push(date.toDateString());
     	})
     };
 
     event_cal.initEvents(e);
     event_cal.constructEventsList();
-<<<<<<< HEAD
     // console.log(event_cal.eventDateList);
-=======
->>>>>>> cafc6e1231739576d9495b30df66afac44dd73a9
 
     var fullCal = $('#calendar').fullCalendar({
     	header: false,

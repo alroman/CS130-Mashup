@@ -211,13 +211,8 @@ a.fc-event {
 
 /* Match the skin color*/
 .fc-event-skin {
-<<<<<<< HEAD
 	border-color: #7a7a7a;     /* default BORDER color */
 	background-color: #7a7a7a; /* default BACKGROUND color */
-=======
-	border-color: #049cd9;     /* default BORDER color */
-	background-color: #049cd9; /* default BACKGROUND color */
->>>>>>> cafc6e1231739576d9495b30df66afac44dd73a9
 	color: #fff;            /* default TEXT color */
 	}
 	
