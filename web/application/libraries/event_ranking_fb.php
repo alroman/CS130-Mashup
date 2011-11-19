@@ -56,18 +56,53 @@ class Event_ranking_fb
         if (isset($json_a->likes))
         {
           $event_rank[$title] = $json_a->likes;
-          // print_r($json_a->likes);
+           //print_r($json_a->likes);
         }
       }
     }
 	// sort the event based on like count
     arsort($event_rank);
 	$venue_to_like_counts = $event_rank;
-    // print_r($event_rank);
+     //print_r($event_rank);
     foreach($event_rank as $title => $_)
     {
       $ranked_event[] = $title_event_map[$title];
     }
+	
+	// get number of events and divide by 5 for popularity scale
+	$heatRankIncrement = ceil(count($ranked_event)/5);
+	
+	$i=0;
+	foreach($ranked_event as $value)
+	{
+		if ($i < $heatRankIncrement)
+		{
+			$ranked_event[$i]["heatRank"] = "hot";
+			//print_r($ranked_event[$i]);	
+		}
+		else if ($i < $heatRankIncrement*2)
+		{
+			$ranked_event[$i]["heatRank"] = "warm";
+			//print_r($ranked_event[$i]);
+		}
+		else if ($i < $heatRankIncrement*3)
+		{
+			$ranked_event[$i]["heatRank"] = "neutral";
+			//print_r($ranked_event[$i]);
+		}
+		else if ($i < $heatRankIncrement*4)
+		{
+			$ranked_event[$i]["heatRank"] = "cool";
+			//print_r($ranked_event[$i]);
+		}
+		else
+		{
+			$ranked_event[$i]["heatRank"] = "ice";
+			//print_r($ranked_event[$i]);
+		}
+		$i++;
+	}
+	
     return $ranked_event;
   }
 

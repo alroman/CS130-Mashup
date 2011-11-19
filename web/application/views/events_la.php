@@ -156,6 +156,12 @@
                     $desc = $event->description;
 					echo nl2br($desc);
                     echo "</th></tr>";
+					
+					// Popularity
+					echo "<tr><th>Popularity</th><th>";
+                    $heatRank = $event->heatRank;
+					echo nl2br($heatRank);
+                    echo "</th></tr>";
                     echo "</tbody></table>";
 					echo "</div>";
                 }
