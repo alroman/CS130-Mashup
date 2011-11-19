@@ -16,15 +16,20 @@ $(document).ready(function(){
 
    //Create an global object that it can be used in app.js
    window.places = <?php echo $json_events; ?>;
+   window.all_events = places;
 
    window.gm = google.maps;
    window.map = new google.maps.Map($("#map_canvas")[0], mapOptions);
+
+   //Create spider object
    var spideroptions = {
       markerWontMove : true,
       markerWontHide : true,
       keepSpiderfied : true
    };
    window.oms = new OverlappingMarkerSpiderfier(map, spideroptions);
+
+   //Make url assessible to all other files
    window.public_url = '<?php echo $public_url;?>';
 
    window.icons = {
@@ -37,6 +42,7 @@ $(document).ready(function(){
    window.markerArray = [];
    window.app = {};
 
+   //This app object is global object, so it will be accessible from app.js
    app.updateMap = function() {
       // This returns a reference to elements in array
       var place = this;

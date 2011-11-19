@@ -194,3 +194,18 @@ div.event_title {
 div.event_title:last-child {
    border-bottom: none;
 }
+label.active span {
+   background: url('../img/checkbox_checked.png') no-repeat left top;
+}
+label span {
+   background: url('../img/checkbox_unchecked.png') no-repeat left top;
+}
+ul.tags li .add {
+   background: transparent url('../img/sq_plus.png') no-repeat left top;
+}
+label.tag-filter {
+   width: 107px;
+   padding-top: 2px;
+   color: #eee;
+   cursor: pointer;
+}

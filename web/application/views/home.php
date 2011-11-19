@@ -7,7 +7,7 @@
          <li class="active"><a href="<?php echo base_url('/home') ;?>">Home</a></li>
          <li><a href="<?php echo base_url('/unit_test/runAll') ;?>">Unit Test</a></li>
        </ul>
-       <form class="pull-right" action='<?php echo base_url('home/search');?>' method="post">
+       <form class="pull-right" action='<?php echo base_url('/home');?>' method="post">
          <input name="city_search" placeholder="Search" type="text" />
          <?php echo form_submit('','Submit'); ?>
        </form>
@@ -21,12 +21,19 @@
        <li>
             <div class="input-prepend">
                <label class="add-on tag active">
-                  <input type="checkbox" name="cat[]" id='<?php echo $cat;?>' value="<?php echo $cat;?>" disabled='true', class='tag_checkbox' checked='true'>
-                  <span class='tags_text'><?php echo $cat;?></span>
+                  <input type="checkbox" id='<?php echo $cat;?>' value="<?php echo $cat;?>" class='tag_checkbox' checked='true' style='display:none;'>
+                  <span class='tags_text'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $cat;?></span>
                </label>
             </div>
        </li>
        <?php endforeach; ?>
+       <li id='tag-wrapper'>
+            <div class='input-prepend'>
+               <label class='tag-filter' id='addTags'>
+                  <span class='add'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Add Tag Filter</span>
+               </label>
+            </div>
+       </li>
        </ul>
        <input type='hidden' name='location' value='<?php echo $location; ?>' id='location'>
        </form>

@@ -7,6 +7,8 @@
 class Home extends CI_Controller
 {
    var $fields = array('title', 'description', 'longitude', 'latitude','venue_name', 'start_time', 'stop_time', 'category');
+   var $default_category = array('music', 'movies');
+
    function __construct()
    {
       //Call the parent construct
@@ -45,15 +47,17 @@ class Home extends CI_Controller
    {
       //Show the home page
       $location = $this->util->getLocation();
-
-      $this->__index($location);
+      $input = $this->input->post('city_search');
+      
+      if (!empty($input)) {
+         $this->search($input);
+      } else {
+         $this->__index($location);
+      }
    }
 
-   public function search()
+   public function search($input)
    {
-      // Check if we have search input
-      $input = $this->input->post('city_search');
-
       //validate input
       $special_string = '/(\=|\+|\-|\(|\))/';
       if (preg_match($special_string, $input)) {
@@ -67,16 +71,50 @@ class Home extends CI_Controller
       $this->__index($location);
    }
 
+   //Implement the AJAX call
+   //Using cached events, no more calling eventful every time.
    public function filter() {
       $opts = $this->input->post();
       if (isset($opts['category'])) {
-         $events = $this->util->getEvents(array('location' => $opts['location'],
-                                                'categories' => $opts['category']));
-         $categories = $this->util->getCategories();
          
-         //Event Fields Needed
-         $fields = $this->fields;
-         $json_events = $this->util->event_filter($events, $fields);
+         $events          = $opts['events'];
+         $cats            = $opts['category'];
+         $filtered_events = array();
+         $user_tags       = array();
+
+         //filter out the category
+         foreach ($events as $e) {
+            $tmp_cat = $e['category'];
+            foreach ($cats as $cat) {
+               if (in_array($cat, $this->default_category)) {
+                  //If it is an category
+                  //case insensitive comparision
+                  if (strcasecmp($tmp_cat, $cat) == 0) {
+                     $filtered_events []= $e;
+                     break; //break the loop
+                  }
+               } else if(!in_array($e, $filtered_events)) {
+                  //Second chance to output the events based on users tag if any.
+                  //If it is not a category, filter out the category based on 
+                  //the description.
+                  $words = str_word_count($e['description'], 1);
+                  foreach ($words as $w) {
+                     if (strcasecmp($w, $cat) == 0) {
+                        $filtered_events []= $e;
+                        break; //break the loop
+                     }
+                  }
+               }
+            }
+         }
+         
+         if (isset($opts['tags']) && !empty($opts['tags'])) {
+            $tmp = array();
+            $this->__filterTags($filtered_events, $opts['tags'], $tmp);
+            $filtered_events = $tmp;
+         }
+
+         $json_events = json_encode($filtered_events);
 
          echo $json_events;
       } else {

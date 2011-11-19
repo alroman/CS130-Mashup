@@ -176,12 +176,29 @@ class Unit_test extends CI_Controller{
    }
    
    //Test Util assignKeyWordsToEvents
-   public function test_assignKeyWordsToEvents() {
+   public function test_search_keywords() {
       $this->load->library('util');
+      $keywords = array('free', 'food');
       //Get the events
-      $events = $this->eventful->getEvents();
-      $assigned_events = $this->util->assignKeyWordsToEvents($events);
+      $found_one = array('description' => 'free');
+      $found_two = array('description' => 'food free food free something not');
+      $found_nothting = array('description' => 'fre fod hello world');
+      $events1 = array($found_one);
+      $events2 = array($found_two);
+      $events3 = array($found_nothting);
+      $kws1 = $this->util->search_keywords($events1, $keywords);
+      $kws2 = $this->util->search_keywords($events2);
+      $kws3 = $this->util->search_keywords($events3);
 
-      print_r($assigned_events);
+      $this->unit->run((count($kws1) === 1), 'is_true', 'Test found one keywords');
+      $this->unit->run((count($kws2) === 2), 'is_true', 'Test found two keywords');
+      $this->unit->run((count($kws3) === 0), 'is_true', 'Test found no keywords');
+
+      // print_r($kws1);
+      // print_r($kws2);
+      // print_r($kws3);
+
+      echo $this->unit->report();
    }
+
 }

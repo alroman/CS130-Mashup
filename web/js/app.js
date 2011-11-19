@@ -1,14 +1,21 @@
 $(document).ready(function() {
-      
+   if (markerArray === undefined) {
+      alert('markerArray is undefined, please fixed it in the footer.php');
+   }
+   if (all_events === undefined) {
+      alert('all_events is undefined, please fixed it in the footer.php');
+   };
+
+
    function clearOverlays() {
       if (markerArray) {
-        for (i in markerArray) {
-            markerArray[i].setMap(null);
+        for (marker in markerArray) {
+            markerArray[marker].setMap(null);
         }
       };
    }
 
-   $('.tag').click(function(){
+   $('.tag').live('click', function(){
       var $div     = $(this);
       var checkbox = $div.find('input');
 
@@ -24,29 +31,29 @@ $(document).ready(function() {
    });
 
    // Ajax calls for using updating the events
+   // Passed all the events and then filter them out based on users action.
    function filterEvents ($form) {
       var $params  = $form.find('input:checked'),
           url      = $form.attr('action'),
-          params   = {'category[]' : []},
-          location = $form.find('#location').val();
+          params   = {'category[]' : []};
+      
+      //loop the inputs and get the value to create params
       $.each($params, function(i, input){
          var cat = $(input).val();
-         if (cat == 'movies') {
-            cat = 'movies_film';
-         };
          params['category[]'].push(cat);
       });
-      params['location'] = location;
-      // console.log(params);
+      
+      params['events'] = all_events; //get all the events
       // AJAX call to the server
-      $.post(url, params, function(places){
+      $.post(url, params, function(data){
          clearOverlays();
-         update_event_list(places);
-         update_event_cal(places);
-         if (places.error) {
+         update_event_list(data);
+         update_event_cal(data);
+
+         if (data.error) {
             return false;
          }
-         $(places).each(app.updateMap);
+         $(data).each(app.updateMap);
       }, 'json');
       return false;
    }
@@ -77,6 +84,67 @@ $(document).ready(function() {
       });
    }
 
+   //=========Start with adding tag filter=============
+   //
+   var tags = {
+      'trigger' : $('#addTags'),
+      'tagWrapper': $('#tag-wrapper')
+   };
+
+   tags.initEvents = function() {
+      tags.trigger.click(function(){
+         var html = "<input class='span2' type='text' id='tag-input' name='tag-input' placeholder='Tag' style='padding: 1px 5px; margin-left: 5px;'></input>";
+         $(this).hide().after(html);
+         var $input = $('#tag-input');
+         $input.focus();
+         $input.focusout(function(){
+            $(this).remove();
+            tags.trigger.show();
+         });
+         tags.ajaxifyInput($input);
+      });
+   }
+
+   tags.ajaxifyInput = function($input) {
+      $input.keypress(function(e){
+         if (e.which == 13) {
+            e.preventDefault();
+            
+            var input_val = $input.val();
+            var $form = $('#tag_form');
+
+            if (tags.validateInput(input_val, $form)) {
+               //Append tag to the subbanner
+               var html = '<li><div class="input-prepend"><label class="add-on tag active"><input value='+input_val+' type="checkbox" class="tag_checkbox" style="display:none;" checked="true"><span class="tags_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+input_val+'</span></label></div></li>';
+               $input.remove();
+               tags.tagWrapper.before(html);
+               tags.trigger.show();
+               
+               filterEvents($form);
+            };
+         }
+      });
+   }
+
+   tags.validateInput = function(input_val, $form) {
+      //Input canot be dulpicate
+      var $params  = $form.find('input:checked'),
+          is_valid = true;
+      
+      $.each($params, function(i, input){
+         var cat = $(input).val();
+         if (input_val.toLowerCase() == cat.toLowerCase()) {
+            alert('Your input is not valid, please try again.');
+            is_valid = false;
+            return is_valid;
+         };
+      });
+
+      return is_valid;
+   }
+
+   tags.initEvents();
+
    //==============Start with Event Calendar================
    //Init variables
    var e = places;
@@ -89,20 +157,20 @@ $(document).ready(function() {
    // Initialize the event objects the  event_cal object, which is used lateron
    event_cal.initEvents = function(e) {
       event_cal.events = e;
-   }
+   };
 
    event_cal.emptyEvents = function() {
       event_cal.events = null;
       event_cal.eventList = new Array();
       event_cal.eventDateList = new Array();
-   }
+   };
 
    event_cal.parse_date = function(string) {
       var parts = String(string).split(/[- :]/);
       var date = new Date(parts[0], (parts[1] - 1), parts[2], parts[3], parts[4], parts[5]);
 
       return date;
-   }
+   };
 
    // Get the eventList and eventDateList populated with the data
    event_cal.constructEventsList = function() {
