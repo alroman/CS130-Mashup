@@ -1,10 +1,20 @@
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> cafc6e1231739576d9495b30df66afac44dd73a9
 .fc-content {
 	padding-left: 2px;
 }
 
+<<<<<<< HEAD
 
 /* Start with Sky bule Theme for Event Calendar*/
 /*div.calBox {
+=======
+div.calBox {
+	/* main docs page */
+>>>>>>> cafc6e1231739576d9495b30df66afac44dd73a9
   background-color: #049cd9;
   background-repeat: no-repeat;
   background-image: -webkit-gradient(linear, left top, left bottom, from(#004D9F), to(#049cd9));
@@ -12,12 +22,21 @@
   background-image: -moz-linear-gradient(#004D9F, #049cd9);
   background-image: -o-linear-gradient(top, #004D9F, #049cd9);
   background-image: -khtml-gradient(linear, left top, left bottom, from(#004D9F), to(#049cd9));
+<<<<<<< HEAD
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#004D9F', endColorstr='#049cd9', GradientType=0); 
 }*/
 
 
 /* Adding a small red triangle to the date if there is event on that date*/
 /*span.hasEvent {
+=======
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#004D9F', endColorstr='#049cd9', GradientType=0); /* IE8 and down */
+}
+
+
+/* Adding a small red triangle to the date if there is event on that date*/
+span.hasEvent {
+>>>>>>> cafc6e1231739576d9495b30df66afac44dd73a9
 	background: url('../img/red-tri.png') no-repeat bottom right;
 }
 
@@ -55,6 +74,7 @@ span.calElement.prev,
 span.calElement.next:hover,
 span.calElement.prev:hover {
 	border: none;
+<<<<<<< HEAD
 }*/
 
 
@@ -119,3 +139,6 @@ span.calElement.today.selected {
 tr.tr_odd {
 	background: #FFF37B;
 }
+=======
+}
+>>>>>>> cafc6e1231739576d9495b30df66afac44dd73a9

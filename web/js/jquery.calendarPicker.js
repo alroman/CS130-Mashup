@@ -120,6 +120,7 @@ jQuery.fn.calendarPicker = function(options) {
       var t = new Date();
       divDays.empty();
       var nc = options.days*2+1;
+<<<<<<< HEAD
       var stop = options.days*2 - 1;//Stop the loop to show the days
       var w = parseInt((theDiv.width()-4-(options.showDayArrows?12:0)-(nc)*4)/(nc-(options.showDayArrows?2:0)))+"px";
       // for (var i = -options.days; i <= options.days; i++) {
@@ -131,6 +132,16 @@ jQuery.fn.calendarPicker = function(options) {
         if (i == -1 && options.showDayArrows) {
           span.addClass("prev");
         } else if (i == stop && options.showDayArrows) {
+=======
+      var w = parseInt((theDiv.width()-4-(options.showDayArrows?12:0)-(nc)*4)/(nc-(options.showDayArrows?2:0)))+"px";
+      for (var i = -options.days; i <= options.days; i++) {
+        var d = new Date(date);
+        d.setDate(day + i);
+        var span = $("<span>").addClass("calElement").attr("millis", d.getTime())
+        if (i == -options.days && options.showDayArrows) {
+          span.addClass("prev");
+        } else if (i == options.days && options.showDayArrows) {
+>>>>>>> cafc6e1231739576d9495b30df66afac44dd73a9
           span.addClass("next");
         } else {
           span.html("<span class=dayNumber>" + d.getDate() + "</span><br>" + options.dayNames[d.getDay()]).css("width",w);
@@ -192,6 +203,33 @@ jQuery.fn.calendarPicker = function(options) {
     }
   });
 
+<<<<<<< HEAD
+=======
+
+  //if mousewheel
+  if ($.event.special.mousewheel && options.useWheel) {
+    divYears.mousewheel(function(event, delta) {
+      var d = new Date(calendar.currentDate.getTime());
+      d.setFullYear(d.getFullYear() + delta);
+      calendar.changeDate(d);
+      return false;
+    });
+    divMonths.mousewheel(function(event, delta) {
+      var d = new Date(calendar.currentDate.getTime());
+      d.setMonth(d.getMonth() + delta);
+      calendar.changeDate(d);
+      return false;
+    });
+    divDays.mousewheel(function(event, delta) {
+      var d = new Date(calendar.currentDate.getTime());
+      d.setDate(d.getDate() + delta);
+      calendar.changeDate(d);
+      return false;
+    });
+  }
+
+
+>>>>>>> cafc6e1231739576d9495b30df66afac44dd73a9
   calendar.changeDate(options.date);
 
   return calendar;
