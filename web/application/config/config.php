@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'https://localhost/CS130-Mashup/web/';
+$config['base_url']	= 'http://localhost:8888/CS130-Mashup-Daifu/web/index.php/';
 
 /*
 |--------------------------------------------------------------------------
