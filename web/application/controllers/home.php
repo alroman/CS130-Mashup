@@ -36,7 +36,7 @@ class Home extends CI_Controller
       $data['json_events']  = $json_events;
       $data['geoloc']       = $location;
       $data['title']        = 'Entertainment+';
-      $data['events']       = $events;
+      $data['events']       = Helper::simple_filter($events, $this->default_keywords);
       $data['public_url']   = $this->util->getPublicUrl();
       $data['categories']   = $categories;
       $data['location']     = $location['zipCode'];

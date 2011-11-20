@@ -2,10 +2,25 @@
 
 class Helper {
     
+    /**
+     *
+     * @param type $keywords
+     * @param type $string
+     * @return type 
+     */
     static public function labelize($keywords, $string) {
+        // First check if we get a null set of keywords, if we don't
+        // then we do a simple word replace in the string.
+        if($keywords == null) {
+            return $string;
+        }
+        
+        // Label that we're going to apply to matched keywords
         $label_start = '<span class="label important">';
         $label_end = '</span>';
         
+        // We need the keywords to be lowercase, otherwise we might miss
+        // matches on case difference
         if(!is_array($keywords)) {
             $keywords = explode(" ", $keywords);
             foreach($keywords as &$key) {
@@ -13,20 +28,19 @@ class Helper {
             }
         }
         
+        // Break up the keywords
         $string_words = explode(" ", $string);
-        $tmp = array();
         foreach($string_words as &$word) {
             
-            if(in_array(trim(strtolower($word)), $keywords)) {
-                //echo $word."<br/>";
+            // Check if the word is in the keywords array.  
+            // Make sure to check lowercase and ignore whitespace
+            if(trim($word) != "" && in_array(strtolower($word), $keywords)) {
                 $labeled = $label_start . $word . $label_end;
-                //var_dump($labeled);
-                //echo "<br/>";
                 $word = $labeled;
-                //$tmp[] = $labeled;
             }
         }
         
+        // Restore the string
         $out = implode(" ", $string_words);
         return $out;
     }
@@ -71,6 +85,15 @@ class Helper {
         }
         
         return json_encode($filtered_events); 
+    }
+    
+    static public function simple_filter($events, $keywords = null) {
+        foreach($events as &$event) {
+            $event['title'] = Helper::titleize($event['title']);
+            $event['description'] = Helper::labelize($keywords, $event['description']);
+        }
+        
+        return $events;
     }
 
     /**

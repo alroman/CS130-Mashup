@@ -12,14 +12,12 @@
    <link rel="stylesheet" href="<?php echo $public_url; ?>css/fullcalendar.print.css" media="print"/>
    <link rel="stylesheet" href="<?php echo $public_url; ?>css/styles.css" />
    <link rel="stylesheet" href="<?php echo $public_url; ?>css/style.css" />
-<!--   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>-->
    <script src="<?php echo $public_url ?>js/jquery-1.6.2.min.js" ></script>
    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
    <script type="text/javascript" src="<?php echo $public_url; ?>js/fullcalendar.min.js"></script>
    <script type="text/javascript" src="<?php echo $public_url; ?>js/jquery.calendarPicker.js"></script>
-   
-   <script src="<?php echo $public_url ?>js/bootstrap-twipsy.js" ></script>
-   <script src="<?php echo $public_url ?>js/bootstrap-popover.js" ></script>
+   <script type="text/javascript" src="<?php echo $public_url ?>js/bootstrap-twipsy.js" ></script>
+   <script type="text/javascript" src="<?php echo $public_url ?>js/bootstrap-popover.js" ></script>
 
 </head>
 <body>

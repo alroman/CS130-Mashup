@@ -85,3 +85,57 @@
     </div>
 
 </div>
+<div class="container event_list_display" style="display:none">
+        <?php
+             foreach($events as $e) {           
+                $event = (object)$e;
+                $image = $event->image;
+                $title = $event->title;
+                $date = $event->start_time;
+                $start = $event->start_time;
+                $stop = $event->stop_time;
+                $venue = $event->venue_name;
+                $desc = $event->description;
+               
+                if ($image) {
+//                    echo "<pre>";
+//                    var_dump($image);
+//                    echo "</pre>";
+                    echo "<div class='well heightWithImage'>";
+                    echo  "<ul class='media-grid floatRight'>
+                            <li>
+                                <a href='#'>
+                                    <img class='thumbnail' src='". $image['medium'][0]['url'][0]. "' alt=''>
+                                </a>
+                            </li>
+                        </ul>";
+//                    echo  "<ul class='media-grid floatRight'>
+//                                <li>
+//                                    <a href='#'>
+//                                        <img class='thumbnail' src='http://placehold.it/210x150' alt=''>
+//                                    </a>
+//                                </li>
+//                            </ul>";
+                }
+                else {
+                    echo "<div class='well'>";
+                }
+                
+                echo "<h4 class='blue'>$title</h4>";
+                
+                echo "<p class='condenseLine bold'>";                  
+                echo date("l, M j", strtotime($date));  
+                echo "</p>";
+                
+                echo "<p>";
+                echo date("g:i A", strtotime($start));
+                echo "</p>";
+                
+                echo
+                    "<p><b>Venue: </b>$venue</p>
+                     <p>$desc</p>
+                     <button class='btn primary'>Map it!</button>
+                </div>";              
+             }
+        ?>                  
+    </div>
