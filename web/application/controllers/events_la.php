@@ -5,6 +5,7 @@ class Events_la extends CI_Controller {
     
     public $eventful;
     public $location;
+	public $ranking;
     
     public function __construct() {
         parent::__construct();
@@ -12,16 +13,20 @@ class Events_la extends CI_Controller {
         $this->load->library('eventful');
         $this->load->library('location');
         $this->load->helper('url');
+		$this->load->library('event_ranking_fb');
         $this->eventful = new Eventful();
+        $this->ranking = new Event_ranking_fb();
         $this->location = new Location();
     }
     
     public function index() {
         $city = $this->location->getCity();
+		$venue_to_like_counts = array();
         //$zip = $this->location->getZipCode();
         if($city == '-')
             $city = "";
         $la_events = $this->eventful->getEvents(array('location' => $city));
+		$la_events = $this->ranking->fb_event_ranking($la_events,$venue_to_like_counts);
         $la_events_cal = $this->event_cal_filter($la_events);
         $data = array('la_events' => $la_events, 'msg' => $city, 'events_cal' => $la_events_cal);
         $this->load->view('events_la', $data);
