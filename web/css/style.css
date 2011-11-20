@@ -10,7 +10,7 @@
    overflow: hidden;
 }
 
-#placeDetails {
+/*#placeDetails {
    position: absolute;
    width: 300px;
    bottom: 0;
@@ -18,12 +18,12 @@
    padding-left: 10px;
    padding-right: 10px;
 
-   /* Semi-transparent background */
+    Semi-transparent background 
    background-color: rgba(0,0,0,0.8);
    color:white;
 } 
 
-/* Fit the text nicely inside the box */
+ Fit the text nicely inside the box 
 #event_title {
    font-family: sans-serif;
    color:white;
@@ -38,7 +38,7 @@
 }
 #placeDetails p {
    margin-top: 0;
-}
+}*/
 .popover {
    display: block;
 }
@@ -96,26 +96,29 @@ body { height: 100%; margin: 0; padding: 0 }
 }
 
 .fill {
-    opacity: 0.85;
+    opacity: 0.95;
     box-shadow:0 15px 10px rgba(0, 0, 0, 0.7);
 }
 
 /* Style the sublist */
 .sublist {
-   height: 23px;
+   height: auto;
+   padding: 2px 0 3px;
+   box-shadow: 1px 7px 5px rgba(0, 0, 0, 0.25), 0 0px 0 rgba(0, 0, 0, 0.1) inset;
+   opacity: 0.95;
+   border-bottom: 3px solid black;
 }
-.sublist .nav a {
-   padding: 1.5px 11px;
-}
-.sublist .nav{
+
+.sublist .navbuttons{
    float: right;
 }
 
 .tags div.input-prepend .add-on{
-   padding: 2px;
+   padding: 4px;
 }
 .tags div.input-prepend {
-   background: #808080;
+   background: #ffffff;
+   padding-right: 5px;
 }
 .tags {
    margin: 0;
@@ -128,7 +131,8 @@ body { height: 100%; margin: 0; padding: 0 }
 }
 .tags .tags_text {
    padding-right: 5px;
-   color: #333;
+   color: #fff;
+   text-shadow: 0 0 0 #fff;
 }
 .tags .input-prepend .add-on {
    border-radius: 0px;
@@ -201,11 +205,37 @@ label span {
    background: url('../img/checkbox_unchecked.png') no-repeat left top;
 }
 ul.tags li .add {
-   background: transparent url('../img/sq_plus.png') no-repeat left top;
+   background: none;
 }
 label.tag-filter {
-   width: 107px;
-   padding-top: 2px;
-   color: #eee;
+   width: 90px;
+   padding-top: 5px;
+   color: #000;
    cursor: pointer;
+   font-size: 15px;
+   text-align: left;
+}
+
+.filter-input {
+    padding: 1px 5px; margin-left: 5px;
+    border: 1px solid black;
+}
+
+
+.input-prepend .active, .input-append .active {
+    background-color: #C43C35;
+    background-image: -moz-linear-gradient(center top , #EE5F5B, #C43C35);
+    background-repeat: repeat-x;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1);
+}
+
+.square-button {
+    border-radius: 0px 0px 0px 0px;
+}
+
+.topbar .greenfill {
+    background-color: #57A957;
+    background-image: -moz-linear-gradient(center top , #C96E00, #D8570D);
+    background-repeat: repeat-x;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }

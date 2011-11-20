@@ -8,6 +8,7 @@ class Home extends CI_Controller
 {
    var $fields = array('title', 'description', 'longitude', 'latitude','venue_name', 'start_time', 'stop_time', 'category');
    var $default_category = array('music', 'movies');
+   var $default_keywords = array('free', 'food', 'original', 'sketch', 'ninja', 'turtles');
 
    function __construct()
    {
@@ -28,7 +29,7 @@ class Home extends CI_Controller
       
       //Event Fields Needed
       $fields = $this->fields;
-      $json_events = $this->util->event_filter($events, $fields);
+      $json_events = $this->util->event_filter($events, $fields, $this->default_keywords);
 
       //Decide which view i want to use
       $data['main_content'] = 'home';

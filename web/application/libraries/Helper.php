@@ -2,26 +2,66 @@
 
 class Helper {
     
+    static public function labelize($keywords, $string) {
+        $label_start = '<span class="label important">';
+        $label_end = '</span>';
+        
+        if(!is_array($keywords)) {
+            $keywords = explode(" ", $keywords);
+            foreach($keywords as &$key) {
+                $key = strtolower($key);
+            }
+        }
+        
+        $string_words = explode(" ", $string);
+        $tmp = array();
+        foreach($string_words as &$word) {
+            
+            if(in_array(trim(strtolower($word)), $keywords)) {
+                //echo $word."<br/>";
+                $labeled = $label_start . $word . $label_end;
+                //var_dump($labeled);
+                //echo "<br/>";
+                $word = $labeled;
+                //$tmp[] = $labeled;
+            }
+        }
+        
+        $out = implode(" ", $string_words);
+        return $out;
+    }
     
-    static public function JSONize($events) {
-        $event_calendar_fields = array('title', 'description', 'longitude', 'latitude','venue_name');
+    /**
+     *
+     * @param type $events
+     * @param type $fields
+     * @return type 
+     */
+    static public function JSONize($events, $fields = null, $keywords = null) {
+        if($fields == null) {
+            $felds = array('title', 'description', 'longitude', 'latitude','venue_name');
+        }
         
         $filtered_events = array();
         
         foreach ($events as $key => $value) {
             $tmp = array();
             
-            foreach ($event_calendar_fields as $v) {
+            foreach ($fields as $v) {
+                // Fix the title
                 if($v == "title" || $v == "venue_name")
                     $tmp[$v] = Helper::titleize(utf8_encode(preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-:]/s', '', $value[$v])));
+                // Trim the description
+                // This also creates a '_long' description field in the object
                 else if($v == "description") {
                     $tmp_val = nl2br($value[$v]);
                     
                     if(empty($tmp_val))
                         $tmp_val = "No description available";
                     
-                    $tmp[$v] = Helper::summarize(utf8_encode(preg_replace('/[^a-zA-Z0-9_\<\> %\[\]\.\(\)%&-:]/s', '', $tmp_val)));
-                    $tmp[$v."_long"] = Helper::summarize(utf8_encode(preg_replace('/[^a-zA-Z0-9_\<\> %\[\]\.\(\)%&-:]/s', '', $tmp_val)), 1000);
+                    //$tmp[$v] = Helper::summarize(utf8_encode(preg_replace('/[^a-zA-Z0-9_\<\> %\[\]\.\(\)%&-:]/s', '', $tmp_val)));
+                    $tmp[$v."_long"] = Helper::labelize($keywords, Helper::summarize(utf8_encode(preg_replace('/[^a-zA-Z0-9_\<\> %\[\]\.\(\)%&-:]/s', '', $tmp_val)), 1000));
+                    $tmp[$v] = Helper::summarize($tmp[$v."_long"]);
                 }
                 else 
                     $tmp[$v] = utf8_encode(preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-:]/s', '', $value[$v]));

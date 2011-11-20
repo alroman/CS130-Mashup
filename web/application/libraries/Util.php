@@ -15,6 +15,7 @@ class Util
       //Load library
       $this->CI->load->library('eventful');
       $this->CI->load->library('location');
+      $this->CI->load->library('helper');
    }
 
    //Using this http://ipinfodb.com/my_ip_location.php
@@ -47,21 +48,24 @@ class Util
       return $this->CI->eventful->getCategories();
    }
 
-   public function event_filter($events, $fields) 
+   public function event_filter($events, $fields, $keywords = null) 
    {
       if (empty($fields)) {
         return "Error: Second argument - fileds, cannot be empty";
       }
 
-      $filtered_events = array();
-      foreach ($events as $key => $value) {
-         $tmp = array();
-         foreach ($fields as $v) {
-            $tmp[$v] = utf8_encode(preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-:]/s', '', $value[$v]));
-         }
-         $filtered_events []= $tmp;
-      }
-      return json_encode($filtered_events);
+      // Use the helper class since that fixes titles and description lengths
+      // It also adds a long-description for full display info
+      return Helper::JSONize($events, $fields, $keywords);
+//      $filtered_events = array();
+//      foreach ($events as $key => $value) {
+//         $tmp = array();
+//         foreach ($fields as $v) {
+//            $tmp[$v] = utf8_encode(preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-:]/s', '', $value[$v]));
+//         }
+//         $filtered_events []= $tmp;
+//      }
+//      return json_encode($filtered_events);
    }
 
    public function getPublicUrl()

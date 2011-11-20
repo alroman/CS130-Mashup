@@ -1,5 +1,5 @@
 <div class="topbar">
-   <div class="fill">
+   <div class="fill greenfill">
      <div class="container">
        <a class="brand" href="<?php echo base_url('/home') ;?>">Entertainment+</a>
 
@@ -13,7 +13,7 @@
        </form>
      </div>
    </div>
-   <div class='fill sublist'>
+   <div class='well sublist'>
       <div class='container'>
        <form action='<?php echo base_url('home/filter');?>' id='tag_form'>
        <ul class="tags">
@@ -30,17 +30,17 @@
        <li id='tag-wrapper'>
             <div class='input-prepend'>
                <label class='tag-filter' id='addTags'>
-                  <span class='add'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Add Tag Filter</span>
+                  <span class='add'><strong>+</strong> add tag</span>
                </label>
             </div>
        </li>
        </ul>
        <input type='hidden' name='location' value='<?php echo $location; ?>' id='location'>
        </form>
-       <ul class="nav">
-         <li class="active"><a href="<?php echo base_url('/home') ;?>">Map View</a></li>
-         <li><a href="<?php echo base_url('listview') ;?>">List View</a></li>
-       </ul>
+          <div class="navbuttons" >
+          <a href="<?php echo base_url('/home') ;?>" class="btn primary square-button" >map view</a>
+          <a href="" class="btn info square-button" >list view</a>
+          </div>
       </div>
    </div>
 </div>
@@ -63,8 +63,25 @@
 
 <div class="map">
   <div id="map_canvas" style="width: 100%; height: 100%"></div>
-  <div id='placeDetails'>
-      <div id="event_title"></div>
-      <div id="event_desc"></div>  
-  </div>
+  <div id="placeDetails" class="eplustooltip below">
+        <div class="arrow"></div>
+        <div class="inner">
+          <h4 id="event_title" class="title"></h4>
+          <div class="content">
+              <h5 id="event_venue"></h5>
+              <p id="event_desc"></p>
+          </div>
+        </div>
+    </div>
+      
+    <div id="fullDetails" class="eplusdesc" >
+        <div class="inner">
+          <h4 id="desc_title" class="title">E+ events</h4>
+          <div class="content">
+              <h5 id="desc_venue"></h5>
+              <p id="desc_desc">Click on event to view full description</p>
+          </div>
+        </div>
+    </div>
+
 </div>
