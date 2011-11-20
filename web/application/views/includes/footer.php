@@ -33,8 +33,8 @@ $(document).ready(function(){
    window.public_url = '<?php echo $public_url;?>';
 
    window.icons = {
-      'music':  public_url+'img/pin.png',  
-      'movies': public_url+'img/pin.png'  
+      'music':  public_url+'img/map.png',  
+      'movies': public_url+'img/map.png'  
    }
 
    window.currentPlace = null;

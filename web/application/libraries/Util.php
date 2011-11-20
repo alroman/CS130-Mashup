@@ -57,15 +57,7 @@ class Util
       // Use the helper class since that fixes titles and description lengths
       // It also adds a long-description for full display info
       return Helper::JSONize($events, $fields, $keywords);
-//      $filtered_events = array();
-//      foreach ($events as $key => $value) {
-//         $tmp = array();
-//         foreach ($fields as $v) {
-//            $tmp[$v] = utf8_encode(preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-:]/s', '', $value[$v]));
-//         }
-//         $filtered_events []= $tmp;
-//      }
-//      return json_encode($filtered_events);
+
    }
 
    public function getPublicUrl()
