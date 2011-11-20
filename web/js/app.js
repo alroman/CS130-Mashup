@@ -93,7 +93,7 @@ $(document).ready(function() {
 
    tags.initEvents = function() {
       tags.trigger.click(function(){
-         var html = "<input class='span2' type='text' id='tag-input' name='tag-input' placeholder='Tag' style='padding: 1px 5px; margin-left: 5px;'></input>";
+         var html = "<input class='filter-input' type='text' id='tag-input' name='tag-input' placeholder='Tag' ></input>";
          $(this).hide().after(html);
          var $input = $('#tag-input');
          $input.focus();

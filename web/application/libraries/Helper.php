@@ -2,26 +2,80 @@
 
 class Helper {
     
+    /**
+     *
+     * @param type $keywords
+     * @param type $string
+     * @return type 
+     */
+    static public function labelize($keywords, $string) {
+        // First check if we get a null set of keywords, if we don't
+        // then we do a simple word replace in the string.
+        if($keywords == null) {
+            return $string;
+        }
+        
+        // Label that we're going to apply to matched keywords
+        $label_start = '<span class="label important">';
+        $label_end = '</span>';
+        
+        // We need the keywords to be lowercase, otherwise we might miss
+        // matches on case difference
+        if(!is_array($keywords)) {
+            $keywords = explode(" ", $keywords);
+            foreach($keywords as &$key) {
+                $key = strtolower($key);
+            }
+        }
+        
+        // Break up the keywords
+        $string_words = explode(" ", $string);
+        foreach($string_words as &$word) {
+            
+            // Check if the word is in the keywords array.  
+            // Make sure to check lowercase and ignore whitespace
+            if(trim($word) != "" && in_array(strtolower($word), $keywords)) {
+                $labeled = $label_start . $word . $label_end;
+                $word = $labeled;
+            }
+        }
+        
+        // Restore the string
+        $out = implode(" ", $string_words);
+        return $out;
+    }
     
-    static public function JSONize($events) {
-        $event_calendar_fields = array('title', 'description', 'longitude', 'latitude','venue_name');
+    /**
+     *
+     * @param type $events
+     * @param type $fields
+     * @return type 
+     */
+    static public function JSONize($events, $fields = null, $keywords = null) {
+        if($fields == null) {
+            $felds = array('title', 'description', 'longitude', 'latitude','venue_name');
+        }
         
         $filtered_events = array();
         
         foreach ($events as $key => $value) {
             $tmp = array();
             
-            foreach ($event_calendar_fields as $v) {
+            foreach ($fields as $v) {
+                // Fix the title
                 if($v == "title" || $v == "venue_name")
                     $tmp[$v] = Helper::titleize(utf8_encode(preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-:]/s', '', $value[$v])));
+                // Trim the description
+                // This also creates a '_long' description field in the object
                 else if($v == "description") {
                     $tmp_val = nl2br($value[$v]);
                     
                     if(empty($tmp_val))
                         $tmp_val = "No description available";
                     
-                    $tmp[$v] = Helper::summarize(utf8_encode(preg_replace('/[^a-zA-Z0-9_\<\> %\[\]\.\(\)%&-:]/s', '', $tmp_val)));
-                    $tmp[$v."_long"] = Helper::summarize(utf8_encode(preg_replace('/[^a-zA-Z0-9_\<\> %\[\]\.\(\)%&-:]/s', '', $tmp_val)), 1000);
+                    //$tmp[$v] = Helper::summarize(utf8_encode(preg_replace('/[^a-zA-Z0-9_\<\> %\[\]\.\(\)%&-:]/s', '', $tmp_val)));
+                    $tmp[$v."_long"] = Helper::labelize($keywords, Helper::summarize(utf8_encode(preg_replace('/[^a-zA-Z0-9_\<\> %\[\]\.\(\)%&-:]/s', '', $tmp_val)), 1000));
+                    $tmp[$v] = Helper::summarize($tmp[$v."_long"]);
                 }
                 else 
                     $tmp[$v] = utf8_encode(preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-:]/s', '', $value[$v]));
@@ -31,6 +85,15 @@ class Helper {
         }
         
         return json_encode($filtered_events); 
+    }
+    
+    static public function simple_filter($events, $keywords = null) {
+        foreach($events as &$event) {
+            $event['title'] = Helper::titleize($event['title']);
+            $event['description'] = Helper::labelize($keywords, $event['description']);
+        }
+        
+        return $events;
     }
 
     /**

@@ -215,7 +215,7 @@ margin: 0;
 
 .eplusdesc {
   position: absolute;
-  top: 40px;
+  top: 80px;
   right: 20px;
   z-index: 1000;
   padding: 5px;
@@ -295,7 +295,11 @@ margin: 0;
 
 
 /* Event list styles */
-.event_list { margin-top: 100px; }
+event_list_display { 
+    margin-top: 100px; 
+    position:absolute;
+    top:0px;
+}
 .blue { color: #0067CE;}
 .bold { font-weight: bold; }
 .condenseLine { margin-bottom: 4px; }

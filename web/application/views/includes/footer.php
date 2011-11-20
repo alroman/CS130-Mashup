@@ -33,15 +33,22 @@ $(document).ready(function(){
    window.public_url = '<?php echo $public_url;?>';
 
    window.icons = {
-      'music':  public_url+'img/music.png',  
-      'movies': public_url+'img/movies.png'  
+      'music':  public_url+'img/pin.png',  
+      'movies': public_url+'img/pin.png'  
    }
 
    window.currentPlace = null;
    window.info = $('#placeDetails');
+   window.details = $('#fullDetails');
    window.markerArray = [];
    window.app = {};
 
+    // OverlayView is used to retrieve the x,y pixel coordinates of a 
+    // marker on the map.
+    var overlay = new gm.OverlayView();
+    overlay.draw = function() {};
+    overlay.setMap(map);
+    
    //This app object is global object, so it will be accessible from app.js
    app.updateMap = function() {
       // This returns a reference to elements in array
@@ -58,32 +65,29 @@ $(document).ready(function(){
       markerArray.push(marker);
       // Do the drop animation for each element
       marker.setAnimation(gm.Animation.DROP);
+      
+      gm.event.addListener(marker, 'mouseover', function() {
+            var projection = overlay.getProjection(); 
+            var pixel = projection.fromLatLngToContainerPixel(marker.getPosition());
+
+            $('#event_title', info).text(place.title);
+            $('#event_desc',  info).html(place.description);
+            $('#event_venue',  info).text("@"+place.venue_name);
+
+            // Offset so that we can display the arrow right below the marker
+            info.animate({left: parseInt(pixel.x - 146) + "px", top: parseInt(pixel.y) + "px", visibility: "visible"}, 200);
+            info.fadeIn(50);
+        });
+        
+       gm.event.addListener(marker, 'mouseout', function() {
+            info.fadeOut(0);
+        });
+
       // For each element, we add the event listener...
       gm.event.addListener(marker, 'click', function() {
-         var hidingMarker = currentPlace;
-         var slideIn = function(marker) {  
-            $('#event_title', info).text(place.title);
-            $('#event_desc',  info).text(place.description);  
-            info.animate({right: '0'});  
-         }
-
-         //place.category match the icons name
-         if (currentPlace) {
-            info.animate(  
-            { right: '-320px' },  
-            { complete: function() {  
-            if (hidingMarker != marker) {  
-               slideIn(marker);  
-            } else {  
-               currentPlace = null;  
-            }  
-         }}  
-         );  
-         } else {  
-            slideIn(marker);  
-         }  
-         currentPlace = marker;  
-
+        $('#desc_title', details).text(place.title);
+        $('#desc_venue', details).text(place.venue_name);
+        $('#desc_desc', details).html(place.description_long);
       }); 
       oms.addMarker(marker);
    }
