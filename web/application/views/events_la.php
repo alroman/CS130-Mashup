@@ -122,7 +122,7 @@
         <div class="row">
           <div class="span10">
             <h2>Events:</h2>
-            <div id="accordion">
+            <div>
             <?php
                 foreach($la_events as $e) {
                     $event = (object)$e;
@@ -156,6 +156,12 @@
                     $desc = $event->description;
 					echo nl2br($desc);
                     echo "</th></tr>";
+					
+					// Popularity
+					echo "<tr><th>Popularity</th><th>";
+                    $heatRank = $event->heatRank;
+					echo nl2br($heatRank);
+                    echo "</th></tr>";
                     echo "</tbody></table>";
 					echo "</div>";
                 }
@@ -186,83 +192,7 @@
 
     </div> <!-- /container -->
 
-<!-- Javascript for event calendar -->
-<script type="text/javascript" src="http://localhost/CS130-Mashup/web/js/fullcalendar.min.js"></script>
-<script type="text/javascript" src="http://localhost/CS130-Mashup/web/js/jquery.calendarPicker.js"></script>
-<script type="text/javascript" src="http://localhost/CS130-Mashup/web/js/calendar.js"></script>
 
-<script>
-$(document).ready(function() {
-  var e = <?php echo $events_cal; ?>;
-
-    var event_cal = {'events':null, 'eventList':new Array(), 'eventDateList':new Array()};
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
-
-    // Initialize the event objects the  event_cal object, which is used lateron
-    event_cal.initEvents = function(e) {
-      event_cal.events = e;
-    }
-
-    event_cal.parse_date = function(string) {
-      var parts = String(string).split(/[- :]/);
-      var date = new Date(parts[0], (parts[1] - 1), parts[2], parts[3], parts[4], parts[5]);
-
-      return date;
-    }
-
-    // Get the eventList and eventDateList populated with the data
-    event_cal.constructEventsList = function() {
-      $.each(event_cal.events, function(i, v){
-        var tmp = {title: v.title,
-              start: v.start_time,
-              end: v.stop_time,
-              allDay: false};
-        event_cal.eventList.push(tmp);
-        // console.log(v.start_time);
-        var date = event_cal.parse_date(v.start_time);
-        // console.log(date.getMonth());
-        event_cal.eventDateList.push(date.toDateString());
-      })
-    };
-
-    event_cal.initEvents(e);
-    event_cal.constructEventsList();
-    // console.log(event_cal.eventDateList);
-
-    var fullCal = $('#calendar').fullCalendar({
-      header: false,
-        height: 300,
-        contentHeight: 200,
-        editable: false,
-        defaultView: 'agendaDay',
-        slotMinutes: 60,
-        allDaySlot: false,
-        firstHour: 0,
-        events: event_cal.eventList
-    });
-
-   var calendarPickr = $("#dest").calendarPicker({
-      monthNames:["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-       dayNames: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-       //useWheel:true,
-       //callbackDelay:500,
-       enableYears: false,
-       //months:3,
-       //days:4,
-       //showDayArrows:false,
-       eventDates: event_cal.eventDateList,
-       callback:function(cal) {
-        fullCal.fullCalendar('gotoDate', cal.currentDate);
-       }
-     });
-
-     //Added color for odd lines of the calendar
-     $("table.fc-agenda-slots tr:even").addClass('tr_odd');
-});
-</script>
 
 </body>
 </html>

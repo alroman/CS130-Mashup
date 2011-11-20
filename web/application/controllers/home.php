@@ -6,9 +6,9 @@
  **/
 class Home extends CI_Controller
 {
-   var $fields = array('title', 'description', 'longitude', 'latitude','venue_name', 'start_time', 'stop_time', 'category');
-   var $default_category = array('music', 'movies');
-   var $default_keywords = array('free', 'food', 'original', 'sketch', 'ninja', 'turtles');
+   var $fields = array('title', 'description', 'longitude', 'latitude','venue_name', 'start_time', 'stop_time', 'category', 'heat_rank');
+   var $default_category = array('music', 'movies', 'comedy');
+   var $default_keywords = array('free', 'food', 'tickets', 'comedy', 'ninja', 'turtles', 'movie');
 
    function __construct()
    {
@@ -20,6 +20,8 @@ class Home extends CI_Controller
 
       //Get helper
       $this->load->helper('form');
+      
+      $this->load->library('event_ranking_fb');
    }
 
    public function __index($location, $filter=array()) {
@@ -27,10 +29,13 @@ class Home extends CI_Controller
       $events = $this->util->getEvents(array('location' => $location['zipCode']));
       $categories = $this->util->getCategories();
       
+      $venue_to_like_counts = array();
+      $events = $this->event_ranking_fb->fb_event_ranking($events, $venue_to_like_counts);
+
       //Event Fields Needed
       $fields = $this->fields;
       $json_events = $this->util->event_filter($events, $fields, $this->default_keywords);
-
+      
       //Decide which view i want to use
       $data['main_content'] = 'home';
       $data['json_events']  = $json_events;

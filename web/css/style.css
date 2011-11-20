@@ -235,7 +235,7 @@ label.tag-filter {
 
 .topbar .greenfill {
     background-color: #57A957;
-    background-image: -moz-linear-gradient(center top , #C96E00, #D8570D);
+    background-image: -moz-linear-gradient(center top , #1e5799, #2989d8);
     background-repeat: repeat-x;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }

@@ -33,7 +33,8 @@ class Location {
  
    public function getCity() {
 	if (!empty($this->location) && is_array($this->location)
-		&& isset($this->location['cityName'])) {
+		&& isset($this->location['cityName'])
+		&& $this->location['cityName'] != '-') {
 		return $this->location['cityName'];
 	} else
       return null;
@@ -41,7 +42,8 @@ class Location {
 	
 	public function getCountry() {
 		if (!empty($this->location) && is_array($this->location)
-			&& isset($this->location['countryName'])) {
+			&& isset($this->location['countryName'])
+			&& $this->location['countryName'] != '-') {
 			return $this->location['countryName'];
 		} else
 		  return null;	
@@ -49,7 +51,8 @@ class Location {
 	
 	public function getState() {
 		if (!empty($this->location) && is_array($this->location)
-			&& isset($this->location['regionName'])) {
+			&& isset($this->location['regionName'])
+			&& $this->location['regionName'] != '-') {
 			return $this->location['regionName'];
 		} else
 		  return null;	
@@ -57,7 +60,8 @@ class Location {
 	
 	public function getIP() {
 		if (!empty($this->location) && is_array($this->location)
-			&& isset($this->location['ipAddress'])) {
+			&& isset($this->location['ipAddress'])
+			&& $this->location['ipAddress'] != '-') {
 			return $this->location['ipAddress'];
 		} else
 		  return null;	
@@ -65,7 +69,8 @@ class Location {
 	
    public function getZipCode() {
 		if (!empty($this->location) && is_array($this->location)
-			&& isset($this->location['zipCode'])) {
+			&& isset($this->location['zipCode'])
+			&& $this->location['zipCode'] != '-') {
 			return $this->location['zipCode'];
 		} else
 		  return null;	
@@ -75,7 +80,8 @@ class Location {
 	    $geo = array();
 		if (!empty($this->location) && is_array($this->location)
 			&& isset($this->location['latitude'])
-			&& isset($this->location['longitude'])) {
+			&& isset($this->location['longitude'])
+			&& $this->location['longitude'] != '-') {
 			$geo['longitude'] = $this->location['longitude'];
 			$geo['latitude'] = $this->location['latitude'];
 			return $geo;
