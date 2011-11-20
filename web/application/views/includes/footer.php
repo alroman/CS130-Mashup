@@ -34,7 +34,12 @@ $(document).ready(function(){
 
    window.icons = {
       'music':  public_url+'img/map.png',  
-      'movies': public_url+'img/map.png'  
+      'movies': public_url+'img/map.png',
+      'hot': public_url+'img/map_hot.png',
+      'ice': public_url+'img/map_ice.png',
+      'warm': public_url+'img/map_warm.png',
+      'neutral': public_url+'img/map_neutral.png',
+      'cool': public_url+'img/map_cool.png'
    }
 
    window.currentPlace = null;
@@ -59,7 +64,7 @@ $(document).ready(function(){
          position : loc,
             map   : map,
             title : place.title,
-            icon  : icons[place.category]
+            icon  : icons[place.heat_rank]
       });
 
       markerArray.push(marker);
@@ -70,7 +75,7 @@ $(document).ready(function(){
             var projection = overlay.getProjection(); 
             var pixel = projection.fromLatLngToContainerPixel(marker.getPosition());
 
-            $('#event_title', info).text(place.title);
+            $('#event_title', info).html("<img src='" + public_url + "img/heat_" + place.heat_rank + ".png'/>" + place.title);
             $('#event_desc',  info).html(place.description);
             $('#event_venue',  info).text("@"+place.venue_name);
 

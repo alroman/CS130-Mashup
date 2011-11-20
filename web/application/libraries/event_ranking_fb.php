@@ -77,27 +77,27 @@ class Event_ranking_fb
 	{
 		if ($i < $heatRankIncrement)
 		{
-			$ranked_event[$i]["heatRank"] = "hot";
+			$ranked_event[$i]["heat_rank"] = "hot";
 			//print_r($ranked_event[$i]);	
 		}
 		else if ($i < $heatRankIncrement*2)
 		{
-			$ranked_event[$i]["heatRank"] = "warm";
+			$ranked_event[$i]["heat_rank"] = "warm";
 			//print_r($ranked_event[$i]);
 		}
 		else if ($i < $heatRankIncrement*3)
 		{
-			$ranked_event[$i]["heatRank"] = "neutral";
+			$ranked_event[$i]["heat_rank"] = "neutral";
 			//print_r($ranked_event[$i]);
 		}
 		else if ($i < $heatRankIncrement*4)
 		{
-			$ranked_event[$i]["heatRank"] = "cool";
+			$ranked_event[$i]["heat_rank"] = "cool";
 			//print_r($ranked_event[$i]);
 		}
 		else
 		{
-			$ranked_event[$i]["heatRank"] = "ice";
+			$ranked_event[$i]["heat_rank"] = "ice";
 			//print_r($ranked_event[$i]);
 		}
 		$i++;
