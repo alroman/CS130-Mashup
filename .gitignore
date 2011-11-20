@@ -1,3 +1,4 @@
 config.php
 web/application/config/config.php
 logs/
+nbproject/*
