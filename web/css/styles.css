@@ -22,46 +22,6 @@ root {
   overflow: hidden;
 }
 
-/*#placeDetails {
-  position: absolute;
-  width: 300px;
-  left:0px;
-  top: 0px;
-  bottom: 0;
-  right: -320px;
-  padding-left: 10px;
-  padding-right: 10px;
-  visibility: hidden;
-
-   Semi-transparent background 
-background-color: rgba(0,0,0,0.8);
-color:white;
-
-      color: white;
-  font-size: 80%;
-
-   Rounded top left corner 
-  border-top-left-radius: 15px;
-  -moz-border-radius-topleft: 15px;
-  -webkit-border-top-left-radius: 15px;
-}
-*/
-/* Fit the text nicely inside the box */
-/*#event_title {
-  font-family: sans-serif;
-  color:white;
-  margin-bottom: 0;
-  font-weight: bold;
-  font-size:16px;
-  padding: 5px;
-}
-#event_desc {
-    padding:5px;
-    font-size: 14px;
-}
-#placeDetails p {
-  margin-top: 0;
-}*/
 
 /* Override some defaults */
 html, body {
@@ -293,18 +253,5 @@ margin: 0;
 margin: 0;
 }
 
-
-/* Event list styles */
-event_list_display { 
-    margin-top: 100px; 
-    position:absolute;
-    top:0px;
-}
-.blue { color: #0067CE;}
-.bold { font-weight: bold; }
-.condenseLine { margin-bottom: 4px; }
-.floatRight { float: right; }
-.heightWithImage { min-height: 160px; }
-.media-grid { margin-left: 0px; } /* override the negative margin on the media grid */
 
 

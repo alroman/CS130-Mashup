@@ -42,6 +42,9 @@
 .popover {
    display: block;
 }
+.popover .content {
+    margin: 0;
+}
 
 /* Override some defaults */
 html, body {
@@ -238,4 +241,29 @@ label.tag-filter {
     background-image: -moz-linear-gradient(center top , #1e5799, #2989d8);
     background-repeat: repeat-x;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+
+
+/* Event list styles */
+.event-list-display { 
+    margin-top: 100px; 
+}
+
+.blue { color: #0067CE;}
+.bold { font-weight: bold; }
+.condenseLine { margin-bottom: 4px; }
+.floatRight { float: right; }
+.heightWithImage { min-height: 160px; }
+.media-grid { margin-left: 0px; } /* override the negative margin on the media grid */
+
+.e-well {
+    background-color: white;
+    border: 1px solid #CCCCCC;
+}
+.e-band {
+    background-color: #cdeb8e;
+}
+
+.e-trim {
+    width: 600px;
 }
