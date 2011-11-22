@@ -25,14 +25,7 @@ class Home extends CI_Controller {
             
 	}
 
-        function rank($user_likes) {
-           
-            // get events
-            $city = $this->location->getCity();
-            if ($city == '-')
-                $city = "";
-            
-            $get_events = $this->eventful->getEvents(array('location'=>$city));
+        function rank($user_likes,$get_events) {           
             $events = array();
             
             foreach ($get_events as $e)
@@ -67,21 +60,39 @@ class Home extends CI_Controller {
             return $events;
         }
            
-        function get_friends_likes($user,$user_friends) {
+        function get_friends_likes($user,$user_friends,$get_events) {
+            $events = array();
             
-            foreach ($user_friends['data'] as $friend)
-               {
+            // foreach event
+            foreach ($get_events as $e)
+            {
+                $event = (object)$e;
+                $texts = $event->title . ' ' . $event->venue_name . ' ' . $event->description;
+                $event->fb_hits = 0;
+               
+                // foreach friend
+                foreach ($user_friends['data'] as $friend)
+                {
                    $friend_uid = $friend['id'];
-                 //  echo $friend_uid . '<br />';
                    if ($user) {
                         try {
+                            // get a friend's likes
                               $friends_likes = $this->facebook->api('/'.$friend_uid.'/likes');
+                              
+                              // search for hits
+                               foreach ($friends_likes['data'] as $like)
+                               {
+                                   $event->fb_hits += substr_count($texts, $like['name']);
+                               }
+                               echo $event->title . ' has ' . $event->fb_hits . ' hits.<br />';
+                        //       array_push($events,$event);                            
                         } catch (FacebookApiException $e) {
                             $user = null;
-
                         }
                     }
                }
+            }
+            
         }
         
 	function index() {
@@ -99,6 +110,13 @@ class Home extends CI_Controller {
             
             // FQL: SELECT name, type FROM page WHERE page_id IN (SELECT page_id FROM page_fan WHERE uid=100001653491805)
            
+            // get events
+            $city = $this->location->getCity();
+            if ($city == '-')
+                $city = "";
+            
+            $get_events = $this->eventful->getEvents(array('location'=>$city));
+
             if ($user) {
                 try {
                       $user_profile = $this->facebook->api('/me');
@@ -106,16 +124,13 @@ class Home extends CI_Controller {
                       $user_likes = $this->facebook->api('/me/likes');                      
                       $user_friends = $this->facebook->api('/me/friends');
                       
-                      $all_likes = $this->get_friends_likes($user,$user_friends);
-//                       foreach ($user_likes['data'] as $like)
-//                       {
-//                           echo $like['name'];
-//                       }
-                      $events = array();
+                      $user_ranked_events = array(); // events ranked by user's likes
+                      $friends_ranked_events = array(); // events ranked by friends' likes
                       
                       // what we got here is an array of sorted events in order of facebook hits
-                      $events = $this->rank($user_likes);
-
+                      $user_ranked_events = $this->rank($user_likes,$get_events);
+                      //$friends_ranked_events = $this->get_friends_likes($user,$user_friends,$get_events);
+                      
                 } catch (FacebookApiException $e) {
                     $user = null;
                     
