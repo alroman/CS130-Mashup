@@ -78,7 +78,7 @@ class Eventful {
                "category" => $category,
                "app_key" => $this->eventful_key,
                "sort_order" => "popularity",
-               "within" => "100",
+               "within" => "2",
                "units" => "miles"
             );
             
