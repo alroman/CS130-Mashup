@@ -77,7 +77,9 @@ class Eventful {
                "date" => $date,
                "category" => $category,
                "app_key" => $this->eventful_key,
-               "sort_order" => "popularity"
+               "sort_order" => "popularity",
+               "within" => "100",
+               "units" => "miles"
             );
             
             //Beautify the category name

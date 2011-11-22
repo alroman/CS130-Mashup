@@ -55,7 +55,7 @@
 
 
 <div class="row">
-    <div class="span4 event_cal" id="eventCalendar" style="margin-top: 10px;">
+    <div class="span4 event_cal" id="eventCalendar" style="margin-top: 20px;">
       <div id="dest"></div>
       <div id="calendar"></div>
     </div>
