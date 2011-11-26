@@ -205,14 +205,16 @@ class Unit_test extends CI_Controller{
    public function test_labelize() {
       $keywords = array('free', 'food', 'tickets', 'comedy', 'ninja', 'turtles', 'movie', 'television archive', 'echo park');
 
-      $string = "This is a string contain food, free, tickets, echo park somepark freefood, and something archive, greatmovie";
+      $string = "Food This is a string contain food, free, tickets, echo park somepark freefood, and something archive, greatmovie. <span>comedy</span> ninja.";
       list($out, $keyword_matches) = Helper::labelize($keywords, $string);
 
-      $this->unit->run((count($keyword_matches) == 4), 'is_true', 'Keywords count test');
+      $this->unit->run((count($keyword_matches) == 6), 'is_true', 'Keywords count test');
       $this->unit->run(($keyword_matches[0] == "free"), 'is_true', 'First keyword test');
       $this->unit->run(($keyword_matches[1] == "food"), 'is_true', 'Second keyword test');
       $this->unit->run(($keyword_matches[2] == "tickets"), 'is_true', 'Third keyword test');
-      $this->unit->run(($keyword_matches[3] == "echo park"), 'is_true', 'Fourth keyword test');
+      $this->unit->run(($keyword_matches[3] == "ninja"), 'is_true', 'Fourth keyword test');
+      $this->unit->run(($keyword_matches[4] == "movie"), 'is_true', 'Fifth keyword test');
+      $this->unit->run(($keyword_matches[5] == "echo park"), 'is_true', 'Sixth keyword test');
 
       echo $this->unit->report();
    }

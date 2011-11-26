@@ -3,6 +3,10 @@
 class Helper {
     
     /**
+     * There is an limitation on this function: it cannot label the word in some 
+     * cases:
+     * 1. Nothing in front of a word
+     * 2. Nothing at the end of a word
      *
      * @param type $keywords
      * @param type $string
@@ -26,14 +30,13 @@ class Helper {
         //Fixed bugs for Alfonso's code
         //Match all the keywords based on regular expression
         foreach($keywords as $words) {
-            $partten = '/( )('. $words . ')( |,|\.|\-)/i';
+            $partten = '/([ |,|\.|\-]*)('. $words . ')( |,|\.|\-)/i';
             $count   = 0;
             $string  = preg_replace($partten, '$1'. $label_start . $words. $label_end. '$3', $string, -1, $count);
             if ($count > 0 && !in_array($words, $keyword_matches)) {
                 $keyword_matches []= $words;
             }
         }
-
         // return two objects and use list($a, $b), $a is $out and $b is 
         // $keyword_matches.
         return array($string, $keyword_matches);
@@ -68,7 +71,7 @@ class Helper {
                         $tmp_val = "No description available";
                     
                     //$tmp[$v] = Helper::summarize(utf8_encode(preg_replace('/[^a-zA-Z0-9_\<\> %\[\]\.\(\)%&-:]/s', '', $tmp_val)));
-                    list($tmp[$v."_long"]) = Helper::labelize($keywords, Helper::summarize(utf8_encode(preg_replace('/[^a-zA-Z0-9_\<\> %\[\]\.\(\)%&-:]/s', '', $tmp_val)), 1000));
+                    list($tmp[$v."_long"], $tmp['keywords']) = Helper::labelize($keywords, Helper::summarize(utf8_encode(preg_replace('/[^a-zA-Z0-9_\<\> %\[\]\.\(\)%&-:]/s', '', $tmp_val)), 1000));
                     $tmp[$v] = Helper::summarize($tmp[$v."_long"]);
                 }
                 else 
@@ -84,6 +87,7 @@ class Helper {
     static public function simple_filter($events, $keywords = null) {
         foreach($events as &$event) {
             $event['title'] = Helper::titleize($event['title']);
+            //Adding keywords for the events
             list($event['description'], $event['keywords']) = Helper::labelize($keywords, $event['description']);
         }
         
