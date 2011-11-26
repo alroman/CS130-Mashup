@@ -90,7 +90,7 @@
             // For each element, we add the event listener...
             gm.event.addListener(marker, 'click', function() {
                 $('#desc_title', details).text(place.title);
-                $('#desc_venue', details).text(place.venue_name);
+                $('#desc_venue', details).html("<strong>" + place.venue_name + "</strong><br/>" + place.venue_address + "<br/>" + place.city_name);
                 $('#desc_desc', details).html(place.description_long);
             }); 
             oms.addMarker(marker);

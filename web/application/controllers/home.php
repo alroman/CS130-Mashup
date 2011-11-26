@@ -6,7 +6,7 @@
  **/
 class Home extends CI_Controller
 {
-   var $fields = array('title', 'description', 'longitude', 'latitude','venue_name', 'start_time', 'stop_time', 'category', 'heat_rank');
+   var $fields = array('title', 'description', 'longitude', 'latitude','venue_name', 'start_time', 'stop_time', 'category', 'heat_rank', 'venue_address','city_name');
    var $default_category = array('music', 'movies', 'comedy');
    var $default_keywords = array('free', 'food', 'tickets', 'comedy', 'ninja', 'turtles', 'movie', 'television archive', 'echo park');
 

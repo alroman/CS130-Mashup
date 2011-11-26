@@ -65,23 +65,26 @@
         <div class="inner">
           <h4 id="desc_title" class="title">E+ events</h4>
           <div class="content">
-              <h5 id="desc_venue"></h5>
+              <div id="desc_venue" class="well e-desc-well">
+              Welcome!  You can hover over events to view a brief description, or click on an event 
+              to view a full description.
+              <br/>
+              The events listed below matched the keywords you specified.
+              </div>
               <div id="desc_desc">
-                  <div class="well e-desc-well">
-                      Welcome!  You can hover over events to view a brief description, or click on an event 
-                      to view a full description.
-                      <br/>
-                      The events listed below matched the keywords you specified.
-                  </div>
                   <div style="max-height: 400px; overflow: auto">
                   <table class="zebra-striped">
                       <tbody>
                           <?php foreach ($events as $event) { ?>
-                          <tr><td><?php echo $event['title']; ?></td></tr>
+                          <tr>
+                              <td><?php echo $event['title']; ?></td>
+                          </tr>
                           <?php } ?>
                       </tbody>
                   </table>
                   </div>
+                  
+                  
               </div>
           </div>
         </div>
@@ -110,9 +113,9 @@
         $event = (object) $e;
         $image = $event->image;
         
-        echo "<pre>";
-        var_dump($event);
-        echo "</pre>";
+//        echo "<pre>";
+//        var_dump($event);
+//        echo "</pre>";
         
 
         echo "<div class='well e-well'>";
