@@ -91,4 +91,18 @@ class Util
       //Return all the found keywords
       return $is_existed;
    }
+
+   public function getAllKeywords($events)
+   {
+      $AllKeywords = array();
+      foreach ($events as $event) {
+         foreach ($event['keywords'] as $keyword) {
+            if (!in_array($keyword, $AllKeywords)) {
+               $AllKeywords []= $keyword;
+            }
+         }
+      }
+
+      return $AllKeywords;
+   }
 }

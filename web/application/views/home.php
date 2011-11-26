@@ -3,12 +3,8 @@
      <div class="container">
        <a class="brand" href="<?php echo base_url('/home') ;?>">Entertainment+</a>
 
-       <ul class="nav">
-         <li class="active"><a href="<?php echo base_url('/home') ;?>">Home</a></li>
-         <li><a href="<?php echo base_url('/unit_test/runAll') ;?>">Unit Test</a></li>
-       </ul>
        <form class="pull-right" action='<?php echo base_url('/home');?>' method="post">
-         <input name="city_search" placeholder="Search" type="text" />
+         <input name="city_search" placeholder="Search by City or Zipcode" type="text" />
          <?php echo form_submit('','Submit'); ?>
        </form>
      </div>
@@ -20,13 +16,23 @@
        <?php foreach($categories as $cat):?>
        <li>
             <div class="input-prepend">
-               <label class="add-on tag active">
-                  <input type="checkbox" id='<?php echo $cat;?>' value="<?php echo $cat;?>" class='tag_checkbox' checked='true' style='display:none;'>
+               <label class="add-on tag active category">
+                  <input type="checkbox" id='<?php echo $cat;?>' value="<?php echo $cat;?>" class='tag_checkbox' checked='true' style='display:none;'/>
                   <span class='tags_text'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $cat;?></span>
                </label>
             </div>
        </li>
        <?php endforeach; ?>
+       <?php foreach($keywords as $keyword):?>
+       <li>
+            <div class="input-prepend">
+               <label class="add-on tag active">
+                  <input type="checkbox" id='<?php echo $keyword;?>' value="<?php echo $keyword;?>" class='tag_checkbox' checked='true' style='display:none;'/>
+                  <span class='tags_text'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $keyword;?></span>
+               </label>
+            </div>
+       </li>
+       <?php endforeach;?>
        <li id='tag-wrapper'>
             <div class='input-prepend'>
                <label class='tag-filter' id='addTags'>
@@ -38,26 +44,19 @@
        <input type='hidden' name='location' value='<?php echo $location; ?>' id='location'>
        </form>
           <div class="navbuttons" >
-          <button onclick="showMap()" class="btn primary square-button" >map view</button>
-          <button onclick="showList()" class="btn info square-button" >list view</button>
+          <button onclick="showMap()" class="btn primary square-button" rel="popover" data-original-title="View events on map" data-content="You can view events on the map along with their heat rank!" >map view</button>
+          <button onclick="showList()" class="btn info square-button" rel="popover"  data-original-title="View events in a list" data-content="View the events in a list sorted by their heat rank!" >list view</button>
           </div>
       </div>
    </div>
 </div>
 
 <div class="row">
-   <div class="span4 event_list fill">
-      <?php foreach ($events as $event) { ?>
-      <div class='event_title'><?php echo $event['title']; ?></div>
-      <?php } ?>
-   </div>
-</div>
-
-
-<div class="row">
-    <div class="span4 event_cal" id="eventCalendar" style="margin-top: 20px;">
-      <div id="dest"></div>
-      <div id="calendar"></div>
+    <div class="wrap">
+        <div class="span4 event_cal" id="eventCalendar">
+          <div id="dest"></div>
+          <div id="calendar"></div>
+        </div>
     </div>
 </div>
 
@@ -78,8 +77,34 @@
         <div class="inner">
           <h4 id="desc_title" class="title">E+ events</h4>
           <div class="content">
-              <h5 id="desc_venue"></h5>
-              <p id="desc_desc">Click on event to view full description</p>
+              <div id="desc_venue" class="well e-desc-well">
+              Welcome!  You can hover over events to view a brief description, or click on an event 
+              to view a full description.
+              <br/>
+              The events listed below matched the keywords you specified.
+              </div>
+              <div id="desc_desc">
+                  <div style="max-height: 400px; overflow: auto">
+                  <table class="zebra-striped">
+                      <tbody>
+                          <?php foreach ($events as $event) { ?>
+                          <tr>
+                              <td>
+                                <?php echo $event['title']; ?>
+
+                                <span class='label notice'><?php echo $event['category']; ?></span>
+                                <?php foreach ($event['keywords'] as $keyword) {?>
+                                    <span class='label important'><?php echo $keyword; ?></span>
+                                <?php } ?>
+                              </td>
+                          </tr>
+                          <?php } ?>
+                      </tbody>
+                  </table>
+                  </div>
+                  
+                  
+              </div>
           </div>
         </div>
     </div>
@@ -106,6 +131,10 @@
     foreach ($events as $e) {
         $event = (object) $e;
         $image = $event->image;
+        
+//        echo "<pre>";
+//        var_dump($event);
+//        echo "</pre>";
         
 
         echo "<div class='well e-well'>";
@@ -134,6 +163,8 @@
         echo "<div class='well e-band'>";
         echo "  <strong>Don't miss it: </strong>" . date("l, M j", strtotime($event->start_time)) . " @ " . date("g:i A", strtotime($event->start_time));
         echo "  <br/><strong>Go to: </strong>" . $event->venue_name;
+        echo "  <br/>$event->venue_address";
+        echo "  <br/>$event->city_name";
         echo "  <br/><strong>File under: </strong><span class='label notice'>$event->category</span>
               
               </div>";

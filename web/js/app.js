@@ -47,7 +47,7 @@ $(document).ready(function() {
       // AJAX call to the server
       $.post(url, params, function(data){
          clearOverlays();
-         update_event_list(data);
+         // update_event_list(data);
          update_event_cal(data);
 
          if (data.error) {
