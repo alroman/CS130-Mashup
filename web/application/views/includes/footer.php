@@ -113,6 +113,17 @@
        })
    })
 
+   $(function () {
+       $("button[rel=popover]")
+       .popover({
+           offset: 10,
+           placement: 'below'
+       })
+       .click(function(e) {
+           e.preventDefault()
+       })
+   })
+
     function showMap() {
         $('#all_events_map').css('display', 'block');
         $('#all_events_list').css('display', 'none');

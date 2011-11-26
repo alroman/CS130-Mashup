@@ -267,3 +267,7 @@ label.tag-filter {
 .e-trim {
     width: 600px;
 }
+
+.e-desc-well {
+    padding: 5px;
+}
