@@ -19,30 +19,24 @@ class Helper {
         $label_start = '<span class="label important">';
         $label_end = '</span>';
         
-        
-        // Break up the keywords
-        $string_words = explode(" ", $string);
-        foreach($string_words as &$word) {
-            
-            // Check if the word is in the keywords array.  
-            // Make sure to check lowercase and ignore whitespace
-            if(trim($word) != "" && in_array(strtolower($word), $keywords)) {
-                $labeled = $label_start . $word . $label_end;
-                $word = $labeled;
-            }
-        }
-                
-        // Restore the string
-        $out = implode(" ", $string_words);
-        
-        // Now  check for phrases 
+        // Keyword_matches that show the array of kewords that the event 
+        // matches.
+        $keyword_matches = array();
+
+        //Fixed bugs for Alfonso's code
+        //Match all the keywords based on regular expression
         foreach($keywords as $words) {
-            if(count(explode(" ", $words)) > 1) {
-                $out = preg_replace('/'. $words . '/i', $label_start . $words. $label_end, $out);
+            $partten = '/( )('. $words . ')( |,|\.|\-)/i';
+            $count   = 0;
+            $string  = preg_replace($partten, '$1'. $label_start . $words. $label_end. '$3', $string, -1, $count);
+            if ($count > 0 && !in_array($words, $keyword_matches)) {
+                $keyword_matches []= $words;
             }
         }
 
-        return $out;
+        // return two objects and use list($a, $b), $a is $out and $b is 
+        // $keyword_matches.
+        return array($string, $keyword_matches);
     }
     
     /**
@@ -74,7 +68,7 @@ class Helper {
                         $tmp_val = "No description available";
                     
                     //$tmp[$v] = Helper::summarize(utf8_encode(preg_replace('/[^a-zA-Z0-9_\<\> %\[\]\.\(\)%&-:]/s', '', $tmp_val)));
-                    $tmp[$v."_long"] = Helper::labelize($keywords, Helper::summarize(utf8_encode(preg_replace('/[^a-zA-Z0-9_\<\> %\[\]\.\(\)%&-:]/s', '', $tmp_val)), 1000));
+                    list($tmp[$v."_long"]) = Helper::labelize($keywords, Helper::summarize(utf8_encode(preg_replace('/[^a-zA-Z0-9_\<\> %\[\]\.\(\)%&-:]/s', '', $tmp_val)), 1000));
                     $tmp[$v] = Helper::summarize($tmp[$v."_long"]);
                 }
                 else 
@@ -90,7 +84,7 @@ class Helper {
     static public function simple_filter($events, $keywords = null) {
         foreach($events as &$event) {
             $event['title'] = Helper::titleize($event['title']);
-            $event['description'] = Helper::labelize($keywords, $event['description']);
+            list($event['description'], $event['keywords']) = Helper::labelize($keywords, $event['description']);
         }
         
         return $events;
