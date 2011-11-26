@@ -19,14 +19,6 @@ class Helper {
         $label_start = '<span class="label important">';
         $label_end = '</span>';
         
-        // We need the keywords to be lowercase, otherwise we might miss
-        // matches on case difference
-        if(!is_array($keywords)) {
-            $keywords = explode(" ", $keywords);
-            foreach($keywords as &$key) {
-                $key = strtolower($key);
-            }
-        }
         
         // Break up the keywords
         $string_words = explode(" ", $string);
@@ -39,9 +31,17 @@ class Helper {
                 $word = $labeled;
             }
         }
-        
+                
         // Restore the string
         $out = implode(" ", $string_words);
+        
+        // Now  check for phrases 
+        foreach($keywords as $words) {
+            if(count(explode(" ", $words)) > 1) {
+                $out = preg_replace('/'. $words . '/i', $label_start . $words. $label_end, $out);
+            }
+        }
+
         return $out;
     }
     
