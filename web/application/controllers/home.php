@@ -100,11 +100,12 @@ class Home extends CI_Controller
                      $filtered_events []= $e;
                      break; //break the loop
                   }
-               } else if(!in_array($e, $filtered_events)) {
+               }
+               if(!in_array($e, $filtered_events)) {
                   //Second chance to output the events based on users tag if any.
                   //If it is not a category, filter out the category based on 
                   //the description.
-                  $words = str_word_count($e['description_long'], 1);
+                  $words = str_word_count(strip_tags($e['description_long']), 1);
                   foreach ($words as $w) {
                      if (strcasecmp($w, $cat) == 0) {
                         $filtered_events []= $e;
