@@ -3,10 +3,25 @@
      <div class="container">
        <a class="brand" href="<?php echo base_url('/home') ;?>">Entertainment+</a>
 
-       <form class="pull-right" action='<?php echo base_url('/home');?>' method="post">
+       <!-- Facebook Buttons -->
+          <?php if (@$logout_url): ?>
+              <span style="padding:10px" class="pull-right"><a href="<?php echo $logout_url ?>"> <img src="../img/fb_logout.gif" /></a></span>
+              <span style="padding-top:10px;padding-left:10px;color:white;font-weight: bold" class="pull-right"> <?php echo $fb_name ?></span>
+              <span style="margin-top:2px" class="pull-right"><?php echo $display_img ?></span>
+          <?php else: ?>
+              <span style="padding:10px" class="pull-right"><a href="<?php echo $login_url ?>"> <img src="../img/fb_login.gif" /></a></span>
+          <?php endif; ?>
+          
+<!--          <span style="padding-top:12px;color:white;font-weight: bold" class="pull-right"> Bunsann Kim </span>
+          <img style="padding:10px" class="pull-right" src="../img/fb_login.gif" />-->
+
+          
+       <!-- END Facebook Buttons -->
+          <form class="pull-left" action='<?php echo base_url('/home');?>' method="post">
          <input name="city_search" placeholder="Search by City or Zipcode" type="text" />
          <?php echo form_submit('','Submit'); ?>
        </form>
+
      </div>
    </div>
    <div class='well sublist'>
@@ -37,6 +52,7 @@
           <button onclick="showMap()" class="btn primary square-button" rel="popover" data-original-title="View events on map" data-content="You can view events on the map along with their heat rank!" >map view</button>
           <button onclick="showList()" class="btn info square-button" rel="popover"  data-original-title="View events in a list" data-content="View the events in a list sorted by their heat rank!" >list view</button>
           </div>
+         
       </div>
    </div>
 </div>

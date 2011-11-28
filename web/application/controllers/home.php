@@ -22,23 +22,135 @@ class Home extends CI_Controller
       $this->load->helper('form');
       
       $this->load->library('event_ranking_fb');
+      $this->load->library('facebook_connect');
    }
+   
+   //in: @array of objects of user's likes, @default_events
+   //out: @ranked events based on user's likes substr_count hits
+   function rank($user_likes,$get_events) {           
+
+       $ranked_events = array();
+       $event_rank = array();
+       $title_event_map = array();
+        foreach ($get_events as $value)
+        {
+            $title_event_map[$value['title']] = $value;
+            $event_rank[$value['title']] = 0;
+        }
+//        echo '<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />';
+        foreach($event_rank as $title => $hits_count)
+        {
+            foreach ($get_events as $event)
+            {
+               $hits = 0;
+               $keywords = $event['title'] . ' ' . $event['venue_name'] . ' ' . $event['description'];
+               foreach ($user_likes['data'] as $like)
+               {
+                   $hits += substr_count(strtolower($keywords), strtolower($like['name']));
+               }
+               $event_rank[$event['title']] = $hits;
+               
+            }
+//            echo $event_rank[$title] . '<br/>';
+        }
+        arsort($event_rank);
+        foreach($event_rank as $title => $_)
+        {
+//            echo $event_rank[$title] . '<br/>';
+          $ranked_events[] = $title_event_map[$title];
+        }
+        // get number of events and divide by 5 for popularity scale
+	$heatRankIncrement = ceil(count($ranked_events)/5);
+	
+	$i=0;
+      echo '<br /><br /><br /><br /><br />called rank()';
+
+	foreach($ranked_events as $value)
+	{
+		if ($i < $heatRankIncrement)
+		{
+			$ranked_events[$i]["heat_rank"] = "hot";
+//			print_r($ranked_events[$i]);	
+		}
+		else if ($i < $heatRankIncrement*2)
+		{
+			$ranked_events[$i]["heat_rank"] = "warm";
+//			print_r($ranked_events[$i]);
+		}
+		else if ($i < $heatRankIncrement*3)
+		{
+			$ranked_events[$i]["heat_rank"] = "neutral";
+//			print_r($ranked_events[$i]);
+		}
+		else if ($i < $heatRankIncrement*4)
+		{
+			$ranked_events[$i]["heat_rank"] = "cool";
+//			print_r($ranked_events[$i]);
+		}
+		else
+		{
+			$ranked_events[$i]["heat_rank"] = "ice";
+//			print_r($ranked_events[$i]);
+		}
+		$i++;
+	}	
+        return $ranked_events;
+    }
 
    public function __index($location, $filter=array()) {
+       
       //Show the home page
       $events = $this->util->getEvents(array('location' => $location['zipCode']));
       $categories = $this->util->getCategories();
       
-      $venue_to_like_counts = array();
-      $events = $this->event_ranking_fb->fb_event_ranking($events, $venue_to_like_counts);
-
+      //Facebook API 
+      $fb_config = array(
+               'appId' => '121701154606843',
+               'secret' => '9375f40fc20e1a2025adff48d9f5154c',
+            );
+      $this->load->library('facebook',$fb_config);                       
+      $logged_in = $this->facebook->getUser();
+      $params = array(
+          'scope' => 'user_likes, friends_likes',
+          'redirect_uri' => 'http://localhost/CS130-Mashup/web/index.php/home'
+      );
+      $login_url_perm = $this->facebook->getLoginUrl($params);
+      
+      if ($logged_in) { //A Session is found
+          try {
+  //        echo '<br /><br /><br /><br /><br />logged in';
+              //API Call: get user profile info
+              $user_profile = $this->facebook->api('/me');
+              $data['fb_name'] = $user_profile['name'];
+              $data['display_img'] = '<img height="36px" src="http://graph.facebook.com/'.$logged_in.'/picture"/>';
+              
+              //API Call: get user's likes
+              $user_likes = $this->facebook->api('/me/likes');
+              $events = $this->rank($user_likes,$events);
+                      
+          } catch (FacebookApiException $e) {
+              $logged_in = null;
+          }
+      }
+      if ($logged_in) {
+          $data['logout_url'] = $this->facebook->getLogoutUrl();
+      } else {//Session not found or expire, or user logged out
+          $data['login_url'] = $login_url_perm;
+ //         echo '<br /><br /><br /><br /><br />logged out';
+	
+          //Wei's ranking using FB Venue
+          $venue_to_like_counts = array();
+          $events = $this->event_ranking_fb->fb_event_ranking($events, $venue_to_like_counts);
+          
+      }
+      //END Facebook API stuff
+            
       //Event Fields Needed
       $fields = $this->fields;
       $json_events = $this->util->event_filter($events, $fields, $this->default_keywords);
-      
       //Decide which view i want to use
-      $data['main_content'] = 'home';
       $data['json_events']  = $json_events;
+      $data['main_content'] = 'home';
       $data['geoloc']       = $location;
       $data['title']        = 'Entertainment+';
       $data['events']       = Helper::simple_filter($events, $this->default_keywords);
@@ -54,6 +166,7 @@ class Home extends CI_Controller
       //Show the home page
       $location = $this->util->getLocation();
       $input = $this->input->post('city_search');
+
       
       if (!empty($input)) {
          $this->search($input);

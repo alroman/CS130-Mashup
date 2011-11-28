@@ -71,7 +71,6 @@ class Event_ranking_fb
 	
 	// get number of events and divide by 5 for popularity scale
 	$heatRankIncrement = ceil(count($ranked_event)/5);
-	
 	$i=0;
 	foreach($ranked_event as $value)
 	{
