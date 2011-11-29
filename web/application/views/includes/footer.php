@@ -46,13 +46,32 @@
         window.info = $('#placeDetails');
         window.details = $('#fullDetails');
         window.markerArray = [];
-        window.app = {};
+        window.app = {
+            'infoPanel': null
+        };
 
         // OverlayView is used to retrieve the x,y pixel coordinates of a 
         // marker on the map.
         var overlay = new gm.OverlayView();
         overlay.draw = function() {};
         overlay.setMap(map);
+        
+        app.initInfoPanel = function(title_text, desc_html, venue_text) {
+            app.infoPanel = {
+                "title": title_text,
+                "desc": desc_html,
+                "venue" : venue_text
+            }
+        }
+
+        app.loadInfoPanel = function() {
+            $("#info-panel").click(function(){
+                $("#desc_title").text(app.infoPanel.title);
+                $("#desc_venue").text(app.infoPanel.venue);
+                $("#desc_desc").html(app.infoPanel.desc);
+                $("#info-panel-wraper").hide();
+            })
+        };
     
         //This app object is global object, so it will be accessible from app.js
         app.updateMap = function() {
@@ -92,13 +111,18 @@
                 $('#desc_title', details).text(place.title);
                 $('#desc_venue', details).html("<strong>" + place.venue_name + "</strong><br/>" + place.venue_address + "<br/>" + place.city_name);
                 $('#desc_desc', details).html(place.description_long);
+                //Show the info panel button
+                $("#info-panel-wraper").show();
             }); 
             oms.addMarker(marker);
         }
 
         // This iterates through each element in the 'places' array
+        app.initInfoPanel($("#desc_title").text(), 
+                          $("#desc_desc").html(),
+                          $("#desc_venue").text());
         $(places).each(app.updateMap);
-
+        app.loadInfoPanel();
    
     });
 

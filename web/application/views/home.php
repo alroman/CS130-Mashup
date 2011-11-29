@@ -74,6 +74,11 @@
     </div>
       
     <div id="fullDetails" class="eplusdesc" >
+        <div class="info-panel-wrapper" id="info-panel-wraper" style="postion:relative; display:none;">
+            <div class="info-panel-button" style="position:absolute; top: 10px; right: 22px;">
+               <button class="btn" id="info-panel">Info Panel</button>
+            </div>
+        </div>
         <div class="inner">
           <h4 id="desc_title" class="title">E+ events</h4>
           <div class="content">
