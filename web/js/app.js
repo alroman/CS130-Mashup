@@ -175,10 +175,15 @@ $(document).ready(function() {
    // Get the eventList and eventDateList populated with the data
    event_cal.constructEventsList = function() {
       $.each(event_cal.events, function(i, v){
-         var tmp = {title: v.title,
-            start: v.start_time,
-         end: v.stop_time,
-         allDay: false};
+         var tmp = {
+            title            : v.title,
+            start            : v.start_time,
+            end              : v.stop_time,
+            allDay           : false,
+            venue_name       : v.venue_name,
+            venue_address    : v.venue_address,
+            description_long : v.description_long
+         };
          event_cal.eventList.push(tmp);
          var date = event_cal.parse_date(v.start_time);
          event_cal.eventDateList.push(date.toDateString());
@@ -195,7 +200,10 @@ $(document).ready(function() {
           slotMinutes: 60,
           allDaySlot: false,
           firstHour: 0,
-          events: event_cal.eventList
+          events: event_cal.eventList,
+          eventClick: function(calEvent, jsEvent, view) {
+             app.updateInfoPanel(calEvent);
+          }
       });
 
       var calendarPickr = $("#dest").calendarPicker({

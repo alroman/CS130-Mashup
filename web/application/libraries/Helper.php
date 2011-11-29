@@ -30,7 +30,7 @@ class Helper {
         //Fixed bugs for Alfonso's code
         //Match all the keywords based on regular expression
         foreach($keywords as $words) {
-            $partten = '/([ |,|\.|\-]*)('. $words . ')( |,|\.|\-)/i';
+            $partten = '/([ |,|\.|\-]*)('. $words . ')( |,|\.|\-|\:)/i';
             $count   = 0;
             $string  = preg_replace($partten, '$1'. $label_start . $words. $label_end. '$3', $string, -1, $count);
             if ($count > 0 && !in_array($words, $keyword_matches)) {

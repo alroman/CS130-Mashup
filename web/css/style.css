@@ -49,6 +49,7 @@
 /* Override some defaults */
 html, body {
    background-color: #eee;
+   min-width: 1385px;
 }
 html { height: 100% }
 body { height: 100%; margin: 0; padding: 0 }
@@ -305,4 +306,7 @@ label.tag-filter {
 
 .e-desc-well {
     padding: 5px;
+}
+.fc-event:hover {
+   cursor: pointer;
 }
