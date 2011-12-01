@@ -84,14 +84,14 @@ class Helper {
             $filtered_events []= $tmp;
         }
         
-        return $filtered_events; 
+        return json_encode($filtered_events); 
     }
     
     static public function simple_filter($events, $keywords = null) {
         foreach($events as &$event) {
             $event['title'] = Helper::titleize($event['title']);
             //Adding keywords for the events
-            list($event['description'], $event['keywords']) = Helper::labelize($keywords, Helper::summarize($event['description'], 1000));
+            list($event['description'], $event['keywords']) = Helper::labelize($keywords, Helper::summarize(utf8_encode(preg_replace('/[^a-zA-Z0-9_\<\> %\[\]\.\(\)%&-:]/s', '', $event['description'])), 1000));
         }
         
         return $events;

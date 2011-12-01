@@ -34,14 +34,14 @@ class Home extends CI_Controller
 
       //Event Fields Needed
       $fields = $this->fields;
-      $all_events = $this->util->event_filter($events, $fields, $this->default_keywords);
+      $json_events = $this->util->event_filter($events, $fields, $this->default_keywords);
       
       //Decide which view i want to use
       $data['main_content'] = 'home';
-      $data['json_events']  = json_encode($all_events);
+      $data['json_events']  = $json_events;
       $data['geoloc']       = $location;
       $data['title']        = 'Entertainment+';
-      $data['events']       = $all_events;
+      $data['events']       = Helper::simple_filter($events, $this->default_keywords);
       $data['keywords']     = $this->util->getAllKeywords($data['events']);//only can use $data['events']
       $data['public_url']   = $this->util->getPublicUrl();
       $data['categories']   = $categories;
