@@ -18,11 +18,14 @@ class Helper {
         if($keywords == null) {
             return $string;
         }
-        
+
         // Label that we're going to apply to matched keywords
         $label_start = '<span class="label important">';
         $label_end = '</span>';
         
+        $pattern = '/(\<span\ class=\"label\ important\"\>)(\w+)(\<\/span\>)/i';
+        $string = preg_replace($pattern, '$2', $string);
+
         // Keyword_matches that show the array of kewords that the event 
         // matches.
         $keyword_matches = array();
@@ -30,9 +33,9 @@ class Helper {
         //Fixed bugs for Alfonso's code
         //Match all the keywords based on regular expression
         foreach($keywords as $words) {
-            $partten = '/([ |,|\.|\-]*)('. $words . ')( |,|\.|\-|\:)/i';
+            $pattern = '/([ |,|\.|\-]*)('. $words . ')( |,|\.|\-|\:)/i';
             $count   = 0;
-            $string  = preg_replace($partten, '$1'. $label_start . $words. $label_end. '$3', $string, -1, $count);
+            $string  = preg_replace($pattern, '$1'. $label_start . $words. $label_end. '$3', $string, -1, $count);
             if ($count > 0 && !in_array($words, $keyword_matches)) {
                 $keyword_matches []= $words;
             }
@@ -81,14 +84,14 @@ class Helper {
             $filtered_events []= $tmp;
         }
         
-        return json_encode($filtered_events); 
+        return $filtered_events; 
     }
     
     static public function simple_filter($events, $keywords = null) {
         foreach($events as &$event) {
             $event['title'] = Helper::titleize($event['title']);
             //Adding keywords for the events
-            list($event['description'], $event['keywords']) = Helper::labelize($keywords, $event['description']);
+            list($event['description'], $event['keywords']) = Helper::labelize($keywords, Helper::summarize($event['description'], 1000));
         }
         
         return $events;

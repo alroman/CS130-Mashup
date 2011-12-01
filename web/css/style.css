@@ -310,3 +310,6 @@ label.tag-filter {
 .fc-event:hover {
    cursor: pointer;
 }
+.loading {
+   background-image: url('../img/loading.gif');
+}

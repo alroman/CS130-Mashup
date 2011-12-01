@@ -36,7 +36,6 @@ $(document).ready(function() {
       var $params  = $form.find('input:checked'),
           url      = $form.attr('action'),
           params   = {'category[]' : []};
-      
       //loop the inputs and get the value to create params
       $.each($params, function(i, input){
          var cat = $(input).val();
@@ -44,6 +43,9 @@ $(document).ready(function() {
       });
       
       params['events'] = all_events; //get all the events
+
+      //Start loading
+      $('.loading').show();
       // AJAX call to the server
       $.post(url, params, function(data){
          clearOverlays();
@@ -54,6 +56,7 @@ $(document).ready(function() {
             return false;
          }
          $(data).each(app.updateMap);
+         $('.loading').hide();
       }, 'json');
       return false;
    }
@@ -115,7 +118,7 @@ $(document).ready(function() {
 
             if (tags.validateInput(input_val, $form)) {
                //Append tag to the subbanner
-               var html = '<li><div class="input-prepend"><label class="add-on tag active"><input value='+input_val+' type="checkbox" class="tag_checkbox" style="display:none;" checked="true"><span class="tags_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+input_val+'</span></label></div></li>';
+               var html = '<li><div class="input-prepend"><label class="add-on tag active"><input value="'+input_val+'" type="checkbox" class="tag_checkbox" style="display:none;" checked="true"><span class="tags_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+input_val+'</span></label></div></li>';
                $input.remove();
                tags.tagWrapper.before(html);
                tags.trigger.show();

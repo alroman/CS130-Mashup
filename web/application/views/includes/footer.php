@@ -1,3 +1,5 @@
+
+<div class="loading" style="display:none;position:absolute;top:45%;left:45%;width:100px;height:100px;z-index:999;"></div>
 <script type="text/javascript" src="<?php echo $public_url; ?>js/oms.min.js"></script>
 <script>  
     $(document).ready(function(){

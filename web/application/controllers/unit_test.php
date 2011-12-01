@@ -219,4 +219,17 @@ class Unit_test extends CI_Controller{
       echo $this->unit->report();
    }
 
+   public function test_removetag() {
+      $string = 'My name is Jake Carpenter.<br><br>I have starred in the <span class="label important">film</span> Alive, with Ethan Hawke and John Malkovich, a four-hour miniseries with Renee Zellweger, the television series L.A. Law, and others.<br><br>I&amp;39m offering a month of<span class="label important">free</span>acting classes for people who want to be film and television actors.<br><br>You can contact me at (310) 709 - 8151.<br><br>Thank you,<br><br>Jake Carpenter<br><br><br>Jake Carpenter Studio<br>(310) 709 - 8151';
+
+
+      $pattern = '/(\<span\ class=\"label\ important\"\>)(\w+)(\<\/span\>)/i';
+      $string = preg_replace($pattern, '$2', $string);
+
+
+      $this->unit->run((preg_match('/\<span\ class\=\"label\ important\"\>/i', $string)==false), 'is_true', 'No important span');
+
+      echo $this->unit->report();
+   }
+
 }

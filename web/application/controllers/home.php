@@ -34,14 +34,14 @@ class Home extends CI_Controller
 
       //Event Fields Needed
       $fields = $this->fields;
-      $json_events = $this->util->event_filter($events, $fields, $this->default_keywords);
+      $all_events = $this->util->event_filter($events, $fields, $this->default_keywords);
       
       //Decide which view i want to use
       $data['main_content'] = 'home';
-      $data['json_events']  = $json_events;
+      $data['json_events']  = json_encode($all_events);
       $data['geoloc']       = $location;
       $data['title']        = 'Entertainment+';
-      $data['events']       = Helper::simple_filter($events, $this->default_keywords);
+      $data['events']       = $all_events;
       $data['keywords']     = $this->util->getAllKeywords($data['events']);//only can use $data['events']
       $data['public_url']   = $this->util->getPublicUrl();
       $data['categories']   = $categories;
@@ -87,7 +87,15 @@ class Home extends CI_Controller
          $events          = $opts['events'];
          $cats            = $opts['category'];
          $filtered_events = array();
-         $search_keywords = array_unique(array_merge($cats, $this->default_keywords));
+         $search_keywords = $cats;
+
+         foreach ($events as &$event) {
+            //Update the label inside the events
+            list($event['description_long'], $event['keywords']) = 
+               Helper::labelize($search_keywords, $event['description_long']);
+            list($event['description'], $event['keywords']) = 
+               Helper::labelize($search_keywords, $event['description']);
+         }
 
          //filter out the category
          foreach ($events as $e) {
@@ -105,23 +113,13 @@ class Home extends CI_Controller
                   //Second chance to output the events based on users tag if any.
                   //If it is not a category, filter out the category based on 
                   //the description.
-                  $words = str_word_count(strip_tags($e['description_long']), 1);
-                  foreach ($words as $w) {
-                     if (strcasecmp($w, $cat) == 0) {
+                  $pattern = '<span class="label important">'.$cat.'</span>';
+                  if (strpos($e['description_long'], $pattern)) {
                         $filtered_events []= $e;
                         break; //break the loop
-                     }
                   }
                }
             }
-         }
-         
-         foreach ($filtered_events as &$event) {
-            //Update the label inside the events
-            list($event['description_long'], $event['keywords']) = 
-               Helper::labelize($search_keywords, $event['description_long']);
-            list($event['description'], $event['keywords']) = 
-               Helper::labelize($search_keywords, $event['description']);
          }
          
          $json_events = json_encode($filtered_events);
