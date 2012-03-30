@@ -1,12 +1,6 @@
 CS 130 Project
 IBM: Entertainment+ Mashup
-<<<<<<< HEAD
 
-Project info:
-=======
-accuracy is within 18 miles
-when you try to use this class, change line 27 to $this->location = $this->ipLite->getCity($_SERVER['REMOTE_ADDR']);
->>>>>>> 6c87d2907ae05fa63128f1c80c98af910440297f
 
 README: Relevant project info
 
@@ -20,9 +14,6 @@ CodeIgniter Framwork
     > http://net.tutsplus.com/sessions/codeigniter-from-scratch/
 
 When setting up your local server, ideally, you want to have something like: http://localhost/web/
-
-Apis
-  * (fill in)
 
 
 Extra:
