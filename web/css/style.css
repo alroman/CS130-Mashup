@@ -49,6 +49,7 @@
 /* Override some defaults */
 html, body {
    background-color: #eee;
+   min-width: 1385px;
 }
 html { height: 100% }
 body { height: 100%; margin: 0; padding: 0 }
@@ -171,7 +172,12 @@ div.event_list {
    overflow-x: hidden;
    overflow-y: auto;
    background-color: #222222;
+   background-image: -webkit-gradient(linear, left top, left bottom, from(#333333), to(#222222));
+   background-image: -webkit-linear-gradient(center top , #333333, #222222);
    background-image: -moz-linear-gradient(center top , #333333, #222222);
+   background-image: -o-linear-gradient(center top , #333333, #222222);
+   background-image: -ms-linear-gradient(center top , #333333, #222222);
+   background-image: linear-gradient(center top , #333333, #222222);
    background-repeat: repeat-x;
    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), 0 -1px 0 rgba(0, 0, 0, 0.1) inset;
 }
@@ -185,13 +191,20 @@ div#dest {
    width: 230px;
 }
 div.event_cal {
-   position: absolute; 
-   top: 60px; 
-   left: 20px; 
-   z-index: 99; 
-   opacity: 1;
    height: 290px;
    background-color: #fff;
+}
+
+div.row .wrap {
+   background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+   border-radius: 6px 6px 6px 6px;
+   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+   padding: 3px;
+   position: absolute; 
+   top: 85px; 
+   left: 40px; 
+   z-index: 99; 
+   opacity: 1;
 }
 
 div.event_title {
@@ -226,8 +239,26 @@ label.tag-filter {
 
 
 .input-prepend .active, .input-append .active {
-    background-color: #C43C35;
-    background-image: -moz-linear-gradient(center top , #EE5F5B, #C43C35);
+   background-color: #C43C35;
+   background-image: -webkit-gradient(linear, left top, left bottom, from(#EE5F5B), to(#C43C35));
+   background-image: -webkit-linear-gradient(center top , #EE5F5B, #C43C35);
+   background-image: -moz-linear-gradient(center top , #EE5F5B, #C43C35);
+   background-image: -o-linear-gradient(center top , #EE5F5B, #C43C35);
+   background-image: -ms-linear-gradient(center top , #EE5F5B, #C43C35);
+   background-image: linear-gradient(center top , #EE5F5B, #C43C35);
+   background-repeat: repeat-x;
+   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1);
+}
+
+
+.input-prepend .active.category, .input-append .active.category {
+    background-color: #62CFFC;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#2989D8), to(#62CFFC));
+    background-image: -webkit-linear-gradient(center top , #2989D8, #62CFFC);
+    background-image: -moz-linear-gradient(center top , #2989D8, #62CFFC);
+    background-image: -o-linear-gradient(center top , #2989D8, #62CFFC);
+    background-image: -ms-linear-gradient(center top , #2989D8, #62CFFC);
+    background-image: linear-gradient(center top , #2989D8, #62CFFC);    
     background-repeat: repeat-x;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1);
 }
@@ -238,7 +269,12 @@ label.tag-filter {
 
 .topbar .greenfill {
     background-color: #57A957;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#1e5799), to(#2989d8));
+    background-image: -webkit-linear-gradient(center top , #1e5799, #2989d8);
     background-image: -moz-linear-gradient(center top , #1e5799, #2989d8);
+    background-image: -o-linear-gradient(center top , #1e5799, #2989d8);
+    background-image: -ms-linear-gradient(center top , #1e5799, #2989d8);
+    background-image: linear-gradient(center top , #1e5799, #2989d8);
     background-repeat: repeat-x;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
@@ -270,4 +306,10 @@ label.tag-filter {
 
 .e-desc-well {
     padding: 5px;
+}
+.fc-event:hover {
+   cursor: pointer;
+}
+.loading {
+   background-image: url('../img/loading.gif');
 }

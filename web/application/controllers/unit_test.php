@@ -201,4 +201,35 @@ class Unit_test extends CI_Controller{
       echo $this->unit->report();
    }
 
+   //Test Helper with labelize
+   public function test_labelize() {
+      $keywords = array('free', 'food', 'tickets', 'comedy', 'ninja', 'turtles', 'movie', 'television archive', 'echo park');
+
+      $string = "Food This is a string contain food, free, tickets, echo park somepark freefood, and something archive, greatmovie. <span>comedy</span> ninja.";
+      list($out, $keyword_matches) = Helper::labelize($keywords, $string);
+
+      $this->unit->run((count($keyword_matches) == 6), 'is_true', 'Keywords count test');
+      $this->unit->run(($keyword_matches[0] == "free"), 'is_true', 'First keyword test');
+      $this->unit->run(($keyword_matches[1] == "food"), 'is_true', 'Second keyword test');
+      $this->unit->run(($keyword_matches[2] == "tickets"), 'is_true', 'Third keyword test');
+      $this->unit->run(($keyword_matches[3] == "ninja"), 'is_true', 'Fourth keyword test');
+      $this->unit->run(($keyword_matches[4] == "movie"), 'is_true', 'Fifth keyword test');
+      $this->unit->run(($keyword_matches[5] == "echo park"), 'is_true', 'Sixth keyword test');
+
+      echo $this->unit->report();
+   }
+
+   public function test_removetag() {
+      $string = 'My name is Jake Carpenter.<br><br>I have starred in the <span class="label important">film</span> Alive, with Ethan Hawke and John Malkovich, a four-hour miniseries with Renee Zellweger, the television series L.A. Law, and others.<br><br>I&amp;39m offering a month of<span class="label important">free</span>acting classes for people who want to be film and television actors.<br><br>You can contact me at (310) 709 - 8151.<br><br>Thank you,<br><br>Jake Carpenter<br><br><br>Jake Carpenter Studio<br>(310) 709 - 8151';
+
+
+      $pattern = '/(\<span\ class=\"label\ important\"\>)(\w+)(\<\/span\>)/i';
+      $string = preg_replace($pattern, '$2', $string);
+
+
+      $this->unit->run((preg_match('/\<span\ class\=\"label\ important\"\>/i', $string)==false), 'is_true', 'No important span');
+
+      echo $this->unit->report();
+   }
+
 }

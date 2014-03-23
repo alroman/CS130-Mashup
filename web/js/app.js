@@ -36,7 +36,6 @@ $(document).ready(function() {
       var $params  = $form.find('input:checked'),
           url      = $form.attr('action'),
           params   = {'category[]' : []};
-      
       //loop the inputs and get the value to create params
       $.each($params, function(i, input){
          var cat = $(input).val();
@@ -44,16 +43,20 @@ $(document).ready(function() {
       });
       
       params['events'] = all_events; //get all the events
+
+      //Start loading
+      $('.loading').show();
       // AJAX call to the server
       $.post(url, params, function(data){
          clearOverlays();
-         update_event_list(data);
+         // update_event_list(data);
          update_event_cal(data);
 
          if (data.error) {
             return false;
          }
          $(data).each(app.updateMap);
+         $('.loading').hide();
       }, 'json');
       return false;
    }
@@ -115,7 +118,7 @@ $(document).ready(function() {
 
             if (tags.validateInput(input_val, $form)) {
                //Append tag to the subbanner
-               var html = '<li><div class="input-prepend"><label class="add-on tag active"><input value='+input_val+' type="checkbox" class="tag_checkbox" style="display:none;" checked="true"><span class="tags_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+input_val+'</span></label></div></li>';
+               var html = '<li><div class="input-prepend"><label class="add-on tag active"><input value="'+input_val+'" type="checkbox" class="tag_checkbox" style="display:none;" checked="true"><span class="tags_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+input_val+'</span></label></div></li>';
                $input.remove();
                tags.tagWrapper.before(html);
                tags.trigger.show();
@@ -175,10 +178,15 @@ $(document).ready(function() {
    // Get the eventList and eventDateList populated with the data
    event_cal.constructEventsList = function() {
       $.each(event_cal.events, function(i, v){
-         var tmp = {title: v.title,
-            start: v.start_time,
-         end: v.stop_time,
-         allDay: false};
+         var tmp = {
+            title            : v.title,
+            start            : v.start_time,
+            end              : v.stop_time,
+            allDay           : false,
+            venue_name       : v.venue_name,
+            venue_address    : v.venue_address,
+            description_long : v.description_long
+         };
          event_cal.eventList.push(tmp);
          var date = event_cal.parse_date(v.start_time);
          event_cal.eventDateList.push(date.toDateString());
@@ -195,7 +203,10 @@ $(document).ready(function() {
           slotMinutes: 60,
           allDaySlot: false,
           firstHour: 0,
-          events: event_cal.eventList
+          events: event_cal.eventList,
+          eventClick: function(calEvent, jsEvent, view) {
+             app.updateInfoPanel(calEvent);
+          }
       });
 
       var calendarPickr = $("#dest").calendarPicker({

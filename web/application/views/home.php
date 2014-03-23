@@ -16,13 +16,23 @@
        <?php foreach($categories as $cat):?>
        <li>
             <div class="input-prepend">
-               <label class="add-on tag active">
+               <label class="add-on tag active category">
                   <input type="checkbox" id='<?php echo $cat;?>' value="<?php echo $cat;?>" class='tag_checkbox' checked='true' style='display:none;'/>
                   <span class='tags_text'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $cat;?></span>
                </label>
             </div>
        </li>
        <?php endforeach; ?>
+       <?php foreach($keywords as $keyword):?>
+       <li>
+            <div class="input-prepend">
+               <label class="add-on tag active">
+                  <input type="checkbox" id='<?php echo $keyword;?>' value="<?php echo $keyword;?>" class='tag_checkbox' checked='true' style='display:none;'/>
+                  <span class='tags_text'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $keyword;?></span>
+               </label>
+            </div>
+       </li>
+       <?php endforeach;?>
        <li id='tag-wrapper'>
             <div class='input-prepend'>
                <label class='tag-filter' id='addTags'>
@@ -42,9 +52,11 @@
 </div>
 
 <div class="row">
-    <div class="span4 event_cal" id="eventCalendar" style="margin-top: 10px;">
-      <div id="dest"></div>
-      <div id="calendar"></div>
+    <div class="wrap">
+        <div class="span4 event_cal" id="eventCalendar">
+          <div id="dest"></div>
+          <div id="calendar"></div>
+        </div>
     </div>
 </div>
 
@@ -62,6 +74,11 @@
     </div>
       
     <div id="fullDetails" class="eplusdesc" >
+        <div class="info-panel-wrapper" id="info-panel-wraper" style="postion:relative; display:none;">
+            <div class="info-panel-button" style="position:absolute; top: 10px; right: 22px;">
+               <button class="btn" id="info-panel">Info Panel</button>
+            </div>
+        </div>
         <div class="inner">
           <h4 id="desc_title" class="title">E+ events</h4>
           <div class="content">
@@ -77,7 +94,14 @@
                       <tbody>
                           <?php foreach ($events as $event) { ?>
                           <tr>
-                              <td><?php echo $event['title']; ?></td>
+                              <td>
+                                <?php echo $event['title']; ?>
+
+                                <span class='label notice'><?php echo $event['category']; ?></span>
+                                <?php foreach ($event['keywords'] as $keyword) {?>
+                                    <span class='label important'><?php echo $keyword; ?></span>
+                                <?php } ?>
+                              </td>
                           </tr>
                           <?php } ?>
                       </tbody>

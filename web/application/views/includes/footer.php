@@ -1,3 +1,5 @@
+
+<div class="loading" style="display:none;position:absolute;top:45%;left:45%;width:100px;height:100px;z-index:999;"></div>
 <script type="text/javascript" src="<?php echo $public_url; ?>js/oms.min.js"></script>
 <script>  
     $(document).ready(function(){
@@ -33,26 +35,52 @@
         window.public_url = '<?php echo $public_url; ?>';
 
         window.icons = {
-            'music':  public_url+'img/map.png',  
-            'movies': public_url+'img/map.png',
-            'hot': public_url+'img/map_hot.png',
-            'ice': public_url+'img/map_ice.png',
-            'warm': public_url+'img/map_warm.png',
-            'neutral': public_url+'img/map_neutral.png',
-            'cool': public_url+'img/map_cool.png'
+            'music'   : public_url+'img/map.png',
+            'movies'  : public_url+'img/map.png',
+            'hot'     : public_url+'img/map_hot.png',
+            'ice'     : public_url+'img/map_ice.png',
+            'warm'    : public_url+'img/map_warm.png',
+            'neutral' : public_url+'img/map_neutral.png',
+            'cool'    : public_url+'img/map_cool.png'
         }
 
         window.currentPlace = null;
         window.info = $('#placeDetails');
-        window.details = $('#fullDetails');
         window.markerArray = [];
-        window.app = {};
+        window.app = {
+            'infoPanel': null
+        };
 
         // OverlayView is used to retrieve the x,y pixel coordinates of a 
         // marker on the map.
         var overlay = new gm.OverlayView();
         overlay.draw = function() {};
         overlay.setMap(map);
+        
+        app.initInfoPanel = function(title_text, desc_html, venue_text) {
+            app.infoPanel = {
+                "title": title_text,
+                "desc": desc_html,
+                "venue" : venue_text
+            }
+        }
+
+        app.loadInfoPanel = function() {
+            $("#info-panel").click(function(){
+                $("#desc_title").text(app.infoPanel.title);
+                $("#desc_venue").text(app.infoPanel.venue);
+                $("#desc_desc").html(app.infoPanel.desc);
+                $("#info-panel-wraper").hide();
+            })
+        };
+
+        app.updateInfoPanel = function(evt) {
+            $('#desc_title').text(evt.title);
+            $('#desc_venue').html("<strong>" + evt.venue_name + "</strong><br/>" + evt.venue_address + "<br/>" + evt.city_name);
+            $('#desc_desc').html(evt.description_long);
+            //Show the info panel button
+            $("#info-panel-wraper").show();
+        }
     
         //This app object is global object, so it will be accessible from app.js
         app.updateMap = function() {
@@ -74,9 +102,9 @@
                 var projection = overlay.getProjection(); 
                 var pixel = projection.fromLatLngToContainerPixel(marker.getPosition());
 
-                $('#event_title', info).html("<img src='" + public_url + "img/heat_" + place.heat_rank + ".png'/>" + place.title);
-                $('#event_desc',  info).html(place.description);
-                $('#event_venue',  info).text("@"+place.venue_name);
+                $('#event_title').html("<img src='" + public_url + "img/heat_" + place.heat_rank + ".png'/>" + place.title);
+                $('#event_desc').html(place.description);
+                $('#event_venue').text("@"+place.venue_name);
 
                 // Offset so that we can display the arrow right below the marker
                 info.animate({left: parseInt(pixel.x - 146) + "px", top: parseInt(pixel.y) + "px", visibility: "visible"}, 200);
@@ -89,16 +117,17 @@
 
             // For each element, we add the event listener...
             gm.event.addListener(marker, 'click', function() {
-                $('#desc_title', details).text(place.title);
-                $('#desc_venue', details).html("<strong>" + place.venue_name + "</strong><br/>" + place.venue_address + "<br/>" + place.city_name);
-                $('#desc_desc', details).html(place.description_long);
+                app.updateInfoPanel(place);
             }); 
             oms.addMarker(marker);
         }
 
         // This iterates through each element in the 'places' array
+        app.initInfoPanel($("#desc_title").text(), 
+                          $("#desc_desc").html(),
+                          $("#desc_venue").text());
         $(places).each(app.updateMap);
-
+        app.loadInfoPanel();
    
     });
 

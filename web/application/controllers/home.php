@@ -6,9 +6,9 @@
  **/
 class Home extends CI_Controller
 {
-   var $fields = array('title', 'description', 'longitude', 'latitude','venue_name', 'start_time', 'stop_time', 'category', 'heat_rank', 'venue_address','city_name');
+   var $fields           = array('title', 'description', 'longitude', 'latitude','venue_name', 'start_time', 'stop_time', 'category', 'heat_rank', 'venue_address','city_name');
    var $default_category = array('music', 'movies', 'comedy');
-   var $default_keywords = array('free', 'food', 'tickets', 'comedy', 'ninja', 'turtles', 'movie', 'television archive', 'echo park');
+   var $default_keywords = array('free', 'food', 'tickets', 'comedy', 'ninja', 'turtles', 'television archive', 'echo park');
 
    function __construct()
    {
@@ -42,6 +42,7 @@ class Home extends CI_Controller
       $data['geoloc']       = $location;
       $data['title']        = 'Entertainment+';
       $data['events']       = Helper::simple_filter($events, $this->default_keywords);
+      $data['keywords']     = $this->util->getAllKeywords($data['events']);//only can use $data['events']
       $data['public_url']   = $this->util->getPublicUrl();
       $data['categories']   = $categories;
       $data['location']     = $location['zipCode'];
@@ -86,7 +87,15 @@ class Home extends CI_Controller
          $events          = $opts['events'];
          $cats            = $opts['category'];
          $filtered_events = array();
-         $user_tags       = array();
+         $search_keywords = $cats;
+
+         foreach ($events as &$event) {
+            //Update the label inside the events
+            list($event['description_long'], $event['keywords']) = 
+               Helper::labelize($search_keywords, $event['description_long']);
+            list($event['description'], $event['keywords']) = 
+               Helper::labelize($search_keywords, $event['description']);
+         }
 
          //filter out the category
          foreach ($events as $e) {
@@ -99,27 +108,20 @@ class Home extends CI_Controller
                      $filtered_events []= $e;
                      break; //break the loop
                   }
-               } else if(!in_array($e, $filtered_events)) {
+               }
+               if(!in_array($e, $filtered_events)) {
                   //Second chance to output the events based on users tag if any.
                   //If it is not a category, filter out the category based on 
                   //the description.
-                  $words = str_word_count($e['description'], 1);
-                  foreach ($words as $w) {
-                     if (strcasecmp($w, $cat) == 0) {
+                  $pattern = '<span class="label important">'.$cat.'</span>';
+                  if (strpos($e['description_long'], $pattern)) {
                         $filtered_events []= $e;
                         break; //break the loop
-                     }
                   }
                }
             }
          }
          
-         if (isset($opts['tags']) && !empty($opts['tags'])) {
-            $tmp = array();
-            $this->__filterTags($filtered_events, $opts['tags'], $tmp);
-            $filtered_events = $tmp;
-         }
-
          $json_events = json_encode($filtered_events);
 
          echo $json_events;
